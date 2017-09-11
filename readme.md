@@ -1,7 +1,18 @@
 # ReadMe
 
+### 1. 运行的步骤：
 
-### 1. 文件构成：
+- 找到pom.xml文件右键maven下的reimport
+
+- 建立好mysql数据库，
+
+- 填好数据库的账号密码，
+
+- demoapplication文件右键运行或右上角运行。
+
+- 有问题查看java编译环境是否设置好，或pom.xml是否import完成（其他问题自行百度）
+
+### 2. 文件构成：
 
 - config文件夹是一些组件的配置文件，相当于spring中的applicationcontext.xml文件。
 
@@ -15,7 +26,7 @@
 
 - web存储的就是controller类，路由的类。
 
-### 2. 主要的操作步骤：
+### 3. 主要的操作步骤：
 
 1. 在entity文件夹中创建相应的数据库 表的实体类，如 user。
 
@@ -27,7 +38,7 @@
 
 5. 在service的impl文件夹中创建创建接口的实现类（一个接口可以有多个实现类）需要调用Dao数据库操作类。
 
-### 3. 注意事项
+### 4. 注意事项
 
 1. 一些详细备注了的文件以供参考: admincontroller, userServiceImpl,UserInfo，userDao
 
@@ -35,10 +46,4 @@
 
 3.需要自建mysql数据库，账号密码填写，在/resource/application.properties里填写。需要提前写入的测试数据，mysql语句在/resource/database/import.sql文件里填写。
 
-### 4. 运行的步骤：
 
-- 找到pom.xml文件右键maven下的reimport，
-- 建立好mysql数据库，
-- 填好数据库的账号密码，
-- demoapplication文件右键运行或右上角运行。
-- 有问题查看java编译环境是否设置好，或pom.xml是否import完成（其他问题自行百度）
