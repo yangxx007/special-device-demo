@@ -31,8 +31,7 @@
 
 1. 一些详细备注了的文件以供参考: admincontroller, userServiceImpl,UserInfo，userDao
 
-2. 已经添加了shiro的验证模块。除了/admin/**，即adminController下是开放的，其他都是要验证的。
-账号admin密码123456
+2. 已经添加了shiro的验证模块。除了/admin/**，即adminController下是开放的，其他都是要验证的。账号admin密码123456
 
 3.需要自建mysql数据库，账号密码填写，在/resource/application.properties里填写。需要提前写入的测试数据，mysql语句在/resource/database/import.sql文件里填写。
 
