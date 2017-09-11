@@ -1,5 +1,8 @@
 #ReadMe
+
+
 ###1. 文件构成：
+
 - config文件夹是一些组件的配置文件，相当于spring中的applicationcontext.xml文件。
 
 - DAO文件夹中是数据库相关的操作，动作类，如select * from data等。
@@ -25,6 +28,7 @@
 3. 在service的impl文件夹中创建创建接口的实现类（一个接口可以有多个实现类）需要调用Dao数据库操作类。
 
 ###3. 注意事项
+
 1. 一些详细备注了的文件以供参考: admincontroller, userServiceImpl,UserInfo，userDao
 
 2. 已经添加了shiro的验证模块。除了/admin/**，即adminController下是开放的，其他都是要验证的。
@@ -33,6 +37,7 @@
 3.需要自建mysql数据库，账号密码填写，在/resource/application.properties里填写。需要提前写入的测试数据，mysql语句在/resource/database/import.sql文件里填写。
 
 ###4. 运行的步骤：
+
 - 找到pom.xml文件右键maven下的reimport，
 - 建立好mysql数据库，
 - 填好数据库的账号密码，
