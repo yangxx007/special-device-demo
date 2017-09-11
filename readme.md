@@ -1,5 +1,7 @@
 # ReadMe
 
+>安装intellij idea，用校园邮箱注册可以有一年免费试用。
+
 ### 1. 运行的步骤：
 
 - 找到pom.xml文件右键maven下的reimport
