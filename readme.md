@@ -6,7 +6,7 @@
 
 - 找到pom.xml文件右键maven下的reimport
 
-- 建立好mysql数据库，
+- 建立好mysql数据库，并在数据库中建立两个database，命名为applicants和test
 
 - 填好数据库的账号密码，
 
