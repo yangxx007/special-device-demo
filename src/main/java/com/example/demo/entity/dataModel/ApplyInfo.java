@@ -11,8 +11,9 @@ public class ApplyInfo implements Serializable {
     @GeneratedValue
     private long id;
     private long device_id;
-    private int acceptor_adminstration_id;
-    private int approver_adminstration_id;
+    private long acceptor_adminstration_id;
+    private long auditor_adminstration_id;
+    private long owner_id;
     private boolean has_file;
     private String action;
     private int device_type_id;
@@ -25,6 +26,7 @@ public class ApplyInfo implements Serializable {
     private Long apply_6;
     private Long apply_7;
     private Long apply_8;
+
 
     public Long getId() {
         return id;
@@ -42,20 +44,12 @@ public class ApplyInfo implements Serializable {
         this.device_id = device_id;
     }
 
-    public Integer getAcceptor_adminstration_id() {
+    public long getAcceptor_adminstration_id() {
         return acceptor_adminstration_id;
     }
 
-    public void setAcceptor_adminstration_id(Integer acceptor_adminstration_id) {
+    public void setAcceptor_adminstration_id(Long acceptor_adminstration_id) {
         this.acceptor_adminstration_id = acceptor_adminstration_id;
-    }
-
-    public Integer getApprover_adminstration_id() {
-        return approver_adminstration_id;
-    }
-
-    public void setApprover_adminstration_id(Integer approver_adminstration_id) {
-        this.approver_adminstration_id = approver_adminstration_id;
     }
 
     public boolean isHas_file() {
@@ -155,6 +149,19 @@ public class ApplyInfo implements Serializable {
     }
 
 
+    public long getOwner_id() {
+        return owner_id;
+    }
 
+    public void setOwner_id(long owner_id) {
+        this.owner_id = owner_id;
+    }
 
+    public long getAuditor_adminstration_id() {
+        return auditor_adminstration_id;
+    }
+
+    public void setAuditor_adminstration_id(long auditor_adminstration_id) {
+        this.auditor_adminstration_id = auditor_adminstration_id;
+    }
 }

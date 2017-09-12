@@ -55,6 +55,7 @@ public class AdminController {
         System.out.print(username);
         return userSevice.findByUsername(username);
     }
+
     //requstparam是从get方法中获取相应的key的value值
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public @ResponseBody
@@ -71,17 +72,6 @@ public class AdminController {
 
         return userSevice.deleteUserByUsernameOrUid(username, uid);
     }
-
-//    @RequestMapping(value = "/user", method = RequestMethod.PUT)
-//    public @ResponseBody
-//    boolean createUser(@RequestBody UserInfo userInfo) {
-//        try {
-//            userSevice.createUser(userInfo);
-//        } catch (Exception e) {
-//            return false;
-//        }
-//        return true;
-//    }
     //requestbody标识是指请求体，如果请求体是json数据直接就将其赋给userinfo或其他类如下，直接就可以转化为类了
     @RequestMapping(value = "/userlist", method = RequestMethod.PUT)
     public @ResponseBody
@@ -111,37 +101,36 @@ public class AdminController {
     Page<UserInfo> getUserByUidandUsernameInpage(@RequestParam(name = "page", defaultValue = "0") Integer
                                                          page,
                                                  @RequestParam(name = "size", defaultValue = "0") Integer size) {
-        Sort sort= new Sort(Sort.Direction.ASC,"uid");
-        Pageable pageable=new PageRequest(page,size,sort);
+        Sort sort = new Sort(Sort.Direction.ASC, "uid");
+        Pageable pageable = new PageRequest(page, size, sort);
         return userSevice.findAllInPage(pageable);
 
     }
-    @RequestMapping(value = "/createuser",method = RequestMethod.PUT)
-    public @ResponseBody String createUser(@RequestBody UserInfo userInfo)
-    {
-        JSONObject jo=new JSONObject();
 
-        try
-        {   userSevice.createUser(userInfo);
-            UserInfo userInfo2=userSevice.findByUsername(userInfo.getUsername());
-            Md5Hash md5Hash=new Md5Hash(userInfo2.getPassword(),userInfo2.getCredentialsSalt(),2);
+    @RequestMapping(value = "/createuser", method = RequestMethod.PUT)
+    public @ResponseBody
+    String createUser(@RequestBody UserInfo userInfo) {
+        JSONObject jo = new JSONObject();
+
+        try {
+            userSevice.createUser(userInfo);
+            UserInfo userInfo2 = userSevice.findByUsername(userInfo.getUsername());
+            Md5Hash md5Hash = new Md5Hash(userInfo2.getPassword(), userInfo2.getCredentialsSalt(), 2);
             userInfo2.setPassword(md5Hash.toString());
-            SimpleDateFormat timeformat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat timeformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             userInfo2.setCreateAt(Timestamp.valueOf(timeformat.format(new Date())));
             userInfo2.setRoleList(accountService.createUserAccount());
             userSevice.updateUser(userInfo2);
-            }
-        catch(Exception e)
-        {
-            jo.append("status","false");
+        } catch (Exception e) {
+            jo.append("status", "false");
             return jo.toString();
         }
-        jo.append("status","true");
+        jo.append("status", "true");
         return jo.toString();
 
     }
 
-//@RequestMapping(value = "/user/page",method = RequestMethod.GET)
+    //@RequestMapping(value = "/user/page",method = RequestMethod.GET)
 //public String createUser(HttpServletRequest request){
 //    UserInfo userInfo;
 //
@@ -156,11 +145,11 @@ public class AdminController {
 //    }
 //    return "index";
 //}
-@RequestMapping("/test")
-    public @ResponseBody String test()
-{
-    return "test";
-}
+    @RequestMapping("/test")
+    public @ResponseBody
+    String test() {
+        return "test";
+    }
 //@RequestMapping(value = "/login",method = RequestMethod.POST)
 //    public  @ResponseBody String adminlogin(@RequestBody UserInfo userInfo)
 //    {
@@ -181,39 +170,39 @@ public class AdminController {
 //           return json.toString();
 //    }
 
-@RequestMapping(value = "/login",method = RequestMethod.POST)
-@ResponseBody public   String adminlogin(HttpServletRequest request) throws  Exception
-{
-
-//    BufferedReader reader=servletRequest.getReader();
-//    String str, wholeStr = "";
-//    while((str = reader.readLine()) != null){
-//        wholeStr += str;
+//@RequestMapping(value = "/login",method = RequestMethod.POST)
+//@ResponseBody public   String adminlogin(HttpServletRequest request) throws  Exception
+//{
+//
+////    BufferedReader reader=servletRequest.getReader();
+////    String str, wholeStr = "";
+////    while((str = reader.readLine()) != null){
+////        wholeStr += str;
+////    }
+////    System.out.println(wholeStr);
+////    System.out.println(servletRequest.getParameterNames().nextElement().toString());
+//    //System.out.println(adminlogin2(servletRequest));
+//    System.out.println(request.getParameter("username"));
+//    System.out.println(request.getParameter("password"));
+//    UsernamePasswordToken uptoken=new UsernamePasswordToken(request.getParameter("username"),request.getParameter
+//            ("password"));
+//    Subject currentuser= SecurityUtils.getSubject();
+//    currentuser.login(uptoken);
+//    JSONObject json=new JSONObject();
+//
+//    if (currentuser.isAuthenticated()) {
+//        json.append("status","true");
+//        UserInfo userInfo2 = userSevice.findByUsername((String)currentuser.getPrincipals().getPrimaryPrincipal
+//                ());
+//        //这里要把获取角色的方法要放到service里
+//        json.append("role",userInfo2.getRoleList().get(0).getId().toString());
+//        return json.toString();
 //    }
-//    System.out.println(wholeStr);
-//    System.out.println(servletRequest.getParameterNames().nextElement().toString());
-    //System.out.println(adminlogin2(servletRequest));
-    System.out.println(request.getParameter("username"));
-    System.out.println(request.getParameter("password"));
-    UsernamePasswordToken uptoken=new UsernamePasswordToken(request.getParameter("username"),request.getParameter
-            ("password"));
-    Subject currentuser= SecurityUtils.getSubject();
-    currentuser.login(uptoken);
-    JSONObject json=new JSONObject();
-
-    if (currentuser.isAuthenticated()) {
-        json.append("status","true");
-        UserInfo userInfo2 = userSevice.findByUsername((String)currentuser.getPrincipals().getPrimaryPrincipal
-                ());
-        //这里要把获取角色的方法要放到service里
-        json.append("role",userInfo2.getRoleList().get(0).getId().toString());
-        return json.toString();
-    }
-    else
-        json.append("status","false");
-    System.out.println(json.toString());
-    return json.toString();
-}
+//    else
+//        json.append("status","false");
+//    System.out.println(json.toString());
+//    return json.toString();
+//}
 //    @RequestMapping(value = "/login2",method = RequestMethod.POST)
 //    @ResponseBody
 //    public   String adminlogin2(HttpServletRequest servletRequest) throws  Exception
@@ -229,7 +218,6 @@ public class AdminController {
 //        return "wholestr:"+ wholeStr;
 //
 //    }
-
 
 
 }
