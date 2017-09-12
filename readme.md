@@ -8,7 +8,7 @@
 
 - 建立好mysql数据库，并在数据库中建立两个database，命名为applicants和test
 
-- 填好数据库的账号密码，
+- 在applicantion.properties中填好数据库的账号密码，
 
 - demoapplication文件右键运行或右上角运行。
 
