@@ -1,18 +1,13 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.dataModel.ApplyInfo;
-import com.example.demo.entity.userModel.SysPermission;
-import com.example.demo.entity.userModel.SysRole;
 import com.example.demo.entity.userModel.UserInfo;
 import com.example.demo.service.ApplyService;
-import com.example.demo.service.UserService;
 import com.example.demo.service.UserStatusService;
 import com.example.demo.service.ValidateService;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Created by yang on 2017/9/12.
@@ -36,13 +31,13 @@ public class ValidateServiceImpl implements ValidateService {
         switch (userInfo.getRoleList().get(0).getId())
         {
             case 1:
-                return userInfo.getUid()==applyInfo.getOwner_id();
+                return userInfo.getUid()==applyInfo.getOwnerId();
 
             case 2:
-                return userInfo.getUid()==applyInfo.getAcceptor_adminstration_id();
+                return userInfo.getUid()==applyInfo.getAcceptorAdminstrationId();
 
             case 3:
-                return userInfo.getUid()==applyInfo.getAuditor_adminstration_id();
+                return userInfo.getUid()==applyInfo.getAuditorAdminstrationId();
 
         }
 

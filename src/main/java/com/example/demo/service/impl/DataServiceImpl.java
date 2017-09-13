@@ -35,21 +35,21 @@ public class DataServiceImpl implements DataService {
     public List<Object> getApplyForms(ApplyInfo applyInfo) {
         data_set=null;
 
-        data_set.add(apply1Dao.getApply1ById(applyInfo.getApply_1()));
+        data_set.add(apply1Dao.getApply1ById(applyInfo.getApply1()));
 
-        data_set.add(apply2Dao.getApply2ById(applyInfo.getApply_2()));
+        data_set.add(apply2Dao.getApply2ById(applyInfo.getApply2()));
 
-        data_set.add(apply3Dao.getApply3ById(applyInfo.getApply_3()));
+        data_set.add(apply3Dao.getApply3ById(applyInfo.getApply3()));
 
-        data_set.add(apply4Dao.getApply4ById(applyInfo.getApply_4()));
+        data_set.add(apply4Dao.getApply4ById(applyInfo.getApply4()));
 
-        data_set.add(apply5Dao.getApply5ById(applyInfo.getApply_5()));
+        data_set.add(apply5Dao.getApply5ById(applyInfo.getApply5()));
 
-        data_set.add(apply6Dao.getApply6ById(applyInfo.getApply_6()));
+        data_set.add(apply6Dao.getApply6ById(applyInfo.getApply6()));
 
-        data_set.add(apply7Dao.getApply7ById(applyInfo.getApply_7()));
+        data_set.add(apply7Dao.getApply7ById(applyInfo.getApply7()));
 
-        data_set.add(apply8Dao.getApply8ById(applyInfo.getApply_8()));
+        data_set.add(apply8Dao.getApply8ById(applyInfo.getApply8()));
 
         return data_set;
     }

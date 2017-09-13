@@ -40,4 +40,12 @@ public class ApplyStatus implements Serializable{
     public void setPassed(boolean passed) {
         this.passed = passed;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

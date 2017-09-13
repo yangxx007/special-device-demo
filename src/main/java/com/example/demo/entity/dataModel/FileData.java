@@ -10,8 +10,9 @@ public class FileData implements Serializable{
     private long id;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fileType_id")
-    private NeededFile file_type;
-    private byte file_content;
+    private NeededFile fileType;
+    private byte fileContent;
+
     public long getId() {
         return id;
     }
@@ -19,19 +20,20 @@ public class FileData implements Serializable{
     public void setId(long id) {
         this.id = id;
     }
-    public NeededFile getFile_type() {
-        return file_type;
+
+    public NeededFile getFileType() {
+        return fileType;
     }
 
-    public void setFile_type(NeededFile file_type) {
-        this.file_type = file_type;
+    public void setFileType(NeededFile fileType) {
+        this.fileType = fileType;
     }
 
-    public byte getFile_content() {
-        return file_content;
+    public byte getFileContent() {
+        return fileContent;
     }
 
-    public void setFile_content(byte file_content) {
-        this.file_content = file_content;
+    public void setFileContent(byte fileContent) {
+        this.fileContent = fileContent;
     }
 }

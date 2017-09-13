@@ -19,4 +19,5 @@ public interface UserService {
     public List<UserInfo> findAll();
     public Page<UserInfo> findAllInPage(Pageable pageable);
     public List<UserInfo> createUserList(List<UserInfo> userInfos);
+    public List<UserInfo> finduserfortest(String name, long start,long end);
 }

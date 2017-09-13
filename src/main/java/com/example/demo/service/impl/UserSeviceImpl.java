@@ -1,15 +1,13 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.Dao.user.UserDao;
 import com.example.demo.Dao.user.UserPageDao;
 import com.example.demo.entity.userModel.UserInfo;
-
+import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.example.demo.Dao.user.UserDao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import com.example.demo.service.UserService;
-
 
 import java.util.List;
 
@@ -65,6 +63,11 @@ public class UserSeviceImpl implements UserService {
     @Override
     public List<UserInfo> createUserList(List<UserInfo> userInfos) {
         return userDao.save(userInfos);
+    }
+
+    @Override
+    public List<UserInfo> finduserfortest(String name, long start, long end) {
+        return userPageDao.findAllByNameAndUidIsBetween(name,start,end);
     }
 
 }

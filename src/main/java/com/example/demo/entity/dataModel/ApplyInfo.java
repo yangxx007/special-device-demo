@@ -1,63 +1,98 @@
 package com.example.demo.entity.dataModel;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
-import javax.persistence.Entity;
 
 @Entity
 public class ApplyInfo implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private long device_id;
-    private long acceptor_adminstration_id;
-    private long auditor_adminstration_id;
-    private long owner_id;
-    private boolean has_file;
+    private String codeId;
+    private long deviceId;
+    private long acceptorAdminstrationId;
+    private long auditorAdminstrationId;
+    private long ownerId;
+    private boolean hasFile;
+    private long createTime;
     private String action;
-    private int device_type_id;
-    private String files_id;
-    private Long apply_1;
-    private Long apply_2;
-    private Long apply_3;
-    private Long apply_4;
-    private Long apply_5;
-    private Long apply_6;
-    private Long apply_7;
-    private Long apply_8;
+    private int deviceTypeId;
+    private String filesId;
+    private Long apply1;
+    private Long apply2;
+    private Long apply3;
+    private Long apply4;
+    private Long apply5;
+    private Long apply6;
+    private Long apply7;
+    private Long apply8;
 
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public Long getDevice_id() {
-        return device_id;
+    public String getCodeId() {
+        return codeId;
     }
 
-    public void setDevice_id(Long device_id) {
-        this.device_id = device_id;
+    public void setCodeId(String codeId) {
+        this.codeId = codeId;
     }
 
-    public long getAcceptor_adminstration_id() {
-        return acceptor_adminstration_id;
+    public long getDeviceId() {
+        return deviceId;
     }
 
-    public void setAcceptor_adminstration_id(Long acceptor_adminstration_id) {
-        this.acceptor_adminstration_id = acceptor_adminstration_id;
+    public void setDeviceId(long deviceId) {
+        this.deviceId = deviceId;
     }
 
-    public boolean isHas_file() {
-        return has_file;
+    public long getAcceptorAdminstrationId() {
+        return acceptorAdminstrationId;
     }
 
-    public void setHas_file(boolean has_file) {
-        this.has_file = has_file;
+    public void setAcceptorAdminstrationId(long acceptorAdminstrationId) {
+        this.acceptorAdminstrationId = acceptorAdminstrationId;
+    }
+
+    public long getAuditorAdminstrationId() {
+        return auditorAdminstrationId;
+    }
+
+    public void setAuditorAdminstrationId(long auditorAdminstrationId) {
+        this.auditorAdminstrationId = auditorAdminstrationId;
+    }
+
+    public long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(long ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public boolean isHasFile() {
+        return hasFile;
+    }
+
+    public void setHasFile(boolean hasFile) {
+        this.hasFile = hasFile;
+    }
+
+    public long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
     }
 
     public String getAction() {
@@ -68,100 +103,83 @@ public class ApplyInfo implements Serializable {
         this.action = action;
     }
 
-    public Integer getDevice_type_id() {
-        return device_type_id;
+    public int getDeviceTypeId() {
+        return deviceTypeId;
     }
 
-    public void setDevice_type_id(Integer device_type_id) {
-        this.device_type_id = device_type_id;
+    public void setDeviceTypeId(int deviceTypeId) {
+        this.deviceTypeId = deviceTypeId;
     }
 
-    public String getFiles_id() {
-        return files_id;
+    public String getFilesId() {
+        return filesId;
     }
 
-    public void setFiles_id(String files_id) {
-        this.files_id = files_id;
+    public void setFilesId(String filesId) {
+        this.filesId = filesId;
     }
 
-    public Long getApply_1() {
-        return apply_1;
+    public Long getApply1() {
+        return apply1;
     }
 
-    public void setApply_1(Long apply_1) {
-        this.apply_1 = apply_1;
+    public void setApply1(Long apply1) {
+        this.apply1 = apply1;
     }
 
-    public Long getApply_2() {
-        return apply_2;
+    public Long getApply2() {
+        return apply2;
     }
 
-    public void setApply_2(Long apply_2) {
-        this.apply_2 = apply_2;
+    public void setApply2(Long apply2) {
+        this.apply2 = apply2;
     }
 
-    public Long getApply_3() {
-        return apply_3;
+    public Long getApply3() {
+        return apply3;
     }
 
-    public void setApply_3(Long apply_3) {
-        this.apply_3 = apply_3;
+    public void setApply3(Long apply3) {
+        this.apply3 = apply3;
     }
 
-    public Long getApply_4() {
-        return apply_4;
+    public Long getApply4() {
+        return apply4;
     }
 
-    public void setApply_4(Long apply_4) {
-        this.apply_4 = apply_4;
+    public void setApply4(Long apply4) {
+        this.apply4 = apply4;
     }
 
-    public Long getApply_5() {
-        return apply_5;
+    public Long getApply5() {
+        return apply5;
     }
 
-    public void setApply_5(Long apply_5) {
-        this.apply_5 = apply_5;
+    public void setApply5(Long apply5) {
+        this.apply5 = apply5;
     }
 
-    public Long getApply_6() {
-        return apply_6;
+    public Long getApply6() {
+        return apply6;
     }
 
-    public void setApply_6(Long apply_6) {
-        this.apply_6 = apply_6;
+    public void setApply6(Long apply6) {
+        this.apply6 = apply6;
     }
 
-    public Long getApply_7() {
-        return apply_7;
+    public Long getApply7() {
+        return apply7;
     }
 
-    public void setApply_7(Long apply_7) {
-        this.apply_7 = apply_7;
+    public void setApply7(Long apply7) {
+        this.apply7 = apply7;
     }
 
-    public Long getApply_8() {
-        return apply_8;
+    public Long getApply8() {
+        return apply8;
     }
 
-    public void setApply_8(Long apply_8) {
-        this.apply_8 = apply_8;
-    }
-
-
-    public long getOwner_id() {
-        return owner_id;
-    }
-
-    public void setOwner_id(long owner_id) {
-        this.owner_id = owner_id;
-    }
-
-    public long getAuditor_adminstration_id() {
-        return auditor_adminstration_id;
-    }
-
-    public void setAuditor_adminstration_id(long auditor_adminstration_id) {
-        this.auditor_adminstration_id = auditor_adminstration_id;
+    public void setApply8(Long apply8) {
+        this.apply8 = apply8;
     }
 }

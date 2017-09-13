@@ -1,12 +1,11 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.dataModel.ApplyInfo;
-
 import com.example.demo.Dao.apply.ApplyInfoDao;
+import com.example.demo.entity.dataModel.ApplyInfo;
 import com.example.demo.entity.dataModel.ApplyStatus;
+import com.example.demo.service.ApplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.demo.service.ApplyService;
 
 import java.util.List;
 
@@ -24,6 +23,12 @@ public class ApplyServiceImpl implements ApplyService{
     }
 
     @Override
+    public List<ApplyInfo> findApplyInfosForUser(long user_id, long device_id, long before, long after) {
+        return applyDao.findAllByOwnerIdAndDeviceIdAndCreateTimeIsBetween(user_id,device_id,before,after);
+
+    }
+
+    @Override
     public List<ApplyStatus> findByApplierName(String username) {
         return null;
     }
@@ -34,7 +39,7 @@ public class ApplyServiceImpl implements ApplyService{
     }
 
     @Override
-    public void createApply(ApplyStatus apply) {
-
+    public void createApply(ApplyInfo apply) {
+        applyDao.save(apply);
     }
 }

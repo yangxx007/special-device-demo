@@ -2,13 +2,12 @@ package com.example.demo.web;
 
 import com.example.demo.entity.userModel.UserInfo;
 import com.example.demo.service.UserService;
+import com.example.demo.service.staticfunction.UtilServiceImpl;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -24,8 +23,8 @@ public class AccountController {
         JSONObject jo=new JSONObject();
 
         try{userService.createUser(userInfo);
-            SimpleDateFormat timeformat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            userInfo.setCreateAt(Timestamp.valueOf(timeformat.format(new Date())));}
+
+            userInfo.setCreateAt(UtilServiceImpl.date2Long(new Date()));}
         catch(Exception e)
         {jo.append("status","false");
         return jo.toString();}

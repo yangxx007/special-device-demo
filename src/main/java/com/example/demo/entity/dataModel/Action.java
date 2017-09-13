@@ -3,7 +3,6 @@ package com.example.demo.entity.dataModel;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Entity;
 
 @Entity
 public class Action implements Serializable{
@@ -12,8 +11,8 @@ public class Action implements Serializable{
     @Id@GeneratedValue
     private int id;
 
-    private boolean needed_file;
-    private String action_name;
+    private boolean neededFile;
+    private String actionName;
     @ManyToMany
     @JoinTable(name="action_with_forms",joinColumns={@JoinColumn(name="action_id")},inverseJoinColumns={@JoinColumn(name="form_id" )})
     private List<ApplyFormType> forms;
@@ -21,6 +20,31 @@ public class Action implements Serializable{
     @ManyToMany
     @JoinTable(name="action_with_files",joinColumns={@JoinColumn(name="action_id")},inverseJoinColumns={@JoinColumn(name="file_type_id" )})
     private List<NeededFile> files;
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isNeededFile() {
+        return neededFile;
+    }
+
+    public void setNeededFile(boolean neededFile) {
+        this.neededFile = neededFile;
+    }
+
+    public String getActionName() {
+        return actionName;
+    }
+
+    public void setActionName(String actionName) {
+        this.actionName = actionName;
+    }
 
     public List<ApplyFormType> getForms() {
         return forms;
@@ -36,28 +60,5 @@ public class Action implements Serializable{
 
     public void setFiles(List<NeededFile> files) {
         this.files = files;
-    }
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public boolean isNeeded_file() {
-        return needed_file;
-    }
-
-    public void setNeeded_file(boolean needed_file) {
-        this.needed_file = needed_file;
-    }
-
-    public String getAction_name() {
-        return action_name;
-    }
-
-    public void setAction_name(String action_name) {
-        this.action_name = action_name;
     }
 }

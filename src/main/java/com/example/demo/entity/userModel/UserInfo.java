@@ -1,10 +1,7 @@
 package com.example.demo.entity.userModel;
 
-import com.sun.tools.corba.se.idl.constExpr.Times;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.List;
 //entity标识了这个类是一个实体类，这样hidernate就能够找到这个类，并将这个表与数据库的表进行映射或者创建。
 @Entity
@@ -24,7 +21,7 @@ public class UserInfo implements  Serializable{
     @ManyToMany(fetch= FetchType.EAGER)//立即从数据库中进行加载数据;
     @JoinTable(name = "SysUserRole", joinColumns = { @JoinColumn(name = "uid") }, inverseJoinColumns ={@JoinColumn(name = "roleId") })
     private List<SysRole> roleList;// 一个用户具有多个角色
-    private Timestamp createAt;
+    private long createAt;
     public long getUid() {
         return uid;
     }
@@ -89,12 +86,13 @@ public class UserInfo implements  Serializable{
         return this.username+this.salt;
     }
 
-    public Timestamp getCreateAt() {
-        return createAt;
+
+    public void setCreateAt(long createAt) {
+        this.createAt = createAt;
     }
 
-    public void setCreateAt(Timestamp createAt) {
-        this.createAt = createAt;
+    public long getCreateAt() {
+        return createAt;
     }
     //重新对盐重新进行了定义，用户名+salt，这样就更加不容易被破解
 }

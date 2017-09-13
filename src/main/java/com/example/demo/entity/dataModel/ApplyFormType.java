@@ -5,7 +5,6 @@ package com.example.demo.entity.dataModel;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Entity;
 
 @Entity
 public class ApplyFormType implements Serializable{
@@ -13,24 +12,17 @@ public class ApplyFormType implements Serializable{
     @GeneratedValue
     private int id;
     private String description;
-    private String table_name;
+    private String tableName;
     @ManyToMany
     @JoinTable(name="action_with_forms",joinColumns={@JoinColumn(name="apply_form_id")},inverseJoinColumns={@JoinColumn(name="action_id")})
     private List<Action> actions;
 
-    public List<Action> getActions() {
-        return actions;
-    }
 
-    public void setActions(List<Action> actions) {
-        this.actions = actions;
-    }
-
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -42,11 +34,19 @@ public class ApplyFormType implements Serializable{
         this.description = description;
     }
 
-    public String getTable_name() {
-        return table_name;
+    public String getTableName() {
+        return tableName;
     }
 
-    public void setTable_name(String table_name) {
-        this.table_name = table_name;
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public List<Action> getActions() {
+        return actions;
+    }
+
+    public void setActions(List<Action> actions) {
+        this.actions = actions;
     }
 }
