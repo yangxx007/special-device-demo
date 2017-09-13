@@ -15,39 +15,39 @@ import java.util.List;
 public class DataServiceImpl implements DataService {
     private List<Object> data_set;
     @Autowired
-    private Apply1Dao apply1Dao;
+    private Form1Dao form1Dao;
     @Autowired
-    private Apply2Dao apply2Dao;
+    private Form2Dao form2Dao;
     @Autowired
-    private Apply3Dao apply3Dao;
+    private Form3Dao form3Dao;
     @Autowired
-    private Apply4Dao apply4Dao;
+    private Form4Dao form4Dao;
     @Autowired
-    private Apply5Dao apply5Dao;
+    private Form5Dao form5Dao;
     @Autowired
-    private Apply6Dao apply6Dao;
+    private Form6Dao form6Dao;
     @Autowired
-    private Apply7Dao apply7Dao;
+    private Form7Dao form7Dao;
     @Autowired
-    private Apply8Dao apply8Dao;
+    private Form8Dao apply8Dao;
 
     @Override
     public List<Object> getApplyForms(ApplyInfo applyInfo) {
         data_set=null;
 
-        data_set.add(apply1Dao.getApply1ById(applyInfo.getApply1()));
+        data_set.add(form1Dao.getApply1ById(applyInfo.getApply1()));
 
-        data_set.add(apply2Dao.getApply2ById(applyInfo.getApply2()));
+        data_set.add(form2Dao.getApply2ById(applyInfo.getApply2()));
 
-        data_set.add(apply3Dao.getApply3ById(applyInfo.getApply3()));
+        data_set.add(form3Dao.getApply3ById(applyInfo.getApply3()));
 
-        data_set.add(apply4Dao.getApply4ById(applyInfo.getApply4()));
+        data_set.add(form4Dao.getApply4ById(applyInfo.getApply4()));
 
-        data_set.add(apply5Dao.getApply5ById(applyInfo.getApply5()));
+        data_set.add(form5Dao.getApply5ById(applyInfo.getApply5()));
 
-        data_set.add(apply6Dao.getApply6ById(applyInfo.getApply6()));
+        data_set.add(form6Dao.getApply6ById(applyInfo.getApply6()));
 
-        data_set.add(apply7Dao.getApply7ById(applyInfo.getApply7()));
+        data_set.add(form7Dao.getApply7ById(applyInfo.getApply7()));
 
         data_set.add(apply8Dao.getApply8ById(applyInfo.getApply8()));
 

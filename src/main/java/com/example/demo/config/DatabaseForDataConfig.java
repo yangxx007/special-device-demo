@@ -44,7 +44,8 @@ public class DatabaseForDataConfig {
 
         em.setPackagesToScan(new
 
-                String[] {"com.example.demo.entity.applyModel","com.example.demo.entity.dataModel","com.example.demo.entity.deviceModel"
+                String[] {"com.example.demo.entity.formModel","com.example.demo.entity.dataModel","com.example.demo" +
+                ".entity.deviceModel"
 
         });
 
