@@ -24,7 +24,7 @@ public class AccountController {
 
         try{userService.createUser(userInfo);
 
-            userInfo.setCreateAt(UtilServiceImpl.date2Long(new Date()));}
+            userInfo.setCreatetime(UtilServiceImpl.date2Long(new Date()));}
         catch(Exception e)
         {jo.append("status","false");
         return jo.toString();}

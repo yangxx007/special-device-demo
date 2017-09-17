@@ -52,7 +52,7 @@ public class UserSeviceImpl implements UserService {
 
     @Override
     public List<UserInfo> findAll() {
-        return userDao.findAll();
+        return userDao.findAllIgnoreRoleList();
     }
 
     @Override

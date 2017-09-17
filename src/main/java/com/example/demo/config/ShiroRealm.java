@@ -85,25 +85,14 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
             throws AuthenticationException {
     String username = (String)token.getPrincipal();
-//处理session
+
     System.out.println("MyShiroRealm.doGetAuthenticationInfo()");
 
     UserInfo userInfo = userInfoService.findByUsername(username);
     if(userInfo == null){
         return null;
     }
-//        Collection<Session> sessions = this.sessionDAO.getActiveSessions();//获取当前已登录的用户session列表
-//
-//        for(Session session:sessions){
-////清除该用户以前登录时保存的session
-//            if(username.equals(String.valueOf(session.getAttribute(DefaultSubjectContext
-//                    .PRINCIPALS_SESSION_KEY)))
-//                    ) {
-//                System.out.println(session.toString());
-//                sessionDAO.delete(session);
-//
-//            }
-//        }
+
 
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 username, //用户名

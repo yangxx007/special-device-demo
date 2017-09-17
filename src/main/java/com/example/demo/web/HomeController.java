@@ -14,6 +14,7 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -86,6 +87,8 @@ public class HomeController {
     String adminlogin(HttpServletRequest request) throws Exception {
         JSONObject json = new JSONObject();
         String msg=null;
+        JSONObject jsonArray=new JSONObject(new UserInfo());
+        System.out.println(jsonArray.toString());
         System.out.println(request.getParameter("username"));
         System.out.println(request.getParameter("password"));
         UsernamePasswordToken uptoken = new UsernamePasswordToken(request.getParameter("username"), request.getParameter

@@ -1,9 +1,6 @@
 package com.example.demo.entity.dataModel;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -12,11 +9,12 @@ public class ApplyInfo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String codeId;
+    private int  applyTypeId;
     private long deviceId;
     private long acceptorAdminstrationId;
     private long auditorAdminstrationId;
     private long ownerId;
-    private boolean hasFile;
+    private boolean hasFile=true;
     private long createTime;
     private String action;
     private int deviceTypeId;
@@ -29,6 +27,7 @@ public class ApplyInfo implements Serializable {
     private Long apply6;
     private Long apply7;
     private Long apply8;
+
 
 
     public long getId() {

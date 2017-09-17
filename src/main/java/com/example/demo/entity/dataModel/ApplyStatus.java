@@ -10,11 +10,11 @@ public class ApplyStatus implements Serializable{
     @Id
     @GeneratedValue
     private long id;
-    private boolean accepted;
-    private boolean passed;
+    private boolean accepted=false;
+    private boolean passed=false;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="applyTest_id",unique=true)
+    @JoinColumn(name="applyInfo_id",unique=true)
     private ApplyInfo apply;
     public ApplyInfo getApply() {
         return apply;

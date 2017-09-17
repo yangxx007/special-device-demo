@@ -11,4 +11,10 @@ public class Form1 implements Serializable{
     @Id
     @GeneratedValue
     private long id;
+    private String deviceType;
+    private String deviceClass;
+    private String deviceVarieties;
+    private String productName;
+    private String deviceCode;
+    private String modelSpecifications;
 }

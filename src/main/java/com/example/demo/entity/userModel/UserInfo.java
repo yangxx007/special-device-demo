@@ -21,7 +21,16 @@ public class UserInfo implements  Serializable{
     @ManyToMany(fetch= FetchType.EAGER)//立即从数据库中进行加载数据;
     @JoinTable(name = "SysUserRole", joinColumns = { @JoinColumn(name = "uid") }, inverseJoinColumns ={@JoinColumn(name = "roleId") })
     private List<SysRole> roleList;// 一个用户具有多个角色
-    private long createAt;
+    private long createtime;
+    public long getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(long createtime) {
+        this.createtime = createtime;
+    }
+
+
     public long getUid() {
         return uid;
     }
@@ -86,13 +95,5 @@ public class UserInfo implements  Serializable{
         return this.username+this.salt;
     }
 
-
-    public void setCreateAt(long createAt) {
-        this.createAt = createAt;
-    }
-
-    public long getCreateAt() {
-        return createAt;
-    }
     //重新对盐重新进行了定义，用户名+salt，这样就更加不容易被破解
 }

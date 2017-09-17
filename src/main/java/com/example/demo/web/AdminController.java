@@ -1,6 +1,7 @@
 package com.example.demo.web;
 
 import com.example.demo.entity.dataModel.ApplyInfo;
+import com.example.demo.entity.dataModel.ApplyStatus;
 import com.example.demo.entity.userModel.UserInfo;
 import com.example.demo.service.*;
 import com.example.demo.service.exception.KaptchaFailException;
@@ -22,6 +23,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -31,8 +33,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -89,6 +95,7 @@ public class AdminController {
 
         return userSevice.deleteUserByUsernameOrUid(username, uid);
     }
+
     //requestbody标识是指请求体，如果请求体是json数据直接就将其赋给userinfo或其他类如下，直接就可以转化为类了
     @RequestMapping(value = "/userlist", method = RequestMethod.PUT)
     public @ResponseBody
@@ -130,12 +137,11 @@ public class AdminController {
         JSONObject jo = new JSONObject();
 
         try {
+            userInfo.setSalt(UtilServiceImpl.encryptPWD(UtilServiceImpl.getRandomString(),null));
             userSevice.createUser(userInfo);
             UserInfo userInfo2 = userSevice.findByUsername(userInfo.getUsername());
-            Md5Hash md5Hash = new Md5Hash(userInfo2.getPassword(), userInfo2.getCredentialsSalt(), 2);
-            userInfo2.setPassword(md5Hash.toString());
-            userInfo2.setSalt(UtilServiceImpl.getRandomString());
-            userInfo2.setCreateAt(UtilServiceImpl.date2Long(new Date()));
+            userInfo2.setPassword(UtilServiceImpl.encryptPWD(userInfo2.getPassword(),userInfo2.getCredentialsSalt()));
+            userInfo2.setCreatetime(UtilServiceImpl.date2Long(new Date()));
             userInfo2.setRoleList(accountService.createUserAccount());
             userSevice.updateUser(userInfo2);
         } catch (Exception e) {
@@ -163,47 +169,46 @@ public class AdminController {
 //    return "index";
 //}
     @RequestMapping("/logout")
-    public @ResponseBody String logout(){
+    public @ResponseBody
+    String logout() {
         SecurityUtils.getSubject().logout();
         return "0";
     }
+
     @RequestMapping("/test")
     public @ResponseBody
     String test() {
         return "test";
     }
-@RequestMapping(value = "/login",method = RequestMethod.POST)
-    public  @ResponseBody String adminlogin(HttpServletRequest request)
-    {
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public @ResponseBody
+    String adminlogin(HttpServletRequest request) {
         JSONObject json = new JSONObject();
-        String msg=null;
+        String msg = null;
         System.out.println(request.getParameter("username"));
         System.out.println(request.getParameter("password"));
         System.out.println(request.getParameter("verifycode"));
         UsernamePasswordToken uptoken = new UsernamePasswordToken(request.getParameter("username"), request.getParameter
                 ("password"));
         Subject currentuser = SecurityUtils.getSubject();
-        try{
-            kaptchaService.KaptchaValidate(currentuser,request.getParameter("verifycode"));
+        try {
+            kaptchaService.KaptchaValidate(currentuser, request.getParameter("verifycode"));
             currentuser.login(uptoken);
-        }
-        catch (UnknownAccountException e)
-        {
+        } catch (UnknownAccountException e) {
             System.out.println("UnknownAccountException -- > 账号不存在：");
             msg = "账号不存在";
-        }
-        catch (IncorrectCredentialsException e) {
+        } catch (IncorrectCredentialsException e) {
             System.out.println("IncorrectCredentialsException -- > 密码不正确：");
             msg = "密码不正确";
-        }
-        catch (KaptchaFailException e) {
-            System.out.println("kaptchaFailedException -- > "+e.getMsgDes());
+        } catch (KaptchaFailException e) {
+            System.out.println("kaptchaFailedException -- > " + e.getMsgDes());
             msg = e.getMsgDes();
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             msg = "else >> " + e;
             System.out.println("else -- >" + e);
-        };
+        }
+        ;
         if (currentuser.isAuthenticated()) {
             json.append("status", "true");
             //这里要把获取角色的方法要放到service里
@@ -211,12 +216,11 @@ public class AdminController {
             return json.toString();
         } else {
             json.append("status", "false");
-            json.append("msg",msg);
+            json.append("msg", msg);
         }
         System.out.println(json.toString());
         return json.toString();
     }
-
 
 
 //@RequestMapping(value = "/login",method = RequestMethod.POST)
@@ -270,8 +274,8 @@ public class AdminController {
 //
 //    }
 
-    @RequestMapping(value = "/image",method = RequestMethod.GET)
-    public String image(){
+    @RequestMapping(value = "/image", method = RequestMethod.GET)
+    public String image() {
         return "image";
     }
 
@@ -284,11 +288,11 @@ public class AdminController {
         response.setHeader("Pragma", "no-cache");
         response.setContentType("image/jpeg");
         String capText = captchaProducer.createText();// 生成验证码字符串
-        Session session= SecurityUtils.getSubject().getSession();
-        session.setAttribute(Constants.KAPTCHA_SESSION_KEY,capText);
+        Session session = SecurityUtils.getSubject().getSession();
+        session.setAttribute(Constants.KAPTCHA_SESSION_KEY, capText);
         System.out.println(capText);
-        Date time=new Date();
-        session.setAttribute("kaptcha_create_time",time.getTime());
+        Date time = new Date();
+        session.setAttribute("kaptcha_create_time", time.getTime());
         //Cookie cookie = new Cookie(Constants.KAPTCHA_SESSION_KEY, capText); // 生成cookie
         //cookie.setMaxAge(30); // 300秒生存期
         //response.addCookie(cookie); // 将cookie加入response
@@ -302,46 +306,88 @@ public class AdminController {
         }
 
     }
-    @RequestMapping("/usertest")
-    public @ResponseBody List<UserInfo> getUsers(@RequestParam(name="name")String name, @RequestParam(name = "start")
-            JSONArray json)
-    {
-        return userSevice.finduserfortest(name,json.getLong(0),json.getLong(1));
-    }
-    @RequestMapping("/applylist")
-    public @ResponseBody List<ApplyInfo> getApplyList(@RequestParam(name = "device_id")int
-                                                                  device_id,
-                                                      @RequestParam
-            ("time")JSONArray json){
-        String format ="yyyy-MM-dd";
-        long start=0;
-        long end=UtilServiceImpl.date2Long(new Date());
-        try{
-             start=UtilServiceImpl.string2Long(json.getString(0),format);
-             end=UtilServiceImpl.string2Long(json.getString(1),format);
 
-        }
-        catch (ParseException e)
-        {
+    @RequestMapping("/usertest")
+    public @ResponseBody
+    List<UserInfo> getUsers(@RequestParam(name = "name") String name, @RequestParam(name = "start")
+            JSONArray json) {
+        return userSevice.finduserfortest(name, json.getLong(0), json.getLong(1));
+    }
+
+    @RequestMapping("/applylist")
+    public @ResponseBody
+    Page<ApplyInfo> getApplyList(HttpServletRequest request) {
+        int page=0,size=1,device_id=0;
+        long start = 0;
+        long end = UtilServiceImpl.date2Long(new Date());
+        String format = "yyyy-MM-dd";
+
+        try {
+            page=Integer.parseInt(request.getParameter("page"));
+            size=Integer.parseInt(request.getParameter("size"));
+            device_id=Integer.parseInt(request.getParameter("device_id"));
+            JSONArray json= new JSONArray(request.getParameter("time"));
+            start = UtilServiceImpl.string2Long(json.getString(0), format);
+            //end要加一天的时间
+            end = UtilServiceImpl.string2Long(json.getString(1), format)+86400000;
+
+        } catch (ParseException e) {
             System.out.println("筛选条件输入错误");
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
         }
 //        System.out.println(start);
 //        System.out.println(end);
-        List<ApplyInfo> applyInfos=applyService.findApplyInfosForUser(1,
-                device_id,start,end);
-
+//        return applyService.findApplyInfosForUser(1,
+//                device_id, start, end, pageable);
+        Sort sort = new Sort(Sort.Direction.ASC, "id");
+        Pageable pageable = new PageRequest(page, size, sort);
+        Page<ApplyInfo> applyInfos=applyService.findstream(device_id,start,end,pageable);
+//        System.out.println(new JSONObject(applyInfos).get("sort").toString());
+//        List<ApplyInfo> applyInfoList=(List<ApplyInfo>) new JSONObject(applyInfos).get("content");
+//        JSONObject applyObject=new JSONObject();
+//        int i=0;
+//        for(ApplyInfo apply: applyInfoList) {
+//            System.out.println(apply.getId());
+//            ApplyStatus applyStatus=applyService.findApplyStatusByApplyId(apply.getId());
+//            applyObject.append(i+"",(new JSONObject(apply)).toString()+(new JSONObject(applyStatus)).toString());
+//            i++;
+//        }
+//        return applyInfos;
         return applyInfos;
-
 //        return applyService.findApplyInfosForUser(userStatusService.getCurrUserId(SecurityUtils.getSubject()),
 //                device_id,start,end);
+    }
 
+    @RequestMapping(value = "/apply", method = RequestMethod.GET)
+    public @ResponseBody
+    ApplyInfo getApply(@RequestParam("apply_id") long id) {
+        return applyService.findByApplyID(id);
+    }
+
+
+    @RequestMapping(value = "/applytest", method = RequestMethod.GET)
+    @Transactional
+    public @ResponseBody
+    List<ApplyInfo> getApply2() {
+//        List<ApplyInfo> applyInfos=null;
+//
+//       try{
+//            applyInfos=applyService.findtest(applyService.findstream(1)).collect(Collectors.toList());
+//           //applyInfoStream.forEach(applyInfo -> applyInfos.add(applyInfo));
+//       }
+//       catch (Exception e)
+//       {
+//           System.out.println(e.getLocalizedMessage());
+//       }
+        return null;
     }
 
     @RequestMapping(value = "/apply", method = RequestMethod.PUT)
     public @ResponseBody
     boolean createApply(@RequestBody ApplyInfo applyInfo) {
         try {
-            applyInfo.setCreateTime(UtilServiceImpl.string2Long("2016-10-12","yyyy-MM-dd"));
+            applyInfo.setCreateTime(UtilServiceImpl.string2Long("2016-10-12", "yyyy-MM-dd")+1000000);
             applyService.createApply(applyInfo);
         } catch (ParseException e) {
             System.out.println("无法解析");
