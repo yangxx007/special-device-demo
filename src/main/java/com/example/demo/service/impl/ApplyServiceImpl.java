@@ -67,4 +67,9 @@ public class ApplyServiceImpl implements ApplyService{
     public ApplyStatus findApplyStatusByApplyId(long apply_id) {
         return applyDao.findApplyStatusByapplyInfoId(apply_id);
     }
+
+    @Override
+    public void delApply(ApplyInfo applyInfo) {
+        applyDao.delete(applyInfo);
+    }
 }

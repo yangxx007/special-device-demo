@@ -1,5 +1,7 @@
 package com.example.demo.entity.dataModel;
 
+import com.example.demo.entity.formModel.*;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -14,19 +16,30 @@ public class ApplyInfo implements Serializable {
     private long acceptorAdminstrationId;
     private long auditorAdminstrationId;
     private long ownerId;
+    private String address;
     private boolean hasFile=true;
     private long createTime;
     private String action;
     private int deviceTypeId;
     private String filesId;
-    private Long apply1;
-    private Long apply2;
-    private Long apply3;
-    private Long apply4;
-    private Long apply5;
-    private Long apply6;
-    private Long apply7;
-    private Long apply8;
+    @OneToOne(cascade = CascadeType.ALL)
+    private ApplyStatus applyStatus;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Form1 form1;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Form2 form2;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Form3 form3;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Form4 form4;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Form5 form5;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Form6 form6;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Form7 form7;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Form8 form8;
 
 
 
@@ -118,67 +131,92 @@ public class ApplyInfo implements Serializable {
         this.filesId = filesId;
     }
 
-    public Long getApply1() {
-        return apply1;
+
+    public int getApplyTypeId() {
+        return applyTypeId;
     }
 
-    public void setApply1(Long apply1) {
-        this.apply1 = apply1;
+    public void setApplyTypeId(int applyTypeId) {
+        this.applyTypeId = applyTypeId;
     }
 
-    public Long getApply2() {
-        return apply2;
+    public ApplyStatus getApplyStatus() {
+        return applyStatus;
     }
 
-    public void setApply2(Long apply2) {
-        this.apply2 = apply2;
+    public void setApplyStatus(ApplyStatus applyStatus) {
+        this.applyStatus = applyStatus;
     }
 
-    public Long getApply3() {
-        return apply3;
+    public Form1 getForm1() {
+        return form1;
     }
 
-    public void setApply3(Long apply3) {
-        this.apply3 = apply3;
+    public void setForm1(Form1 form1) {
+        this.form1 = form1;
     }
 
-    public Long getApply4() {
-        return apply4;
+    public Form2 getForm2() {
+        return form2;
     }
 
-    public void setApply4(Long apply4) {
-        this.apply4 = apply4;
+    public void setForm2(Form2 form2) {
+        this.form2 = form2;
     }
 
-    public Long getApply5() {
-        return apply5;
+    public Form3 getForm3() {
+        return form3;
     }
 
-    public void setApply5(Long apply5) {
-        this.apply5 = apply5;
+    public void setForm3(Form3 form3) {
+        this.form3 = form3;
     }
 
-    public Long getApply6() {
-        return apply6;
+    public Form4 getForm4() {
+        return form4;
     }
 
-    public void setApply6(Long apply6) {
-        this.apply6 = apply6;
+    public void setForm4(Form4 form4) {
+        this.form4 = form4;
     }
 
-    public Long getApply7() {
-        return apply7;
+    public Form5 getForm5() {
+        return form5;
     }
 
-    public void setApply7(Long apply7) {
-        this.apply7 = apply7;
+    public void setForm5(Form5 form5) {
+        this.form5 = form5;
     }
 
-    public Long getApply8() {
-        return apply8;
+    public Form6 getForm6() {
+        return form6;
     }
 
-    public void setApply8(Long apply8) {
-        this.apply8 = apply8;
+    public void setForm6(Form6 form6) {
+        this.form6 = form6;
+    }
+
+    public Form7 getForm7() {
+        return form7;
+    }
+
+    public void setForm7(Form7 form7) {
+        this.form7 = form7;
+    }
+
+    public Form8 getForm8() {
+        return form8;
+    }
+
+    public void setForm8(Form8 form8) {
+        this.form8 = form8;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

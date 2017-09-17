@@ -49,6 +49,22 @@
     <orderEntry type="library" name="Maven: antlr:antlr:2.7.7" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:19.0" level="project" />
     <orderEntry type="library" name="Maven: com.thedeanda:lorem:2.0" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-api:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-util-conversion:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer-api:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-util-all:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-local:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.zeroturnaround:zt-exec:1.8" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-local-demo:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer-msoffice-word:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer-msoffice-base:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-util-transformer-process:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer-msoffice-excel:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.wicket:wicket-core:6.10.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.wicket:wicket-util:6.10.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.wicket:wicket-request:6.10.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.wicket:wicket-extensions:6.10.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml-schemas:3.15" level="project" />
     <orderEntry type="library" name="Maven: org.apache.xmlbeans:xmlbeans:2.6.0" level="project" />
     <orderEntry type="library" name="Maven: stax:stax-api:1.0.1" level="project" />

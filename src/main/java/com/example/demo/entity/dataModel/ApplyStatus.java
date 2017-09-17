@@ -13,16 +13,10 @@ public class ApplyStatus implements Serializable{
     private boolean accepted=false;
     private boolean passed=false;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="applyInfo_id",unique=true)
-    private ApplyInfo apply;
-    public ApplyInfo getApply() {
-        return apply;
-    }
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name="applyInfo_id",unique=true)
+//    private ApplyInfo apply;
 
-    public void setApply(ApplyInfo apply_test) {
-        this.apply = apply_test;
-    }
 
 
     public boolean isAccepted() {
@@ -33,13 +27,6 @@ public class ApplyStatus implements Serializable{
         this.accepted = accepted;
     }
 
-    public boolean isPassed() {
-        return passed;
-    }
-
-    public void setPassed(boolean passed) {
-        this.passed = passed;
-    }
 
     public long getId() {
         return id;
@@ -47,5 +34,13 @@ public class ApplyStatus implements Serializable{
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public boolean isPassed() {
+        return passed;
+    }
+
+    public void setPassed(boolean passed) {
+        this.passed = passed;
     }
 }

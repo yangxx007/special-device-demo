@@ -388,12 +388,19 @@ public class AdminController {
     boolean createApply(@RequestBody ApplyInfo applyInfo) {
         try {
             applyInfo.setCreateTime(UtilServiceImpl.string2Long("2016-10-12", "yyyy-MM-dd")+1000000);
+            applyInfo.setApplyStatus(new ApplyStatus());
             applyService.createApply(applyInfo);
         } catch (ParseException e) {
             System.out.println("无法解析");
             return false;
         }
         return true;
+    }
+    @RequestMapping(value = "/apply",method = RequestMethod.DELETE)
+    public void delApply(@RequestParam("applyId")long id)
+    {
+        applyService.delApply(applyService.findByApplyID(id));
+
     }
 
 }

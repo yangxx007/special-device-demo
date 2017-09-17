@@ -1,14 +1,11 @@
 package com.example.demo;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.pdf.PdfWriter;
-import org.apache.catalina.mapper.Mapper;
-import org.apache.poi.hwpf.HWPFDocument;
-import org.apache.poi.hwpf.extractor.WordExtractor;
-import org.apache.poi.hwpf.usermodel.Range;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+
+import com.documents4j.api.DocumentType;
+import com.documents4j.api.IConverter;
+import com.documents4j.job.LocalConverter;
 import org.apache.poi.xwpf.converter.pdf.PdfConverter;
+import org.apache.poi.xwpf.converter.pdf.PdfOptions;
 import org.apache.poi.xwpf.usermodel.*;
 import org.docx4j.Docx4J;
 import org.docx4j.convert.out.FOSettings;
@@ -22,10 +19,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 @RunWith(SpringRunner.class)
@@ -57,6 +53,22 @@ public class DemoApplicationTests {
 		}
 	}
 	@Test
+	public void documents4j() throws Exception{
+		File wordFile = new File( "/Users/yang/yang-workspace/form2.docx" ),target = new File
+				("/Users/yang/yang-workspace/form2.pdf" );
+		File base=new File("/Users/yang/yang-workspace/tmp");
+		IConverter converter = LocalConverter.builder()
+				.baseFolder(base)
+				.workerPool(20, 25, 2, TimeUnit.SECONDS)
+				.processTimeout(5, TimeUnit.SECONDS)
+				.build();
+		Future<Boolean> conversion = converter
+				.convert(wordFile).as(DocumentType.MS_WORD)
+				.to(target).as(DocumentType.PDF)
+				.prioritizeWith(1000) // optional
+				.schedule();
+	}
+	@Test
 	public void contextLoads() throws Exception{
 		try {
 
@@ -68,9 +80,10 @@ public class DemoApplicationTests {
 
 			this.replaceInPara(doc,replacetor);
 			this.replaceInTable(doc,replacetor);
+			PdfOptions options = PdfOptions.create();
 
 			OutputStream os = new FileOutputStream("/Users/yang/yang-workspace/write.pdf");
-			PdfConverter.getInstance().convert(doc,os,null);
+			PdfConverter.getInstance().convert(doc,os,options);
 			doc.write(os);
 			os.close();
 			is.close();
