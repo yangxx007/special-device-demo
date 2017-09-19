@@ -2,6 +2,7 @@ package com.example.demo.service.staticfunction;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -57,6 +58,16 @@ public class UtilServiceImpl  {
     }
     public static String date2String(Date time, String formatType) throws ParseException{
         return new SimpleDateFormat(formatType).format(time);
+    }
+    public static JSONObject string2JSON(String str){
+        JSONObject jsonObject=null;
+        try{
+            jsonObject=new JSONObject(str);
+        }
+        catch (Exception e){
+            jsonObject=new JSONObject();
+        }
+        return jsonObject;
     }
 
 }

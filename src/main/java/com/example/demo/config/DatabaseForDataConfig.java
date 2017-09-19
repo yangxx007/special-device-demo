@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +23,8 @@ import java.util.HashMap;
 
 @PropertySource({"classpath:application.properties"})
 @EnableJpaRepositories(
-        basePackages = "com.example.demo.Dao.apply",
+        basePackages = {"com.example.demo.Dao.apply","com.example.demo.Dao.file","com.example.demo.Dao.map","com" +
+                ".example.Dao.device"},
         entityManagerFactoryRef ="productEntityManager",
         transactionManagerRef = "productTransactionManager"
 
