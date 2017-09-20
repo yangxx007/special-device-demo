@@ -60,6 +60,7 @@ public class ApplyController {
 //        System.out.println(end);
 //        return applyService.findApplyInfosForUser(1,
 //                device_id, start, end, pageable);
+        jsonResponse.setStatus(true);
         Sort sort = new Sort(Sort.Direction.ASC, "id");
         Pageable pageable = new PageRequest(page, size, sort);
         Page<ApplyInfo> applyInfos=applyService.findstream(device_id,start,end,pageable);
