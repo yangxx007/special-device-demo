@@ -115,9 +115,6 @@ public class HomeController {
             System.out.println("else -- >" + e);
         };
 
-
-
-
         if (currentuser.isAuthenticated()) {
             json.append("status", "true");
             //这里要把获取角色的方法要放到service里
