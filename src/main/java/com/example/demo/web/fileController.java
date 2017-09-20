@@ -2,6 +2,7 @@ package com.example.demo.web;
 
 import com.example.demo.entity.dataModel.ApplyInfo;
 import com.example.demo.entity.dataModel.FileData;
+import com.example.demo.enums.JsonResponse;
 import com.example.demo.service.ApplyService;
 import com.example.demo.service.FileService;
 import com.example.demo.service.staticfunction.FilePathUtil;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -205,5 +207,9 @@ public class fileController {
                 true  // block until drawing is done
         );
         return UtilServiceImpl.toBufferedImage(img);
+    }
+    @RequestMapping("/test")
+    public @ResponseBody JsonResponse test(){
+        return new JsonResponse(true,null,"{[]}");
     }
 }

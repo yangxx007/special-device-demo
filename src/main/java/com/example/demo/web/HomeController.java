@@ -2,9 +2,13 @@ package com.example.demo.web;
 
 
 import com.example.demo.entity.userModel.UserInfo;
+import com.example.demo.enums.JsonResponse;
+import com.example.demo.service.KaptchaService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.UserStatusService;
 import com.example.demo.service.ValidateService;
+import com.example.demo.service.exception.KaptchaFailException;
+import com.google.code.kaptcha.Constants;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -22,10 +26,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -36,6 +45,8 @@ public class HomeController {
 
     @Autowired
     UserStatusService userStatusService;
+    @Autowired
+    KaptchaService kaptchaService;
 
     @RequestMapping({"/", "/index"})
     public String index() {
@@ -84,48 +95,46 @@ public class HomeController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public @ResponseBody
-    String adminlogin(HttpServletRequest request) throws Exception {
-        JSONObject json = new JSONObject();
+    JsonResponse adminlogin(HttpServletRequest request) throws Exception {
+        JsonResponse jsonResponse=new JsonResponse();
+        JSONObject json=new JSONObject();
         String msg=null;
-        JSONObject jsonArray=new JSONObject(new UserInfo());
-        System.out.println(jsonArray.toString());
         System.out.println(request.getParameter("username"));
         System.out.println(request.getParameter("password"));
+        System.out.println(request.getParameter("verifycode"));
         UsernamePasswordToken uptoken = new UsernamePasswordToken(request.getParameter("username"), request.getParameter
                 ("password"));
         Subject currentuser = SecurityUtils.getSubject();
-        try{
+        try {
+            kaptchaService.KaptchaValidate(currentuser, request.getParameter("verifycode"));
             currentuser.login(uptoken);
-        }
-        catch (UnknownAccountException e)
-        {
+        } catch (UnknownAccountException e) {
             System.out.println("UnknownAccountException -- > 账号不存在：");
-            msg = "UnknownAccountException -- > 账号不存在：";
-        }
-        catch (IncorrectCredentialsException e) {
+            msg = "账号不存在";
+        } catch (IncorrectCredentialsException e) {
             System.out.println("IncorrectCredentialsException -- > 密码不正确：");
-            msg = "IncorrectCredentialsException -- > 密码不正确：";
-        }
-//        catch () {
-//            System.out.println("kaptchaValidateFailed -- > 验证码错误");
-//            msg = "kaptchaValidateFailed -- > 验证码错误";
-//        }
-        catch(Exception e) {
+            msg = "密码不正确";
+        } catch (KaptchaFailException e) {
+            System.out.println("kaptchaFailedException -- > " + e.getMsgDes());
+            msg = e.getMsgDes();
+        } catch (Exception e) {
             msg = "else >> " + e;
             System.out.println("else -- >" + e);
-        };
+        }
 
         if (currentuser.isAuthenticated()) {
-            json.append("status", "true");
+            jsonResponse.setStatus(true);
             //这里要把获取角色的方法要放到service里
-            json.append("role", userStatusService.getRoleList(currentuser).get(0).getId().toString());
-            return json.toString();
+            json.put("username",request.getParameter("username"));
+            json.put("role", userStatusService.getRoleList(currentuser).get(0).getId().toString());
+            jsonResponse.setData(json);
+            return jsonResponse;
         } else {
-            json.append("status", "false");
-            json.append("msg",msg);
+            jsonResponse.setStatus(false);
+            jsonResponse.setMsg(msg);
         }
-        System.out.println(json.toString());
-        return json.toString();
+
+        return jsonResponse;
 
     }
 
