@@ -13,8 +13,8 @@ public class ApplyInfo implements Serializable {
     private String codeId;
     private int  applyTypeId;
     private long deviceId;
-    private long acceptorAdminstrationId;
-    private long auditorAdminstrationId;
+    private long approverAgencyId;
+    private long acceptorAgencyId;
     private long ownerId;
     private String address;
     private boolean hasFile=true;
@@ -65,22 +65,6 @@ public class ApplyInfo implements Serializable {
 
     public void setDeviceId(long deviceId) {
         this.deviceId = deviceId;
-    }
-
-    public long getAcceptorAdminstrationId() {
-        return acceptorAdminstrationId;
-    }
-
-    public void setAcceptorAdminstrationId(long acceptorAdminstrationId) {
-        this.acceptorAdminstrationId = acceptorAdminstrationId;
-    }
-
-    public long getAuditorAdminstrationId() {
-        return auditorAdminstrationId;
-    }
-
-    public void setAuditorAdminstrationId(long auditorAdminstrationId) {
-        this.auditorAdminstrationId = auditorAdminstrationId;
     }
 
     public long getOwnerId() {
@@ -218,5 +202,21 @@ public class ApplyInfo implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public long getApproverAgencyId() {
+        return approverAgencyId;
+    }
+
+    public void setApproverAgencyId(long approverAgencyId) {
+        this.approverAgencyId = approverAgencyId;
+    }
+
+    public long getAcceptorAgencyId() {
+        return acceptorAgencyId;
+    }
+
+    public void setAcceptorAgencyId(long acceptorAgencyId) {
+        this.acceptorAgencyId = acceptorAgencyId;
     }
 }

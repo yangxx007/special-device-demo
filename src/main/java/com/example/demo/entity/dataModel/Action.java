@@ -19,7 +19,7 @@ public class Action implements Serializable{
 
     @ManyToMany
     @JoinTable(name="action_with_files",joinColumns={@JoinColumn(name="action_id")},inverseJoinColumns={@JoinColumn(name="file_type_id" )})
-    private List<NeededFile> files;
+    private List<FileType> files;
 
 
     public int getId() {
@@ -54,11 +54,11 @@ public class Action implements Serializable{
         this.forms = forms;
     }
 
-    public List<NeededFile> getFiles() {
+    public List<FileType> getFiles() {
         return files;
     }
 
-    public void setFiles(List<NeededFile> files) {
+    public void setFiles(List<FileType> files) {
         this.files = files;
     }
 }

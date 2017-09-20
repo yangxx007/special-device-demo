@@ -27,17 +27,17 @@ public class ValidateServiceImpl implements ValidateService {
     public boolean isApplyOwner(Subject currSubject,long applyId) {
         UserInfo userInfo=userStatusService.getCurrUser(currSubject);
         ApplyInfo applyInfo=applyService.findByApplyID(applyId);
-        //1. user 2. acceptor 3.auditor 4.supervisor 5.admin
+        //1. user 2. acceptor 3.approver 4.supervisor 5.admin
         switch (userInfo.getRoleList().get(0).getId())
         {
             case 1:
                 return userInfo.getUid()==applyInfo.getOwnerId();
 
             case 2:
-                return userInfo.getUid()==applyInfo.getAcceptorAdminstrationId();
+                return userInfo.getAgencyId()==applyInfo.getAcceptorAgencyId();
 
             case 3:
-                return userInfo.getUid()==applyInfo.getAuditorAdminstrationId();
+                return userInfo.getAgencyId()==applyInfo.getApproverAgencyId();
 
         }
 

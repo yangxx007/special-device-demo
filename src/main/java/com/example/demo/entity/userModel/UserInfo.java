@@ -22,9 +22,11 @@ public class UserInfo implements  Serializable{
     @JoinTable(name = "SysUserRole", joinColumns = { @JoinColumn(name = "uid") }, inverseJoinColumns ={@JoinColumn(name = "roleId") })
     private List<SysRole> roleList;// 一个用户具有多个角色
     private long createtime;
+    private long agencyId;
     public long getCreatetime() {
         return createtime;
     }
+
 
     public void setCreatetime(long createtime) {
         this.createtime = createtime;
@@ -93,6 +95,14 @@ public class UserInfo implements  Serializable{
      */
     public String getCredentialsSalt(){
         return this.username+this.salt;
+    }
+
+    public long getAgencyId() {
+        return agencyId;
+    }
+
+    public void setAgencyId(long agencyId) {
+        this.agencyId = agencyId;
     }
 
     //重新对盐重新进行了定义，用户名+salt，这样就更加不容易被破解

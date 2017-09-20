@@ -1,9 +1,15 @@
 package com.example.demo.service.staticfunction;
 
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.PdfStamper;
+import com.lowagie.text.pdf.PdfWriter;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.json.JSONObject;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -69,5 +75,30 @@ public class UtilServiceImpl  {
         }
         return jsonObject;
     }
+    public static void fixpdf(String path, OutputStream desc)throws Exception{
+        PdfReader reader = new PdfReader(path);
+        PdfStamper stamper = new PdfStamper(reader, desc);
+        stamper.getWriter().setPdfVersion(PdfWriter.PDF_VERSION_1_4);
+        stamper.close();
+        reader.close();
 
+    }
+    public static BufferedImage toBufferedImage(Image img)
+    {
+        if (img instanceof BufferedImage)
+        {
+            return (BufferedImage) img;
+        }
+
+        // Create a buffered image with transparency
+        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+        // Draw the image on to the buffered image
+        Graphics2D bGr = bimage.createGraphics();
+        bGr.drawImage(img, 0, 0, null);
+        bGr.dispose();
+
+        // Return the buffered image
+        return bimage;
+    }
 }

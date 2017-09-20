@@ -50,6 +50,7 @@
     <orderEntry type="library" name="Maven: com.google.guava:guava:19.0" level="project" />
     <orderEntry type="library" name="Maven: com.thedeanda:lorem:2.0" level="project" />
     <orderEntry type="library" name="Maven: com.documents4j:documents4j-api:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.swinglabs:pdf-renderer:1.0.5" level="project" />
     <orderEntry type="library" name="Maven: com.documents4j:documents4j-util-conversion:1.0.3" level="project" />
     <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer:1.0.3" level="project" />
     <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer-api:1.0.3" level="project" />

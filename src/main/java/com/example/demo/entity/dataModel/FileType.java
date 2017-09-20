@@ -6,23 +6,14 @@ import java.util.List;
 import javax.persistence.Entity;
 
 @Entity
-public class NeededFile implements Serializable{
+public class FileType implements Serializable{
     @Id
     @GeneratedValue
     private Integer id;
     private String type;
     private String description;
-    @ManyToMany
-    @JoinTable(name="action_with_files",joinColumns={@JoinColumn(name="files_type_id")},inverseJoinColumns={@JoinColumn(name="action_id")})
-    private List<Action> actions;
 
-    public List<Action> getActions() {
-        return actions;
-    }
 
-    public void setActions(List<Action> actions) {
-        this.actions = actions;
-    }
 
     public Integer getId() {
         return id;

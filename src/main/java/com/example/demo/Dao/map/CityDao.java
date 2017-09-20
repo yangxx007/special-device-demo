@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface CityDao extends JpaRepository<City,Integer>{
     public City getCityById(int id);
-    public City getCityByProvince_id(int province_id);
+    public City getCityByProvinceId(int province_id);
 }

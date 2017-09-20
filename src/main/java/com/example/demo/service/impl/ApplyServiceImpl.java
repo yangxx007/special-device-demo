@@ -72,4 +72,9 @@ public class ApplyServiceImpl implements ApplyService{
     public void delApply(ApplyInfo applyInfo) {
         applyDao.delete(applyInfo);
     }
+
+    @Override
+    public void saveApply(ApplyInfo applyInfo) {
+        applyDao.save(applyInfo);
+    }
 }

@@ -6,12 +6,10 @@ import java.io.Serializable;
 @Entity
 public class FileData implements Serializable{
     @Id
-    @GeneratedValue
     private long id;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "fileType_id")
-    private NeededFile fileType;
-    private byte fileContent;
+    private int fileTypeId;
+    private String fileName;
+    private long applyId;
 
     public long getId() {
         return id;
@@ -21,19 +19,29 @@ public class FileData implements Serializable{
         this.id = id;
     }
 
-    public NeededFile getFileType() {
-        return fileType;
+
+
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setFileType(NeededFile fileType) {
-        this.fileType = fileType;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
-    public byte getFileContent() {
-        return fileContent;
+    public int getFileTypeId() {
+        return fileTypeId;
     }
 
-    public void setFileContent(byte fileContent) {
-        this.fileContent = fileContent;
+    public void setFileTypeId(int fileTypeId) {
+        this.fileTypeId = fileTypeId;
+    }
+
+    public long getApplyId() {
+        return applyId;
+    }
+
+    public void setApplyId(long applyId) {
+        this.applyId = applyId;
     }
 }

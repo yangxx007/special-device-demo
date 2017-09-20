@@ -20,4 +20,5 @@ public interface ApplyService {
     public Page<ApplyInfo> findstream(long id,long start,long end,Pageable pageable);
     public ApplyStatus findApplyStatusByApplyId(long apply_id);
     void delApply(ApplyInfo applyInfo);
+    void saveApply(ApplyInfo applyInfo);
 }

@@ -83,6 +83,11 @@
 			<artifactId>documents4j-api</artifactId>
 			<version>1.0.3</version>
 		</dependency>
+		<dependency>
+			<groupId>org.swinglabs</groupId>
+			<artifactId>pdf-renderer</artifactId>
+			<version>1.0.5</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.documents4j</groupId>
