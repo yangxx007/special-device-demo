@@ -6,7 +6,8 @@ import com.example.demo.enums.JsonResponse;
 import com.example.demo.service.ApplyService;
 import com.example.demo.service.FileService;
 import com.example.demo.service.ValidateService;
-import com.example.demo.service.exception.FileDownFailException;
+
+import com.example.demo.service.exception.FileFailException;
 import com.example.demo.service.staticfunction.FilePathUtil;
 import com.example.demo.service.staticfunction.UtilServiceImpl;
 import com.sun.pdfview.PDFFile;
@@ -127,7 +128,7 @@ public class fileController {
                 }
             }
         } catch (Exception e) {
-           throw new FileDownFailException(e.getMessage());
+           throw new FileFailException(e.getMessage());
         }
 
 
