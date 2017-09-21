@@ -8,4 +8,5 @@ import java.io.Serializable;
 public class UserData implements Serializable{
     @Id@GeneratedValue
     private Integer id;
+    private String name;
 }

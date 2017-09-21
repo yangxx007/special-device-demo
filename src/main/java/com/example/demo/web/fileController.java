@@ -73,7 +73,7 @@ public class fileController {
         }
         fos.close();
         fs.close();
-        applyService.saveApply(applyInfo);
+        applyService.saveApply(applyInfo,SecurityUtils.getSubject());
         fileService.save(fileData);
         return new JsonResponse(true,null,null);
     }

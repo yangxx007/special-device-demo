@@ -57,11 +57,4 @@ public class StaticController {
 
     }
 
-    @RequestMapping("/test")
-    public @ResponseBody
-    String getJson() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("1", "put some thing");
-        return jsonObject.toString();
-    }
 }

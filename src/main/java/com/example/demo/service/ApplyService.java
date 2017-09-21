@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.entity.dataModel.ApplyInfo;
 import com.example.demo.entity.dataModel.ApplyStatus;
+import org.apache.shiro.subject.Subject;
 import org.springframework.data.domain.Page;
 
 import org.springframework.data.domain.Pageable;
@@ -20,5 +21,5 @@ public interface ApplyService {
     public Page<ApplyInfo> findstream(long id,long start,long end,Pageable pageable);
     public ApplyStatus findApplyStatusByApplyId(long apply_id);
     void delApply(ApplyInfo applyInfo);
-    void saveApply(ApplyInfo applyInfo);
+    void saveApply(ApplyInfo applyInfo, Subject subject);
 }

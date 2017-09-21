@@ -57,14 +57,12 @@ public class HomeController {
     }
 
     @RequestMapping("/logout")
-    public boolean logout() {
-        try {
+    public @ResponseBody JsonResponse logout() {
+
             Subject subject = SecurityUtils.getSubject();
             subject.logout();
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
+
+        return new JsonResponse(true,null,null);
 
     }
 

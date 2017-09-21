@@ -131,27 +131,7 @@ public class AdminController {
 
     }
 
-    @RequestMapping(value = "/createuser", method = RequestMethod.PUT)
-    public @ResponseBody
-    String createUser(@RequestBody UserInfo userInfo) {
-        JSONObject jo = new JSONObject();
 
-        try {
-            userInfo.setSalt(UtilServiceImpl.encryptPWD(UtilServiceImpl.getRandomString(),null));
-            userSevice.createUser(userInfo);
-            UserInfo userInfo2 = userSevice.findByUsername(userInfo.getUsername());
-            userInfo2.setPassword(UtilServiceImpl.encryptPWD(userInfo2.getPassword(),userInfo2.getCredentialsSalt()));
-            userInfo2.setCreatetime(UtilServiceImpl.date2Long(new Date()));
-            userInfo2.setRoleList(accountService.createUserAccount());
-            userSevice.updateUser(userInfo2);
-        } catch (Exception e) {
-            jo.append("status", "false");
-            return jo.toString();
-        }
-        jo.append("status", "true");
-        return jo.toString();
-
-    }
 
     //@RequestMapping(value = "/user/page",method = RequestMethod.GET)
 //public String createUser(HttpServletRequest request){

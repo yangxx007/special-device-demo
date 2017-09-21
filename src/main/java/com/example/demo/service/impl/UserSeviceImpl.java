@@ -3,12 +3,17 @@ package com.example.demo.service.impl;
 import com.example.demo.Dao.user.UserDao;
 import com.example.demo.Dao.user.UserPageDao;
 import com.example.demo.entity.userModel.UserInfo;
+import com.example.demo.service.AccountService;
 import com.example.demo.service.UserService;
+import com.example.demo.service.exception.VerifyFailException;
+import com.example.demo.service.staticfunction.UtilServiceImpl;
+import com.example.demo.service.staticfunction.VerifyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -22,6 +27,8 @@ public class UserSeviceImpl implements UserService {
     private UserDao userDao;
     @Autowired
     private UserPageDao userPageDao;
+    @Autowired
+    private AccountService accountService;
 
     @Override
     public UserInfo findByUsername(String username) {
@@ -29,8 +36,19 @@ public class UserSeviceImpl implements UserService {
     }
 
     @Override
-    public UserInfo createUser(UserInfo userInfo) {
-        return userDao.save(userInfo);
+    public void createUser(UserInfo userInfo,int level) throws RuntimeException{
+        userInfo.setUid(0);
+        if(!VerifyUtil.verify(userInfo.getUsername(),VerifyUtil.USERNAME))
+            throw new VerifyFailException("用户名格式不正确");
+        if(!VerifyUtil.verify(userInfo.getPassword(),VerifyUtil.PASSWORD))
+            throw new VerifyFailException("密码格式不正确");
+        userInfo.setSalt(UtilServiceImpl.encryptPWD(UtilServiceImpl.getRandomString(), null));
+        userDao.save(userInfo);
+        UserInfo userInfo2 = userDao.findByUsername(userInfo.getUsername());
+        userInfo2.setPassword(UtilServiceImpl.encryptPWD(userInfo2.getPassword(), userInfo2.getCredentialsSalt()));
+        userInfo2.setCreatetime(UtilServiceImpl.date2Long(new Date()));
+        userInfo2.setRoleList(accountService.createUserAccount(1));
+        userDao.save(userInfo2);
     }
 
     @Override
@@ -47,6 +65,7 @@ public class UserSeviceImpl implements UserService {
 
     @Override
     public UserInfo updateUser(UserInfo userInfo) {
+
         return userDao.save(userInfo);
     }
 

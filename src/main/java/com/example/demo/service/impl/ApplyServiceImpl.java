@@ -5,7 +5,10 @@ import com.example.demo.Dao.apply.ApplyInfoSpecification;
 import com.example.demo.entity.dataModel.ApplyInfo;
 import com.example.demo.entity.dataModel.ApplyStatus;
 import com.example.demo.service.ApplyService;
+import com.example.demo.service.ValidateService;
+import com.example.demo.service.exception.ValidateFailException;
 import jdk.nashorn.internal.codegen.ApplySpecialization;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
@@ -25,6 +28,8 @@ import java.util.stream.Stream;
 public class ApplyServiceImpl implements ApplyService{
     @Autowired
     private ApplyInfoDao applyDao;
+    @Autowired
+    private ValidateService validateService;
 
     @Override
     public ApplyInfo findByApplyID(Long ID) {
@@ -50,14 +55,11 @@ public class ApplyServiceImpl implements ApplyService{
 
     @Override
     public void createApply(ApplyInfo apply) {
+        apply.setId(0);
         applyDao.save(apply);
     }
 
-
-
-
-
-        @Override
+    @Override
     public Page<ApplyInfo> findstream(long id,long start,long end,Pageable pageable) {
         return applyDao.findAll(ApplyInfoSpecification.typeOfApplyInfo(id,start,end),pageable);
 
@@ -74,7 +76,16 @@ public class ApplyServiceImpl implements ApplyService{
     }
 
     @Override
-    public void saveApply(ApplyInfo applyInfo) {
+    public void saveApply(ApplyInfo applyInfo, Subject subject) {
+        if(applyInfo.getId()!=0)
+            if(subject!=null)
+                validateService.isApplyOwner(subject,applyInfo.getId());
+            else
+                throw new ValidateFailException("还没登录验证");
+        else
+            throw new ValidateFailException("没有传送applyId");
         applyDao.save(applyInfo);
     }
+
+
 }

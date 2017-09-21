@@ -23,11 +23,10 @@ public class UserInfo implements  Serializable{
     private List<SysRole> roleList;// 一个用户具有多个角色
     private long createtime;
     private long agencyId;
+
     public long getCreatetime() {
         return createtime;
     }
-
-
     public void setCreatetime(long createtime) {
         this.createtime = createtime;
     }

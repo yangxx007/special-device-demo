@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface UserService {
     public UserInfo findByUsername(String username);
-    public UserInfo createUser(UserInfo userInfo);
+    public void createUser(UserInfo userInfo,int level);
     public UserInfo findByUidOrUsername(long id,String username);
     public Integer  deleteUserByUsernameOrUid(String username,long uid);
     public UserInfo updateUser(UserInfo userInfo);
@@ -20,4 +20,5 @@ public interface UserService {
     public Page<UserInfo> findAllInPage(Pageable pageable);
     public List<UserInfo> createUserList(List<UserInfo> userInfos);
     public List<UserInfo> finduserfortest(String name, long start,long end);
+
 }

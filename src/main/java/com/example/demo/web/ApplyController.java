@@ -5,6 +5,7 @@ import com.example.demo.entity.dataModel.ApplyStatus;
 import com.example.demo.enums.JsonResponse;
 import com.example.demo.service.ApplyService;
 import com.example.demo.service.staticfunction.UtilServiceImpl;
+import org.apache.shiro.SecurityUtils;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,7 +32,7 @@ public class ApplyController {
     @Autowired
     ApplyService applyService;
 
-    @RequestMapping("/applylist")
+    @RequestMapping(value = "/get",method = RequestMethod.POST)
     public @ResponseBody
     JsonResponse getApplyList(HttpServletRequest request) throws Exception {
         int page = 0, size = 3, device_id = 0;
@@ -70,16 +71,16 @@ public class ApplyController {
 
     }
 
-    @RequestMapping(value = "/apply", method = RequestMethod.GET)
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
     public @ResponseBody
-    JsonResponse getApply(@RequestParam("apply_id") long id) {
+    JsonResponse getApply(@RequestParam("applyId") long id) {
 
         return new JsonResponse(true, null, applyService.findByApplyID(id));
 
     }
 
 
-    @RequestMapping(value = "/apply", method = RequestMethod.PUT)
+    @RequestMapping(value = "/create", method = RequestMethod.PUT)
     public @ResponseBody
     JsonResponse createApply(@RequestBody ApplyInfo applyInfo) throws Exception {
 //        try {
@@ -95,11 +96,19 @@ public class ApplyController {
 
     }
 
-    @RequestMapping(value = "/apply", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public @ResponseBody
-    JsonResponse delApply(@RequestParam("applyId") long id) {
+    JsonResponse delApply(@RequestParam("applyId") long id) throws RuntimeException{
         applyService.delApply(applyService.findByApplyID(id));
         return new JsonResponse(true, null, null);
 
     }
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public @ResponseBody
+    JsonResponse updateApply(@RequestParam("applyId") long id) throws RuntimeException{
+        applyService.saveApply(applyService.findByApplyID(id), SecurityUtils.getSubject());
+        return new JsonResponse(true, null, null);
+
+    }
+
 }
