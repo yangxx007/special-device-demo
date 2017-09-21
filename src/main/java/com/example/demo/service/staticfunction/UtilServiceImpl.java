@@ -1,5 +1,6 @@
 package com.example.demo.service.staticfunction;
 
+import com.example.demo.entity.deviceModel.DeviceStatus;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfStamper;
 import com.lowagie.text.pdf.PdfWriter;
@@ -100,5 +101,16 @@ public class UtilServiceImpl  {
 
         // Return the buffered image
         return bimage;
+    }
+    public static String generateDeviceCode(DeviceStatus deviceStatus){
+        String deviceShorthand=null;
+        String deviceTypeCode=null;
+        String agencyProvince=null;
+        String agencyCity=null;
+        String sequenceNumber=null;
+        //last two number
+        String year=null;
+        String DeviceCode=deviceShorthand+deviceTypeCode+agencyProvince+agencyCity+sequenceNumber+"("+year+")";
+        return DeviceCode;
     }
 }
