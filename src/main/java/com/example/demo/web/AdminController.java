@@ -53,17 +53,7 @@ import java.util.stream.Stream;
 public class AdminController {
     //autowired 标识这个变量是一个接口变量，并且会自动在标识有service的实现类中自动继承
     @Autowired
-    private ApplyService applyService;
-    @Autowired
     private UserService userSevice;
-    @Autowired
-    private AccountService accountService;
-    @Resource
-    private Producer captchaProducer;
-    @Autowired
-    private KaptchaService kaptchaService;
-    @Autowired
-    private UserStatusService userStatusService;
 
     @RequestMapping(value = "/user/all", method = RequestMethod.GET)
     //responsebody标识是直接返回字符串，没有标识返回对应名字的html

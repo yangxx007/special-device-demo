@@ -6,6 +6,7 @@ import com.example.demo.entity.dataModel.ApplyInfo;
 import com.example.demo.entity.dataModel.ApplyStatus;
 import com.example.demo.service.ApplyService;
 import com.example.demo.service.ValidateService;
+import com.example.demo.service.exception.NotFoundException;
 import com.example.demo.service.exception.ValidateFailException;
 import jdk.nashorn.internal.codegen.ApplySpecialization;
 import org.apache.shiro.subject.Subject;
@@ -32,8 +33,11 @@ public class ApplyServiceImpl implements ApplyService{
     private ValidateService validateService;
 
     @Override
-    public ApplyInfo findByApplyID(Long ID) {
-        return applyDao.findApplyInfoById(ID);
+    public ApplyInfo findByApplyID(Long ID) throws NotFoundException {
+        ApplyInfo applyInfo=applyDao.findApplyInfoById(ID);
+        if(applyInfo==null)
+            throw  new NotFoundException("找不到申请");
+        return applyInfo;
     }
 
     @Override

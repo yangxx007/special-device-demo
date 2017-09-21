@@ -1,10 +1,7 @@
 package com.example.demo.web;
 
 import com.example.demo.enums.JsonResponse;
-import com.example.demo.service.exception.FileFailException;
-import com.example.demo.service.exception.KaptchaFailException;
-import com.example.demo.service.exception.ValidateFailException;
-import com.example.demo.service.exception.VerifyFailException;
+import com.example.demo.service.exception.*;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.stereotype.Controller;
@@ -24,28 +21,8 @@ public class ExceptionController
         e.printStackTrace();
         return new JsonResponse(false,e.getClass().toString(),null);
     }
-    @ExceptionHandler(value = VerifyFailException.class)
-    @ResponseBody
-    public
-    JsonResponse handleVerifyFailException(Exception e){
-        e.printStackTrace();
-        return new JsonResponse(false,e.getMessage(),null);
-    }
-    @ExceptionHandler(value = ValidateFailException.class)
-    @ResponseBody
-    public
-    JsonResponse handleValidateFailException(Exception e){
-        e.printStackTrace();
-        return new JsonResponse(false,e.getMessage(),null);
-    }
-    @ExceptionHandler(value = FileFailException.class)
-    @ResponseBody
-    public
-    JsonResponse handleFileFailException(Exception e){
-        e.printStackTrace();
-        return new JsonResponse(false,e.getMessage(),null);
-    }
-    @ExceptionHandler(value = KaptchaFailException.class)
+    @ExceptionHandler(value = {KaptchaFailException.class,NotFoundException.class,FileFailException.class,
+            ValidateFailException.class, VerifyFailException.class})
     @ResponseBody
     public
     JsonResponse handleKaptchaFailException(Exception e){
@@ -66,5 +43,6 @@ public class ExceptionController
         e.printStackTrace();
         return new JsonResponse(false,"密码输入错误",null);
     }
+
 
 }
