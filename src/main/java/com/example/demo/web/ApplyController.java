@@ -30,97 +30,76 @@ public class ApplyController {
 
     @Autowired
     ApplyService applyService;
+
     @RequestMapping("/applylist")
     public @ResponseBody
-    JsonResponse getApplyList(HttpServletRequest request) {
-        int page=0,size=1,device_id=0;
+    JsonResponse getApplyList(HttpServletRequest request) throws Exception {
+        int page = 0, size = 3, device_id = 0;
         long start = 0;
+        int orderby=1;
         long end = UtilServiceImpl.date2Long(new Date());
         String format = "yyyy-MM-dd";
-        JsonResponse jsonResponse=new JsonResponse();
         try {
-            page=Integer.parseInt(request.getParameter("page"));
-            size=Integer.parseInt(request.getParameter("size"));
-            device_id=Integer.parseInt(request.getParameter("device_id"));
-            JSONArray json= new JSONArray(request.getParameter("time"));
+            page = Integer.parseInt(request.getParameter("page"));
+            size = Integer.parseInt(request.getParameter("size"));
+            device_id = Integer.parseInt(request.getParameter("device_id"));
+            JSONArray json = new JSONArray(request.getParameter("time"));
+            orderby=Integer.parseInt(request.getParameter("OrderBy"));
             start = UtilServiceImpl.string2Long(json.getString(0), format);
             //end要加一天的时间
-            end = UtilServiceImpl.string2Long(json.getString(1), format)+86400000;
-
-        } catch (ParseException e) {
-            System.out.println("筛选条件输入错误");
-            jsonResponse.setStatus(false);
-            jsonResponse.setMsg(e.getMessage());
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
-            jsonResponse.setStatus(false);
-            jsonResponse.setMsg(e.getMessage());
+            end = UtilServiceImpl.string2Long(json.getString(1), format) + 86400000;
+        }catch (Exception e)
+        {//do nothing maybe the format is not suitable
         }
-//        System.out.println(start);
-//        System.out.println(end);
-//        return applyService.findApplyInfosForUser(1,
-//                device_id, start, end, pageable);
-        jsonResponse.setStatus(true);
         Sort sort = new Sort(Sort.Direction.ASC, "id");
+        switch (orderby){
+            case 1:
+                break;
+            case 2:
+                sort=new Sort(Sort.Direction.ASC, "createAt");
+                break;
+            case 3:
+                sort=new Sort(Sort.Direction.ASC, "updateAt");
+                break;
+        }
+
+
         Pageable pageable = new PageRequest(page, size, sort);
-        Page<ApplyInfo> applyInfos=applyService.findstream(device_id,start,end,pageable);
-//        System.out.println(new JSONObject(applyInfos).get("sort").toString());
-//        List<ApplyInfo> applyInfoList=(List<ApplyInfo>) new JSONObject(applyInfos).get("content");
-//        JSONObject applyObject=new JSONObject();
-//        int i=0;
-//        for(ApplyInfo apply: applyInfoList) {
-//            System.out.println(apply.getId());
-//            ApplyStatus applyStatus=applyService.findApplyStatusByApplyId(apply.getId());
-//            applyObject.append(i+"",(new JSONObject(apply)).toString()+(new JSONObject(applyStatus)).toString());
-//            i++;
-//        }
-//        return applyInfos;
-        jsonResponse.setData(applyInfos);
-        return jsonResponse;
-//        return applyService.findApplyInfosForUser(userStatusService.getCurrUserId(SecurityUtils.getSubject()),
-//                device_id,start,end);
+        Page<ApplyInfo> applyInfos = applyService.findstream(device_id, start, end, pageable);
+        return new JsonResponse(true,null,applyInfos);
+
     }
+
     @RequestMapping(value = "/apply", method = RequestMethod.GET)
     public @ResponseBody
-    ApplyInfo getApply(@RequestParam("apply_id") long id) {
-        return applyService.findByApplyID(id);
+    JsonResponse getApply(@RequestParam("apply_id") long id) {
+
+        return new JsonResponse(true, null, applyService.findByApplyID(id));
+
     }
 
-
-    @RequestMapping(value = "/applytest", method = RequestMethod.GET)
-    @Transactional
-    public @ResponseBody
-    List<ApplyInfo> getApply2() {
-//        List<ApplyInfo> applyInfos=null;
-//
-//       try{
-//            applyInfos=applyService.findtest(applyService.findstream(1)).collect(Collectors.toList());
-//           //applyInfoStream.forEach(applyInfo -> applyInfos.add(applyInfo));
-//       }
-//       catch (Exception e)
-//       {
-//           System.out.println(e.getLocalizedMessage());
-//       }
-        return null;
-    }
 
     @RequestMapping(value = "/apply", method = RequestMethod.PUT)
     public @ResponseBody
-    boolean createApply(@RequestBody ApplyInfo applyInfo) {
-        try {
-            applyInfo.setCreateTime(UtilServiceImpl.string2Long("2016-10-12", "yyyy-MM-dd")+1000000);
-            applyInfo.setApplyStatus(new ApplyStatus());
-            applyService.createApply(applyInfo);
-        } catch (ParseException e) {
-            System.out.println("无法解析");
-            return false;
-        }
-        return true;
+    JsonResponse createApply(@RequestBody ApplyInfo applyInfo) throws Exception {
+//        try {
+        applyInfo.setCreateTime(UtilServiceImpl.string2Long("2016-10-12", "yyyy-MM-dd") + 1000000);
+        applyInfo.setApplyStatus(new ApplyStatus());
+        applyService.createApply(applyInfo);
+        return new JsonResponse(true, null, null);
+
+//        } catch (ParseException e) {
+//            System.out.println("无法解析");
+//            return false;
+//        }
+
     }
-    @RequestMapping(value = "/apply",method = RequestMethod.DELETE)
-    public void delApply(@RequestParam("applyId")long id)
-    {
+
+    @RequestMapping(value = "/apply", method = RequestMethod.DELETE)
+    public @ResponseBody
+    JsonResponse delApply(@RequestParam("applyId") long id) {
         applyService.delApply(applyService.findByApplyID(id));
+        return new JsonResponse(true, null, null);
 
     }
 }

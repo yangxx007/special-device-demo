@@ -4,6 +4,7 @@ import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,11 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.util.Date;
+
 @Controller
-@RequestMapping("/util")
-public class UtilController {
+@RequestMapping("/static")
+public class StaticController {
     @Autowired
     public Producer captchaProducer;
+
     @RequestMapping(value = "/image", method = RequestMethod.GET)
     public String image() {
         return "image";
@@ -52,5 +55,13 @@ public class UtilController {
             out.close();
         }
 
+    }
+
+    @RequestMapping("/test")
+    public @ResponseBody
+    String getJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("1", "put some thing");
+        return jsonObject.toString();
     }
 }

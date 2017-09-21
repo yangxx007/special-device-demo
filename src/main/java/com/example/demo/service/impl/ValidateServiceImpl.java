@@ -5,6 +5,7 @@ import com.example.demo.entity.userModel.UserInfo;
 import com.example.demo.service.ApplyService;
 import com.example.demo.service.UserStatusService;
 import com.example.demo.service.ValidateService;
+import com.example.demo.service.exception.ValidateFailException;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,9 +42,14 @@ public class ValidateServiceImpl implements ValidateService {
 
         }
 
-        return false;
+        return true;
     }
+    public void validateApplyOwner(Subject currSubject,long applyId) throws ValidateFailException{
+        if(!isApplyOwner(currSubject,applyId)){
+            throw new ValidateFailException("access apply without permission");
+        }
 
+    }
 //    @Override
 //    public boolean isApplyAuditor(Subject currSubject,long applyId) {
 //        UserInfo userInfo=getCurrUser(currSubject);

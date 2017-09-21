@@ -17,11 +17,16 @@ public class KaptchaFailException extends RuntimeException {
         this.msgDes=message;
         this.retCd=retCd;
     }
-    public String getRetCd() {
+    public String getCd() {
         return retCd;
     }
-
-    public String getMsgDes() {
+    @Override
+    public String getMessage() {
         return msgDes;
+    }
+
+    @Override
+    public void printStackTrace() {
+        super.printStackTrace();
     }
 }

@@ -1,10 +1,9 @@
 package com.example.demo.enums;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class JsonResponse {
-
-
-
-
     private boolean status;
     private String msg;
     private Object data;

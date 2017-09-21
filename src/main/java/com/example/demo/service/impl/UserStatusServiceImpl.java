@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.Dao.user.UserDao;
 import com.example.demo.entity.userModel.SysPermission;
 import com.example.demo.entity.userModel.SysRole;
 import com.example.demo.entity.userModel.UserInfo;
@@ -18,7 +19,7 @@ import java.util.List;
 @Service
 public class UserStatusServiceImpl implements UserStatusService {
     @Autowired
-    private UserService userService;
+    private UserDao userDao;
 
     @Override
     public long getCurrUserId(Subject currSubject) {
@@ -37,9 +38,14 @@ public class UserStatusServiceImpl implements UserStatusService {
         UserInfo userInfo=getCurrUser(currSubject);
         return userInfo.getRoleList().get(0).getPermissions();
     }
-
+    @Override
+    public String getCurrUsername(Subject subject){
+        System.out.println((String)subject.getPrincipals().getPrimaryPrincipal());
+        return (String)subject.getPrincipals().getPrimaryPrincipal();
+    }
     @Override
     public UserInfo getCurrUser(Subject currSubject) {
-        return userService.findByUsername((String)currSubject.getPrincipals().getPrimaryPrincipal());
+
+        return userDao.findByUsername((String)currSubject.getPrincipals().getPrimaryPrincipal());
     }
 }

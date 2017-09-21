@@ -5,11 +5,15 @@ import com.example.demo.entity.dataModel.FileData;
 import com.example.demo.enums.JsonResponse;
 import com.example.demo.service.ApplyService;
 import com.example.demo.service.FileService;
+import com.example.demo.service.ValidateService;
+import com.example.demo.service.exception.FileDownFailException;
 import com.example.demo.service.staticfunction.FilePathUtil;
 import com.example.demo.service.staticfunction.UtilServiceImpl;
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
 import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.MimeUtility;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,19 +43,20 @@ public class fileController {
     private ApplyService applyService;
     @Autowired
     private FileService fileService;
+    @Autowired
+    private ValidateService validate;
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public void testUploadFile(HttpServletRequest req, MultipartHttpServletRequest multiReq, @RequestParam("applyId")
+    public @ResponseBody JsonResponse testUploadFile(HttpServletRequest req, MultipartHttpServletRequest multiReq, @RequestParam("applyId")
             long apply_id, @RequestParam("fileTypeId") int file_type_id)
             throws
-            IOException {
+            Exception {
         long file_id = apply_id * 100 + file_type_id;
         FileData fileData = new FileData();
         fileData.setId(file_id);
         fileData.setFileTypeId(file_type_id);
         fileData.setApplyId(apply_id);
         ApplyInfo applyInfo = applyService.findByApplyID(apply_id);
-        //applyInfo null exception
         JSONObject jsonObject = UtilServiceImpl.string2JSON(applyInfo.getFilesId());
         jsonObject.put(file_type_id + "", file_id);
         applyInfo.setFilesId(jsonObject.toString());
@@ -69,6 +74,7 @@ public class fileController {
         fs.close();
         applyService.saveApply(applyInfo);
         fileService.save(fileData);
+        return new JsonResponse(true,null,null);
     }
 
     @RequestMapping("/index")
@@ -79,10 +85,12 @@ public class fileController {
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public void testDownload(HttpServletRequest request, HttpServletResponse response, @RequestParam("fileId") long
-            file_id) {
-        try {
+            file_id) throws Exception {
+
             File file = new File(FilePathUtil.getPathById(file_id));
             //检查applyid是否是下载者的
+            validate.isApplyOwner(SecurityUtils.getSubject(),fileService.getFileById(file_id).getApplyId());
+        try {
             String agent = request.getHeader("User-Agent");
             FileData fileData = fileService.getFileById(file_id);
             String fileName = fileData.getFileName();
@@ -107,27 +115,31 @@ public class fileController {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+                throw e;
             } finally {
                 if (bis != null) {
                     try {
                         bis.close();
                     } catch (IOException e) {
                         e.printStackTrace();
+                        throw e;
                     }
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+           throw new FileDownFailException(e.getMessage());
         }
+
 
     }
 
     @RequestMapping(value = "/preview", method = RequestMethod.GET)
-    public void preview(HttpServletRequest request, HttpServletResponse response, @RequestParam("fileId") long
+    void  preview(HttpServletRequest request, HttpServletResponse response, @RequestParam("fileId") long
             file_id)
-            throws IOException {
+            throws Exception {
         File file = new File(FilePathUtil.getPathById(file_id));
         //检查applyid是否是下载者的
+        validate.isApplyOwner(SecurityUtils.getSubject(),fileService.getFileById(file_id).getApplyId());
         String agent = request.getHeader("User-Agent");
         FileData fileData = fileService.getFileById(file_id);
         String fileName = fileData.getFileName();
@@ -148,10 +160,12 @@ public class fileController {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }finally {
             bis.close();
             os.close();
         }
+
 
 
     }
@@ -203,7 +217,7 @@ public class fileController {
                 rect.width, rect.height, //width & height
                 rect, // clip rect
                 null, // null for the ImageObserver
-                true, // fill background with white
+                false, // fill background with white
                 true  // block until drawing is done
         );
         return UtilServiceImpl.toBufferedImage(img);

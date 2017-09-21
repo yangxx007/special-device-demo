@@ -19,4 +19,5 @@ public interface UserStatusService {
     public List<SysPermission> getPermissionList(Subject currSubject);
 
     public UserInfo getCurrUser(Subject currSubject);
+    public String getCurrUsername(Subject subject);
 }
