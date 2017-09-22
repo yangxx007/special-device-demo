@@ -14,6 +14,7 @@ public class Province implements Serializable{
     @Id
     @GeneratedValue
     private Integer id;
+//    private String provinceid;
     private String name;
 
     public Integer getId() {

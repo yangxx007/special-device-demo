@@ -7,6 +7,8 @@ INSERT INTO `SysRole` (`id`,`available`,`description`,`role`) VALUES (3,0,'受�
 INSERT INTO `SysRole` (`id`,`available`,`description`,`role`) VALUES (4,0,'审批人','approver');
 INSERT INTO `SysRole` (`id`,`available`,`description`,`role`) VALUES (5,0,'监管人','supervisor');
 INSERT INTO `SysRolePermission` (`permissionId`,`roleId`) VALUES  (1,1),(2,1),(3,1);
-INSERT INTO `UserInfo` (`uid`,`username`,`name`,`password`,`salt`,`state`) VALUES (1, 'admin', '管理员', 'd3c59d25033dbf980d29554025c23a75', '8d78869f470951332959580424d4bf4f', 0);
-INSERT INTO `SysUserRole` (`roleId`,`uid`) VALUES (1,1);
+INSERT INTO `UserInfo` (`username`,`name`,`password`,`salt`,`state`,`createtime`) VALUES ('admin', '管理员','d3c59d25033dbf980d29554025c23a75', '8d78869f470951332959580424d4bf4f', 0, 0);
+INSERT INTO `SysUserRole`(`uid`,`roleId`) VALUES (1,1);
+
+
 

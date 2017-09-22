@@ -1,69 +1,110 @@
 package com.example.demo.entity.dataModel;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.example.demo.entity.formModel.*;
+
+import javax.persistence.*;
 import java.io.Serializable;
-import javax.persistence.Entity;
 
 @Entity
 public class ApplyInfo implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private long device_id;
-    private int acceptor_adminstration_id;
-    private int approver_adminstration_id;
-    private boolean has_file;
+    private String codeId;
+    private int  applyTypeId;
+    private long deviceId;
+    private long acceptorAdminstrationId;
+    private long auditorAdminstrationId;
+    private long ownerId;
+    private String address;
+    private boolean hasFile=true;
+    private long createTime;
     private String action;
-    private int device_type_id;
-    private String files_id;
-    private Long apply_1;
-    private Long apply_2;
-    private Long apply_3;
-    private Long apply_4;
-    private Long apply_5;
-    private Long apply_6;
-    private Long apply_7;
-    private Long apply_8;
+    private int deviceTypeId;
+    private String filesId;
+    @OneToOne(cascade = CascadeType.ALL)
+    private ApplyStatus applyStatus;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Form1 form1;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Form2 form2;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Form3 form3;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Form4 form4;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Form5 form5;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Form6 form6;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Form7 form7;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Form8 form8;
 
-    public Long getId() {
+
+
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public Long getDevice_id() {
-        return device_id;
+    public String getCodeId() {
+        return codeId;
     }
 
-    public void setDevice_id(Long device_id) {
-        this.device_id = device_id;
+    public void setCodeId(String codeId) {
+        this.codeId = codeId;
     }
 
-    public Integer getAcceptor_adminstration_id() {
-        return acceptor_adminstration_id;
+    public long getDeviceId() {
+        return deviceId;
     }
 
-    public void setAcceptor_adminstration_id(Integer acceptor_adminstration_id) {
-        this.acceptor_adminstration_id = acceptor_adminstration_id;
+    public void setDeviceId(long deviceId) {
+        this.deviceId = deviceId;
     }
 
-    public Integer getApprover_adminstration_id() {
-        return approver_adminstration_id;
+    public long getAcceptorAdminstrationId() {
+        return acceptorAdminstrationId;
     }
 
-    public void setApprover_adminstration_id(Integer approver_adminstration_id) {
-        this.approver_adminstration_id = approver_adminstration_id;
+    public void setAcceptorAdminstrationId(long acceptorAdminstrationId) {
+        this.acceptorAdminstrationId = acceptorAdminstrationId;
     }
 
-    public boolean isHas_file() {
-        return has_file;
+    public long getAuditorAdminstrationId() {
+        return auditorAdminstrationId;
     }
 
-    public void setHas_file(boolean has_file) {
-        this.has_file = has_file;
+    public void setAuditorAdminstrationId(long auditorAdminstrationId) {
+        this.auditorAdminstrationId = auditorAdminstrationId;
+    }
+
+    public long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(long ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public boolean isHasFile() {
+        return hasFile;
+    }
+
+    public void setHasFile(boolean hasFile) {
+        this.hasFile = hasFile;
+    }
+
+    public long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
     }
 
     public String getAction() {
@@ -74,87 +115,108 @@ public class ApplyInfo implements Serializable {
         this.action = action;
     }
 
-    public Integer getDevice_type_id() {
-        return device_type_id;
+    public int getDeviceTypeId() {
+        return deviceTypeId;
     }
 
-    public void setDevice_type_id(Integer device_type_id) {
-        this.device_type_id = device_type_id;
+    public void setDeviceTypeId(int deviceTypeId) {
+        this.deviceTypeId = deviceTypeId;
     }
 
-    public String getFiles_id() {
-        return files_id;
+    public String getFilesId() {
+        return filesId;
     }
 
-    public void setFiles_id(String files_id) {
-        this.files_id = files_id;
-    }
-
-    public Long getApply_1() {
-        return apply_1;
-    }
-
-    public void setApply_1(Long apply_1) {
-        this.apply_1 = apply_1;
-    }
-
-    public Long getApply_2() {
-        return apply_2;
-    }
-
-    public void setApply_2(Long apply_2) {
-        this.apply_2 = apply_2;
-    }
-
-    public Long getApply_3() {
-        return apply_3;
-    }
-
-    public void setApply_3(Long apply_3) {
-        this.apply_3 = apply_3;
-    }
-
-    public Long getApply_4() {
-        return apply_4;
-    }
-
-    public void setApply_4(Long apply_4) {
-        this.apply_4 = apply_4;
-    }
-
-    public Long getApply_5() {
-        return apply_5;
-    }
-
-    public void setApply_5(Long apply_5) {
-        this.apply_5 = apply_5;
-    }
-
-    public Long getApply_6() {
-        return apply_6;
-    }
-
-    public void setApply_6(Long apply_6) {
-        this.apply_6 = apply_6;
-    }
-
-    public Long getApply_7() {
-        return apply_7;
-    }
-
-    public void setApply_7(Long apply_7) {
-        this.apply_7 = apply_7;
-    }
-
-    public Long getApply_8() {
-        return apply_8;
-    }
-
-    public void setApply_8(Long apply_8) {
-        this.apply_8 = apply_8;
+    public void setFilesId(String filesId) {
+        this.filesId = filesId;
     }
 
 
+    public int getApplyTypeId() {
+        return applyTypeId;
+    }
 
+    public void setApplyTypeId(int applyTypeId) {
+        this.applyTypeId = applyTypeId;
+    }
 
+    public ApplyStatus getApplyStatus() {
+        return applyStatus;
+    }
+
+    public void setApplyStatus(ApplyStatus applyStatus) {
+        this.applyStatus = applyStatus;
+    }
+
+    public Form1 getForm1() {
+        return form1;
+    }
+
+    public void setForm1(Form1 form1) {
+        this.form1 = form1;
+    }
+
+    public Form2 getForm2() {
+        return form2;
+    }
+
+    public void setForm2(Form2 form2) {
+        this.form2 = form2;
+    }
+
+    public Form3 getForm3() {
+        return form3;
+    }
+
+    public void setForm3(Form3 form3) {
+        this.form3 = form3;
+    }
+
+    public Form4 getForm4() {
+        return form4;
+    }
+
+    public void setForm4(Form4 form4) {
+        this.form4 = form4;
+    }
+
+    public Form5 getForm5() {
+        return form5;
+    }
+
+    public void setForm5(Form5 form5) {
+        this.form5 = form5;
+    }
+
+    public Form6 getForm6() {
+        return form6;
+    }
+
+    public void setForm6(Form6 form6) {
+        this.form6 = form6;
+    }
+
+    public Form7 getForm7() {
+        return form7;
+    }
+
+    public void setForm7(Form7 form7) {
+        this.form7 = form7;
+    }
+
+    public Form8 getForm8() {
+        return form8;
+    }
+
+    public void setForm8(Form8 form8) {
+        this.form8 = form8;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }

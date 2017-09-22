@@ -22,7 +22,7 @@ import java.util.HashMap;
 
 @PropertySource({"classpath:application.properties"})
 @EnableJpaRepositories(
-        basePackages = "com.example.demo.Dao.apply",
+        basePackages = {"com.example.demo.Dao.apply","com.example.demo.Dao.map"},
         entityManagerFactoryRef ="productEntityManager",
         transactionManagerRef = "productTransactionManager"
 
@@ -44,7 +44,8 @@ public class DatabaseForDataConfig {
 
         em.setPackagesToScan(new
 
-                String[] {"com.example.demo.entity.applyModel","com.example.demo.entity.dataModel","com.example.demo.entity.deviceModel"
+                String[] {"com.example.demo.entity.formModel","com.example.demo.entity.dataModel","com.example.demo" +
+                ".entity.deviceModel"
 
         });
 
@@ -65,6 +66,8 @@ public class DatabaseForDataConfig {
         properties.put("hibernate.dialect",
                 env.getProperty("spring.jpa.properties.hibernate.dialect"));
 
+        properties.put("hibernate.hbm2ddl.import_files",
+                "database/importDistrict.sql");
         em.setJpaPropertyMap(properties);
 
 

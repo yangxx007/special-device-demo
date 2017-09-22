@@ -1,9 +1,9 @@
 package com.example.demo.entity.dataModel;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
-import javax.persistence.Entity;
 
 @Entity
 public class City implements Serializable{
@@ -11,8 +11,10 @@ public class City implements Serializable{
     @GeneratedValue
     private Integer id;
 
-    private Integer province_id;
+//    private String cityid;
+    private Integer provinceId;
     private String name;
+
 
     public Integer getId() {
         return id;
@@ -22,12 +24,12 @@ public class City implements Serializable{
         this.id = id;
     }
 
-    public Integer getProvince_id() {
-        return province_id;
+    public Integer getProvinceId() {
+        return provinceId;
     }
 
-    public void setProvince_id(Integer province_id) {
-        this.province_id = province_id;
+    public void setProvinceId(Integer provinceId) {
+        this.provinceId = provinceId;
     }
 
     public String getName() {

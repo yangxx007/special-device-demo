@@ -2,6 +2,8 @@ package com.example.demo.Dao.user;
 
 import com.example.demo.entity.userModel.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -20,5 +22,7 @@ public interface UserDao extends JpaRepository<UserInfo,Integer> {
     @Transactional
     public Integer deleteUserInfoByUsernameOrUid(String username, long id);
     public List<UserInfo> findAllByUidNotNullOrderByUid();
+    @Query("select u from UserInfo u")
+    List<UserInfo> findAllIgnoreRoleList();
     //对于申请可以是findAllByUidNotNullOrderByCreateTime();
 }
