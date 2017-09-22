@@ -1,5 +1,10 @@
 package com.example.demo.service.staticfunction;
 
+import com.example.demo.entity.dataModel.ApplyInfo;
+import com.example.demo.service.exception.VerifyFailException;
+
+import java.lang.reflect.Field;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class VerifyUtil {
@@ -66,6 +71,18 @@ public class VerifyUtil {
                 return false;
         }
 
+    }
+    public static void verifyApply(List<String> exceptFields, ApplyInfo applyInfo)throws Exception{
+        for(Field field: applyInfo.getClass().getDeclaredFields()){
+            field.setAccessible(true);
+//            System.out.println(field.getName());
+//            System.out.println(field.get(applyInfo));
+            if(!exceptFields.contains(field.getName())) {
+                if (field.get(applyInfo) == null) {
+                    throw new VerifyFailException("表单没有填完");
+                }
+            }
+        }
     }
 
 }

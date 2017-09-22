@@ -16,8 +16,9 @@ public interface ValidateService {
     public boolean validateForm ();
 
 
-    public boolean isApplyOwner(Subject currSubject,long apply_id);
+   // public boolean isApplyOwner(Subject currSubject,long apply_id);
 
+    public void isPermission(Subject subject,long apply_id);
 //    public boolean isApplyAuditor (Subject currSubject,long apply_id);
 //
 //    public boolean isApplyAcceptor(Subject currSubject,long apply_id);

@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.Dao.apply.ApplyInfoDao;
 import com.example.demo.entity.dataModel.ApplyInfo;
 import com.example.demo.entity.userModel.UserInfo;
 import com.example.demo.service.ApplyService;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ValidateServiceImpl implements ValidateService {
     @Autowired
-    private ApplyService applyService;
+    private ApplyInfoDao applyInfoDao;
     @Autowired
     private UserStatusService userStatusService;
     @Override
@@ -25,9 +26,21 @@ public class ValidateServiceImpl implements ValidateService {
     }
 
     @Override
+    public void isPermission(Subject subject,long applyId){
+        if(applyId!=0){
+            if(!isApplyOwner(subject,applyId))
+                throw new ValidateFailException("你没有权限查看");
+        }
+        else
+                throw new ValidateFailException("查看的资料非法或参数传输不正确");
+
+
+    }
     public boolean isApplyOwner(Subject currSubject,long applyId) {
-        UserInfo userInfo=userStatusService.getCurrUser(currSubject);
-        ApplyInfo applyInfo=applyService.findByApplyID(applyId);
+        try{
+            UserInfo userInfo=userStatusService.getCurrUser(currSubject);
+
+        ApplyInfo applyInfo=applyInfoDao.findApplyInfoById(applyId);
         //1. user 2. acceptor 3.approver 4.supervisor 5.admin
         switch (userInfo.getRoleList().get(0).getId())
         {
@@ -43,6 +56,9 @@ public class ValidateServiceImpl implements ValidateService {
         }
 
         return true;
+        }catch (NullPointerException e){
+            throw new ValidateFailException("申请id错误，找不到申请");
+        }
     }
     public void validateApplyOwner(Subject currSubject,long applyId) throws ValidateFailException{
         if(!isApplyOwner(currSubject,applyId)){

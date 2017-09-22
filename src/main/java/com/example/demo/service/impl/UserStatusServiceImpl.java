@@ -7,6 +7,7 @@ import com.example.demo.entity.userModel.UserInfo;
 import com.example.demo.service.ApplyService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.UserStatusService;
+import com.example.demo.service.exception.ValidateFailException;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,12 +41,14 @@ public class UserStatusServiceImpl implements UserStatusService {
     }
     @Override
     public String getCurrUsername(Subject subject){
-        System.out.println((String)subject.getPrincipals().getPrimaryPrincipal());
-        return (String)subject.getPrincipals().getPrimaryPrincipal();
+        try{ return (String)subject.getPrincipals().getPrimaryPrincipal();}
+        catch (NullPointerException e){
+            throw new ValidateFailException("你还没登录");
+        }
     }
     @Override
     public UserInfo getCurrUser(Subject currSubject) {
 
-        return userDao.findByUsername((String)currSubject.getPrincipals().getPrimaryPrincipal());
+        return userDao.findByUsername(getCurrUsername(currSubject));
     }
 }

@@ -96,7 +96,8 @@ public class HomeController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public @ResponseBody
-    JsonResponse adminlogin(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("vertifycode") String vertifycode, HttpServletRequest request) throws Exception {
+    JsonResponse adminlogin(@RequestParam("username") String username, @RequestParam("password") String password,
+                            @RequestParam("verifycode") String vertifycode, HttpServletRequest request) throws Exception {
         JsonResponse jsonResponse = new JsonResponse();
         Map<String, Object> data = new HashMap<>();
         UsernamePasswordToken uptoken = new UsernamePasswordToken(username, password);

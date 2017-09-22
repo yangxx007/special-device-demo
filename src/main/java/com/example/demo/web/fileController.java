@@ -57,7 +57,7 @@ public class fileController {
         fileData.setId(file_id);
         fileData.setFileTypeId(file_type_id);
         fileData.setApplyId(apply_id);
-        ApplyInfo applyInfo = applyService.findByApplyID(apply_id);
+        ApplyInfo applyInfo = applyService.findByApplyID(apply_id,SecurityUtils.getSubject());
         JSONObject jsonObject = UtilServiceImpl.string2JSON(applyInfo.getFilesId());
         jsonObject.put(file_type_id + "", file_id);
         applyInfo.setFilesId(jsonObject.toString());
@@ -90,7 +90,7 @@ public class fileController {
 
             File file = new File(FilePathUtil.getPathById(file_id));
             //检查applyid是否是下载者的
-            validate.isApplyOwner(SecurityUtils.getSubject(),fileService.getFileById(file_id).getApplyId());
+            validate.isPermission(SecurityUtils.getSubject(),fileService.getFileById(file_id).getApplyId());
         try {
             String agent = request.getHeader("User-Agent");
             FileData fileData = fileService.getFileById(file_id);
@@ -140,7 +140,7 @@ public class fileController {
             throws Exception {
         File file = new File(FilePathUtil.getPathById(file_id));
         //检查applyid是否是下载者的
-        validate.isApplyOwner(SecurityUtils.getSubject(),fileService.getFileById(file_id).getApplyId());
+        validate.isPermission(SecurityUtils.getSubject(),fileService.getFileById(file_id).getApplyId());
         String agent = request.getHeader("User-Agent");
         FileData fileData = fileService.getFileById(file_id);
         String fileName = fileData.getFileName();

@@ -4,6 +4,8 @@ import com.example.demo.entity.dataModel.ApplyInfo;
 import com.example.demo.entity.dataModel.ApplyStatus;
 import com.example.demo.enums.JsonResponse;
 import com.example.demo.service.ApplyService;
+import com.example.demo.service.UserStatusService;
+import com.example.demo.service.exception.VerifyFailException;
 import com.example.demo.service.staticfunction.UtilServiceImpl;
 import org.apache.shiro.SecurityUtils;
 import org.json.JSONArray;
@@ -31,6 +33,8 @@ public class ApplyController {
 
     @Autowired
     ApplyService applyService;
+    @Autowired
+    UserStatusService statusService;
 
     @RequestMapping(value = "/get",method = RequestMethod.POST)
     public @ResponseBody
@@ -38,6 +42,7 @@ public class ApplyController {
         int page = 0, size = 3, device_id = 0;
         long start = 0;
         int orderby=1;
+        long userId=statusService.getCurrUserId(SecurityUtils.getSubject());
         long end = UtilServiceImpl.date2Long(new Date());
         String format = "yyyy-MM-dd";
         try {
@@ -64,9 +69,8 @@ public class ApplyController {
                 break;
         }
 
-
         Pageable pageable = new PageRequest(page, size, sort);
-        Page<ApplyInfo> applyInfos = applyService.findstream(device_id, start, end, pageable);
+        Page<ApplyInfo> applyInfos = applyService.searchForUser(userId,device_id, start, end, pageable);
         return new JsonResponse(true,null,applyInfos);
 
     }
@@ -75,7 +79,7 @@ public class ApplyController {
     public @ResponseBody
     JsonResponse getApply(@RequestParam("applyId") long id) {
 
-        return new JsonResponse(true, null, applyService.findByApplyID(id));
+        return new JsonResponse(true, null, applyService.findByApplyID(id,SecurityUtils.getSubject()));
 
     }
 
@@ -83,30 +87,33 @@ public class ApplyController {
     @RequestMapping(value = "/create", method = RequestMethod.PUT)
     public @ResponseBody
     JsonResponse createApply(@RequestBody ApplyInfo applyInfo) throws Exception {
-//        try {
+
         applyInfo.setCreateTime(UtilServiceImpl.string2Long("2016-10-12", "yyyy-MM-dd") + 1000000);
         applyInfo.setApplyStatus(new ApplyStatus());
-        applyService.createApply(applyInfo);
+        applyService.createApply(applyInfo,statusService.getCurrUserId(SecurityUtils.getSubject()));
         return new JsonResponse(true, null, null);
 
-//        } catch (ParseException e) {
-//            System.out.println("无法解析");
-//            return false;
-//        }
 
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public @ResponseBody
     JsonResponse delApply(@RequestParam("applyId") long id) throws RuntimeException{
-        applyService.delApply(applyService.findByApplyID(id));
+        applyService.delApply(id,SecurityUtils.getSubject());
         return new JsonResponse(true, null, null);
 
     }
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     public @ResponseBody
-    JsonResponse updateApply(@RequestParam("applyId") long id) throws RuntimeException{
-        applyService.saveApply(applyService.findByApplyID(id), SecurityUtils.getSubject());
+    JsonResponse updateApply(@RequestBody ApplyInfo applyInfo) throws RuntimeException{
+
+        applyService.saveApply(applyInfo,SecurityUtils.getSubject());
+        return new JsonResponse(true, null, null);
+
+    }
+    @RequestMapping(value = "/confirm",method = RequestMethod.GET)
+    public @ResponseBody JsonResponse confirmApply(@RequestParam("applyId") long id)throws Exception{
+        applyService.confirmApply(id,SecurityUtils.getSubject());
         return new JsonResponse(true, null, null);
 
     }

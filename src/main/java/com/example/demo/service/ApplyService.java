@@ -13,13 +13,18 @@ import java.util.stream.Stream;
  * Created by yang on 2017/7/27.
  */
 public interface ApplyService {
-    public ApplyInfo findByApplyID(Long ID);
-    public Page<ApplyInfo> findApplyInfosForUser(long user_id, long device_id, long before, long after, Pageable pageable);
-    public List<ApplyStatus> findByApplierName(String username);
-    public List<ApplyStatus> findAllApply();
-    public void createApply(ApplyInfo apply);
-    public Page<ApplyInfo> findstream(long id,long start,long end,Pageable pageable);
-    public ApplyStatus findApplyStatusByApplyId(long apply_id);
-    void delApply(ApplyInfo applyInfo);
+     ApplyInfo findByApplyID(Long ID,Subject subject);
+     Page<ApplyInfo> findApplyInfosForUser(long user_id, long device_id, long before, long after, Pageable pageable);
+     List<ApplyStatus> findByApplierName(String username);
+     List<ApplyStatus> findAllApply();
+     void createApply(ApplyInfo apply,long userId);
+     Page<ApplyInfo> searchForUser(long userId,long deviceTypeId,long start,long end,Pageable pageable);
+     ApplyStatus findApplyStatusByApplyId(long apply_id);
+    Page<ApplyInfo> searchForApprover(long userId,long deviceTypeId,long start,long end,Pageable pageable);
+    Page<ApplyInfo> searchForAcceptor(long userId,long deviceTypeId,long start,long end,Pageable pageable);
+
+    void delApply(long applyId,Subject subject);
     void saveApply(ApplyInfo applyInfo, Subject subject);
+    void confirmApply(long applyId,Subject subject)throws Exception;
+
 }
