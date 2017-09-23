@@ -92,9 +92,9 @@ public class UserInfo implements  Serializable{
      * 密码盐.
      * @return
      */
-    public String getCredentialsSalt(){
-        return this.username+this.salt;
-    }
+//    public String getCredentialsSalt(){
+//        return this.username+this.salt;
+//    }
 
     public long getAgencyId() {
         return agencyId;

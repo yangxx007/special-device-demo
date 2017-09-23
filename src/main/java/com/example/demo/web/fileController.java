@@ -2,6 +2,8 @@ package com.example.demo.web;
 
 import com.example.demo.entity.dataModel.ApplyInfo;
 import com.example.demo.entity.dataModel.FileData;
+import com.example.demo.entity.userModel.SysRole;
+import com.example.demo.entity.userModel.UserInfo;
 import com.example.demo.enums.JsonResponse;
 import com.example.demo.service.ApplyService;
 import com.example.demo.service.FileService;
@@ -10,13 +12,14 @@ import com.example.demo.service.ValidateService;
 import com.example.demo.service.exception.FileFailException;
 import com.example.demo.service.staticfunction.FilePathUtil;
 import com.example.demo.service.staticfunction.UtilServiceImpl;
-import com.sun.pdfview.PDFFile;
-import com.sun.pdfview.PDFPage;
+
 import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.MimeUtility;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,17 +28,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
+
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URLEncoder;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/file")
@@ -45,7 +50,7 @@ public class fileController {
     @Autowired
     private FileService fileService;
     @Autowired
-    private ValidateService validate;
+    private RedisTemplate<String,Object> redisTemplate;
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public @ResponseBody JsonResponse testUploadFile(HttpServletRequest req, MultipartHttpServletRequest multiReq, @RequestParam("applyId")
@@ -59,12 +64,12 @@ public class fileController {
         fileData.setApplyId(apply_id);
         ApplyInfo applyInfo = applyService.findByApplyID(apply_id,SecurityUtils.getSubject());
         JSONObject jsonObject = UtilServiceImpl.string2JSON(applyInfo.getFilesId());
-        jsonObject.put(file_type_id + "", file_id);
-        applyInfo.setFilesId(jsonObject.toString());
         String path = FilePathUtil.getPathById(file_id);
         FileOutputStream fos = new FileOutputStream(new File(path));
         MultipartFile file = multiReq.getFile("file");
         fileData.setFileName(file.getOriginalFilename());
+        jsonObject.put(file.getOriginalFilename(), file_id);
+        applyInfo.setFilesId(jsonObject.toString());
         FileInputStream fs = (FileInputStream) file.getInputStream();
         byte[] buffer = new byte[1024];
         int len = 0;
@@ -90,7 +95,7 @@ public class fileController {
 
             File file = new File(FilePathUtil.getPathById(file_id));
             //检查applyid是否是下载者的
-            validate.isPermission(SecurityUtils.getSubject(),fileService.getFileById(file_id).getApplyId());
+            //validate.isPermission(SecurityUtils.getSubject(),fileService.getFileById(file_id).getApplyId());
         try {
             String agent = request.getHeader("User-Agent");
             FileData fileData = fileService.getFileById(file_id);
@@ -102,31 +107,19 @@ public class fileController {
             response.setHeader("content-type", "application/octet-stream");
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment;filename=\"" + fileName + "\"");
-            byte[] buff = new byte[1024];
-            BufferedInputStream bis = null;
-            OutputStream os = null;
-            try {
-                os = response.getOutputStream();
-                bis = new BufferedInputStream(new FileInputStream(file));
-                int i = bis.read(buff);
-                while (i != -1) {
-                    os.write(buff, 0, buff.length);
-                    os.flush();
-                    i = bis.read(buff);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            OutputStream os=response.getOutputStream();
+            FileInputStream fo=new FileInputStream(file);
+            try{
+                byte[] bis=UtilServiceImpl.readStream(fo);
+                os.write(bis);
+                os.flush();
+            } catch (Exception e) {
                 throw e;
-            } finally {
-                if (bis != null) {
-                    try {
-                        bis.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        throw e;
-                    }
-                }
+            }finally {
+                fo.close();
+                os.close();
             }
+
         } catch (Exception e) {
            throw new FileFailException(e.getMessage());
         }
@@ -140,30 +133,25 @@ public class fileController {
             throws Exception {
         File file = new File(FilePathUtil.getPathById(file_id));
         //检查applyid是否是下载者的
-        validate.isPermission(SecurityUtils.getSubject(),fileService.getFileById(file_id).getApplyId());
+        //validate.isPermission(SecurityUtils.getSubject(),fileService.getFileById(file_id).getApplyId());
         String agent = request.getHeader("User-Agent");
         FileData fileData = fileService.getFileById(file_id);
-        String fileName = fileData.getFileName();
+        //String fileName = fileData.getFileName();
+        String fileName = "test";
         response.setHeader("content-type", "application/pdf");
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "inline;filename=\"" + fileName + "\"");
-        byte[] buff = new byte[1024];
-        BufferedInputStream bis = null;
-        OutputStream os = null;
-        try {
-            os = response.getOutputStream();
-            bis = new BufferedInputStream(new FileInputStream(file));
-            int i = bis.read(buff);
-            while (i != -1) {
-                os.write(buff, 0, buff.length);
-                os.flush();
-                i = bis.read(buff);
-            }
+        OutputStream os=response.getOutputStream();
+        FileInputStream fo=new FileInputStream(file);
+        try{
+            byte[] bis=UtilServiceImpl.readStream(fo);
+            os.write(bis);
+            os.flush();
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }finally {
-            bis.close();
+            fo.close();
             os.close();
         }
 
@@ -175,56 +163,52 @@ public class fileController {
     public void thumbnailImage(HttpServletResponse response, @RequestParam("fileId") long
             file_id) throws Exception {
         String path = FilePathUtil.getPathById(file_id);
-        File file = new File(path + "s");
-        BufferedImage image = null;
-        try {
-            image = getImage(path);
-        } catch (Exception e) {
-            //catch pdf cannot parse Exception
-            UtilServiceImpl.fixpdf(path, new FileOutputStream(file));
-            image = getImage(path + "s");
-        }
-
         response.setDateHeader("Expires", UtilServiceImpl.date2Long(new Date()) + 156000);
         response.setHeader("Cache-Control", "public,max-age=156000");
         // response.addHeader("Cache-Control", "post-check=0, pre-check=0");
         //response.setHeader("Pragma", "no-cache");
         response.setContentType("image/jpeg");
         ServletOutputStream out = response.getOutputStream();
-        ImageIO.write(image, "jpg", out);
+        FileInputStream imageCache= UtilServiceImpl.getFileStream(path+"p");
+        //以后的path就用缓存去记录，主要是想要用缓存的expire时间以及缓存刷新。
+        if(imageCache!=null)
+        {
+            byte[] btImg = UtilServiceImpl.readStream(imageCache);
+
+            out.write(btImg);
+        }
+        else {
+
+            File file = new File(path + "p");
+            BufferedImage image = null;
+            try {
+                image = UtilServiceImpl.getImage(path);
+            } catch (Exception e) {
+                //catch pdf cannot parse Exception
+                UtilServiceImpl.fixpdf(path, new FileOutputStream(file));
+                image = UtilServiceImpl.getImage(path + "p");
+            }
+
+            ImageIO.write(image, "jpg", out);
+            ImageIO.write(image, "jpg", file);
+        }
         out.flush();
         out.close();
-        if (file.exists())
-            file.delete();
+
     }
 
-    public BufferedImage getImage(String path) throws Exception {
-        File file = new File(path);
-        RandomAccessFile raf = new RandomAccessFile(file, "r");
-        FileChannel channel = raf.getChannel();
-        ByteBuffer buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
-        PDFFile pdffile = new PDFFile(buf);
-
-// draw the first page to an image
-        PDFPage page = pdffile.getPage(0);
-
-//get the width and height for the doc at the default zoom
-        Rectangle rect = new Rectangle(0, 0,
-                (int) page.getBBox().getWidth(),
-                (int) page.getBBox().getHeight());
-
-//generate the image
-        Image img = page.getImage(
-                rect.width, rect.height, //width & height
-                rect, // clip rect
-                null, // null for the ImageObserver
-                false, // fill background with white
-                true  // block until drawing is done
-        );
-        return UtilServiceImpl.toBufferedImage(img);
-    }
+    @CacheEvict(key = "image")
     @RequestMapping("/test")
     public @ResponseBody JsonResponse test(){
-        return new JsonResponse(true,null,"{[]}");
+        UserInfo fileData=new UserInfo();
+        fileData.setUsername("admin");
+        List<SysRole> sysRoles=new ArrayList<>();
+        sysRoles.add(new SysRole());
+        fileData.setRoleList(sysRoles);
+        redisTemplate.opsForHash().put("image","1",fileData);
+        //redisTemplate.opsForHash().put("image","2","image2's path");
+        System.out.println(redisTemplate.opsForHash().get("image","1"));
+        //System.out.println(redisTemplate.opsForHash().entries("image"));
+        return new JsonResponse(true,null,null);
     }
 }

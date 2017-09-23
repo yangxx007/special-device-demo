@@ -4,13 +4,20 @@ import com.example.demo.entity.deviceModel.DeviceStatus;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfStamper;
 import com.lowagie.text.pdf.PdfWriter;
+import com.sun.pdfview.PDFFile;
+import com.sun.pdfview.PDFPage;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.OutputStream;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -112,5 +119,51 @@ public class UtilServiceImpl  {
         String year=null;
         String DeviceCode=deviceShorthand+deviceTypeCode+agencyProvince+agencyCity+sequenceNumber+"("+year+")";
         return DeviceCode;
+    }
+    public static BufferedImage getImage(String path) throws Exception {
+        File cache=new File(path+"s");
+        File file = new File(path);
+        RandomAccessFile raf = new RandomAccessFile(file, "r");
+        FileChannel channel = raf.getChannel();
+        ByteBuffer buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
+        PDFFile pdffile = new PDFFile(buf);
+
+        // draw the first page to an image
+        PDFPage page = pdffile.getPage(0);
+
+        //get the width and height for the doc at the default zoom
+        Rectangle rect = new Rectangle(0, 0,
+                (int) page.getBBox().getWidth(),
+                (int) page.getBBox().getHeight());
+
+        //generate the image
+        Image img = page.getImage(
+                rect.width, rect.height, //width & height
+                rect, // clip rect
+                null, // null for the ImageObserver
+                false, // fill background with white
+                true  // block until drawing is done
+        );
+        return UtilServiceImpl.toBufferedImage(img);
+    }
+    public static FileInputStream getFileStream(String path){
+        try{File file=new File(path);
+        return new FileInputStream(file);
+        }catch (Exception e){
+            return null;
+        }
+
+    }
+    public static byte[] readStream(InputStream inStream) {
+        ByteArrayOutputStream bops = new ByteArrayOutputStream();
+        int data = -1;
+        try {
+            while((data = inStream.read()) != -1){
+                bops.write(data);
+            }
+            return bops.toByteArray();
+        }catch(Exception e){
+            return null;
+        }
     }
 }

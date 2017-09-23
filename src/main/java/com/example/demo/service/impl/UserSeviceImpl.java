@@ -43,12 +43,10 @@ public class UserSeviceImpl implements UserService {
         if(!VerifyUtil.verify(userInfo.getPassword(),VerifyUtil.PASSWORD))
             throw new VerifyFailException("密码格式不正确");
         userInfo.setSalt(UtilServiceImpl.encryptPWD(UtilServiceImpl.getRandomString(), null));
+        userInfo.setPassword(UtilServiceImpl.encryptPWD(userInfo.getPassword(), userInfo.getSalt()));
+        userInfo.setCreatetime(UtilServiceImpl.date2Long(new Date()));
+        userInfo.setRoleList(accountService.createUserAccount(1));
         userDao.save(userInfo);
-        UserInfo userInfo2 = userDao.findByUsername(userInfo.getUsername());
-        userInfo2.setPassword(UtilServiceImpl.encryptPWD(userInfo2.getPassword(), userInfo2.getCredentialsSalt()));
-        userInfo2.setCreatetime(UtilServiceImpl.date2Long(new Date()));
-        userInfo2.setRoleList(accountService.createUserAccount(1));
-        userDao.save(userInfo2);
     }
 
     @Override

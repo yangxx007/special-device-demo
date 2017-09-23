@@ -1,9 +1,6 @@
 package com.example.demo;
 
 
-import com.documents4j.api.DocumentType;
-import com.documents4j.api.IConverter;
-import com.documents4j.job.LocalConverter;
 import org.apache.poi.xwpf.converter.pdf.PdfConverter;
 import org.apache.poi.xwpf.converter.pdf.PdfOptions;
 import org.apache.poi.xwpf.usermodel.*;
@@ -52,22 +49,22 @@ public class DemoApplicationTests {
 			IOUtil.closeQuietly(os);
 		}
 	}
-	@Test
-	public void documents4j() throws Exception{
-		File wordFile = new File( "/Users/yang/yang-workspace/form2.docx" ),target = new File
-				("/Users/yang/yang-workspace/form2.pdf" );
-		File base=new File("/Users/yang/yang-workspace/tmp");
-		IConverter converter = LocalConverter.builder()
-				.baseFolder(base)
-				.workerPool(20, 25, 2, TimeUnit.SECONDS)
-				.processTimeout(5, TimeUnit.SECONDS)
-				.build();
-		Future<Boolean> conversion = converter
-				.convert(wordFile).as(DocumentType.MS_WORD)
-				.to(target).as(DocumentType.PDF)
-				.prioritizeWith(1000) // optional
-				.schedule();
-	}
+//	@Test
+//	public void documents4j() throws Exception{
+//		File wordFile = new File( "/Users/yang/yang-workspace/form2.docx" ),target = new File
+//				("/Users/yang/yang-workspace/form2.pdf" );
+//		File base=new File("/Users/yang/yang-workspace/tmp");
+//		IConverter converter = LocalConverter.builder()
+//				.baseFolder(base)
+//				.workerPool(20, 25, 2, TimeUnit.SECONDS)
+//				.processTimeout(5, TimeUnit.SECONDS)
+//				.build();
+//		Future<Boolean> conversion = converter
+//				.convert(wordFile).as(DocumentType.MS_WORD)
+//				.to(target).as(DocumentType.PDF)
+//				.prioritizeWith(1000) // optional
+//				.schedule();
+//	}
 	@Test
 	public void contextLoads() throws Exception{
 		try {

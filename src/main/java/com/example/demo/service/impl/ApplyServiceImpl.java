@@ -104,7 +104,7 @@ public class ApplyServiceImpl implements ApplyService{
     }
 
     @Override
-    public void confirmApply(long applyId, Subject subject)  {
+    public void confirmApply(long applyId, Subject subject)throws Exception  {
         ApplyInfo applyInfo=findByApplyID(applyId,subject);
         VerifyUtil.verifyApply(null,applyInfo);
         //System.out.println(applyInfo.getClass().getDeclaredFields()[1].getName());
