@@ -16,6 +16,7 @@ import org.apache.shiro.subject.Subject;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -38,9 +39,10 @@ public class ApplyServiceImpl implements ApplyService{
     private ValidateService validateService;
 
     @Override
+    @Cacheable(value = "apply",key = "#ID.toString()")
     public ApplyInfo findByApplyID(Long ID,Subject subject) throws NotFoundException {
         ApplyInfo applyInfo=applyDao.findApplyInfoById(ID);
-        validateService.isPermission(subject,ID);
+        //validateService.isPermission(subject,ID);
         return applyInfo;
     }
 

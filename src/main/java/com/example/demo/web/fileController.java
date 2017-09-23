@@ -19,6 +19,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -197,18 +198,18 @@ public class fileController {
 
     }
 
-    @CacheEvict(key = "image")
+
     @RequestMapping("/test")
     public @ResponseBody JsonResponse test(){
-        UserInfo fileData=new UserInfo();
-        fileData.setUsername("admin");
-        List<SysRole> sysRoles=new ArrayList<>();
-        sysRoles.add(new SysRole());
-        fileData.setRoleList(sysRoles);
-        redisTemplate.opsForHash().put("image","1",fileData);
-        //redisTemplate.opsForHash().put("image","2","image2's path");
-        System.out.println(redisTemplate.opsForHash().get("image","1"));
-        //System.out.println(redisTemplate.opsForHash().entries("image"));
+//        UserInfo fileData=new UserInfo();
+//        fileData.setUsername("admin");
+//        List<SysRole> sysRoles=new ArrayList<>();
+//        sysRoles.add(new SysRole());
+//        fileData.setRoleList(sysRoles);
+//        redisTemplate.opsForHash().put("image","1",fileData);
+//        //redisTemplate.opsForHash().put("image","2","image2's path");
+//        System.out.println(redisTemplate.opsForHash().get("image","1"));
+//        //System.out.println(redisTemplate.opsForHash().entries("image"));
         return new JsonResponse(true,null,null);
     }
 }
