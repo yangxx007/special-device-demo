@@ -7,6 +7,7 @@ import com.example.demo.service.ApplyService;
 import com.example.demo.service.UserStatusService;
 import com.example.demo.service.ValidateService;
 import com.example.demo.service.exception.ValidateFailException;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,9 +27,9 @@ public class ValidateServiceImpl implements ValidateService {
     }
 
     @Override
-    public void isPermission(Subject subject,long applyId){
+    public void isPermission(Session session,long applyId){
         if(applyId!=0){
-            if(!isApplyOwner(subject,applyId))
+            if(!isApplyOwner(session,applyId))
                 throw new ValidateFailException("你没有权限查看");
         }
         else
@@ -36,9 +37,9 @@ public class ValidateServiceImpl implements ValidateService {
 
 
     }
-    public boolean isApplyOwner(Subject currSubject,long applyId) {
+    public boolean isApplyOwner(Session session,long applyId) {
         try{
-            UserInfo userInfo=userStatusService.getCurrUser(currSubject);
+            UserInfo userInfo=userStatusService.getCurrUser(session);
 
         ApplyInfo applyInfo=applyInfoDao.findApplyInfoById(applyId);
         //1. user 2. acceptor 3.approver 4.supervisor 5.admin
@@ -60,8 +61,8 @@ public class ValidateServiceImpl implements ValidateService {
             throw new ValidateFailException("申请id错误，找不到申请");
         }
     }
-    public void validateApplyOwner(Subject currSubject,long applyId) throws ValidateFailException{
-        if(!isApplyOwner(currSubject,applyId)){
+    public void validateApplyOwner(Session session, long applyId) throws ValidateFailException{
+        if(!isApplyOwner(session,applyId)){
             throw new ValidateFailException("access apply without permission");
         }
 

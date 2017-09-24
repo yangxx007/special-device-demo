@@ -42,7 +42,7 @@ public class ApplyController {
         int page = 0, size = 3, device_id = 0;
         long start = 0;
         int orderby=1;
-        long userId=statusService.getCurrUserId(SecurityUtils.getSubject());
+        long userId=statusService.getCurrUserId(SecurityUtils.getSubject().getSession());
         long end = UtilServiceImpl.date2Long(new Date());
         String format = "yyyy-MM-dd";
         try {
@@ -79,7 +79,7 @@ public class ApplyController {
     public @ResponseBody
     JsonResponse getApply(@RequestParam("applyId") long id) {
 
-        return new JsonResponse(true, null, applyService.findByApplyID(id,SecurityUtils.getSubject()));
+        return new JsonResponse(true, null, applyService.findByApplyID(id,SecurityUtils.getSubject().getSession()));
 
     }
 
@@ -90,7 +90,7 @@ public class ApplyController {
 
         applyInfo.setCreateTime(UtilServiceImpl.string2Long("2016-10-12", "yyyy-MM-dd") + 1000000);
         applyInfo.setApplyStatus(new ApplyStatus());
-        applyService.createApply(applyInfo,statusService.getCurrUserId(SecurityUtils.getSubject()));
+        applyService.createApply(applyInfo,statusService.getCurrUserId(SecurityUtils.getSubject().getSession()));
         return new JsonResponse(true, null, null);
 
 
@@ -99,7 +99,7 @@ public class ApplyController {
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public @ResponseBody
     JsonResponse delApply(@RequestParam("applyId") long id) throws RuntimeException{
-        applyService.delApply(id,SecurityUtils.getSubject());
+        applyService.delApply(id,SecurityUtils.getSubject().getSession());
         return new JsonResponse(true, null, null);
 
     }
@@ -107,13 +107,13 @@ public class ApplyController {
     public @ResponseBody
     JsonResponse updateApply(@RequestBody ApplyInfo applyInfo) throws RuntimeException{
 
-        applyService.saveApply(applyInfo,SecurityUtils.getSubject());
+        applyService.saveApply(applyInfo,SecurityUtils.getSubject().getSession());
         return new JsonResponse(true, null, null);
 
     }
     @RequestMapping(value = "/confirm",method = RequestMethod.GET)
     public @ResponseBody JsonResponse confirmApply(@RequestParam("applyId") long id)throws Exception{
-        applyService.confirmApply(id,SecurityUtils.getSubject());
+        applyService.confirmApply(id,SecurityUtils.getSubject().getSession());
         return new JsonResponse(true, null, null);
 
     }

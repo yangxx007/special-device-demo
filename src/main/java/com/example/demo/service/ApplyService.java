@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.entity.dataModel.ApplyInfo;
 import com.example.demo.entity.dataModel.ApplyStatus;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.data.domain.Page;
 
@@ -13,7 +14,7 @@ import java.util.stream.Stream;
  * Created by yang on 2017/7/27.
  */
 public interface ApplyService {
-     ApplyInfo findByApplyID(Long ID,Subject subject);
+     ApplyInfo findByApplyID(Long ID,Session session);
      Page<ApplyInfo> findApplyInfosForUser(long user_id, long device_id, long before, long after, Pageable pageable);
      List<ApplyStatus> findByApplierName(String username);
      List<ApplyStatus> findAllApply();
@@ -23,8 +24,8 @@ public interface ApplyService {
     Page<ApplyInfo> searchForApprover(long userId,long deviceTypeId,long start,long end,Pageable pageable);
     Page<ApplyInfo> searchForAcceptor(long userId,long deviceTypeId,long start,long end,Pageable pageable);
 
-    void delApply(long applyId,Subject subject);
-    void saveApply(ApplyInfo applyInfo, Subject subject);
-    void confirmApply(long applyId,Subject subject)throws Exception;
+    void delApply(long applyId,Session session);
+    void saveApply(ApplyInfo applyInfo, Session session);
+    void confirmApply(long applyId,Session session)throws Exception;
 
 }

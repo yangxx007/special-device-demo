@@ -9,9 +9,12 @@ import com.example.demo.service.RedisService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.UserStatusService;
 import com.example.demo.service.exception.ValidateFailException;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.docx4j.wml.U;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.Validate;
 
@@ -24,52 +27,46 @@ import java.util.List;
 public class UserStatusServiceImpl implements UserStatusService {
     @Autowired
     private UserDao userDao;
-    @Autowired
-    private RedisService redisService;
+
     @Override
-    public long getCurrUserId(Subject currSubject) {
-        UserInfo userInfo=getCurrUser(currSubject);
+    @Cacheable(value = "userInfo",key ="'userstatusId'+#session.getId()")
+    public long getCurrUserId(Session session) {
+        UserInfo userInfo=getCurrUser(session);
         return userInfo.getUid();
     }
 
     @Override
-    public List<SysRole> getRoleList(Subject currSubject) {
-        UserInfo userInfo=getCurrUser(currSubject);
+    public List<SysRole> getRoleList(Session session) {
+        UserInfo userInfo=getCurrUser(session);
         return userInfo.getRoleList();
     }
 
     @Override
-    public List<SysPermission> getPermissionList(Subject currSubject) {
-        UserInfo userInfo=getCurrUser(currSubject);
+    public List<SysPermission> getPermissionList(Session session) {
+        UserInfo userInfo=getCurrUser(session);
         return userInfo.getRoleList().get(0).getPermissions();
     }
     @Override
-    public String getCurrUsername(Subject subject){
-         return getCurrUser(subject).getUsername();
+    public String getCurrUsername(Session session){
+         return getCurrUser(session).getUsername();
     }
+
     @Override
-    public UserInfo getCurrUser(Subject currSubject) {
-        try{
+    @Cacheable(value = "userInfo",key ="\"userstatus\"+#session.getId()")
+    public UserInfo getCurrUser(Session session) {
+        //try{
             //System.out.println(currSubject.getSession().getId().toString());
-            String username=(String)currSubject.getPrincipals().getPrimaryPrincipal();
+            String username=session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY).toString();
             //System.out.println(username);
             //String sessionId=currSubject.getSession().getId().toString();
+            System.out.println("用了本地保存的登录用户信息");
+            UserInfo userInfo = userDao.findByUsername(username);
+            return userInfo;
 
-            UserInfo userInfo=(UserInfo) redisService.find(username,RedisService.USERSTATUS);
-            System.out.println(userInfo);
-            if(userInfo!=null){
-                System.out.println("用了缓存中的登录用户信息");
-                return userInfo;
-            }
-            else {
-                userInfo = userDao.findByUsername(username);
-                redisService.save(username,RedisService.USERSTATUS,userInfo,10);
-                return userInfo;
-            }
-        }catch (NullPointerException e){
-            e.printStackTrace();
-            throw new ValidateFailException("你还没有登录");
-        }
+//        }catch (NullPointerException e){
+//            e.printStackTrace();
+//            throw new ValidateFailException("你还没有登录");
+//        }
 
     }
 }

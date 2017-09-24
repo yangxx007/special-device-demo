@@ -123,7 +123,7 @@ public class HomeController {
         if (currentuser.isAuthenticated()) {
             jsonResponse.setStatus(true);
             //这里要把获取角色的方法要放到service里
-            UserInfo userInfo = userStatusService.getCurrUser(currentuser);
+            UserInfo userInfo = userStatusService.getCurrUser(currentuser.getSession());
             data.put("username", userInfo.getUsername());
             data.put("role", userInfo.getRoleList().get(0).getId());
             jsonResponse.setData(data);

@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 import com.example.demo.entity.userModel.UserInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -29,8 +30,9 @@ public class RedisConfig extends CachingConfigurerSupport {
         connectionFactory.setPort(6379);
         return connectionFactory;
     }
+    //如果在applicationContext中配置redisConnectionFactory那么加@autowired 和传入redisConnectionFactory类型参数如果如上直接配置就不用了。
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory)
+    public RedisTemplate<String, Object> redisTemplate()
     {
         RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
         template.setConnectionFactory(jedisConnectionFactory());
@@ -42,10 +44,10 @@ public class RedisConfig extends CachingConfigurerSupport {
         return template;
     }
     @Bean
-    public CacheManager cacheManager(RedisTemplate redisTemplate) {
-        RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
+    public CacheManager  cacheManager(RedisTemplate redisTemplate) {
+        SpringRedisCacheManager cacheManager = new SpringRedisCacheManager(redisTemplate);
         // Number of seconds before expiration. Defaults to unlimited (0)
-        cacheManager.setDefaultExpiration(1000000);// Sets the default expire time (in seconds)
+        cacheManager.setDefaultExpiration(20L);// Sets the default expire time (in seconds)
         return cacheManager;
     }
     /**

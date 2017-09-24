@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.entity.userModel.SysPermission;
 import com.example.demo.entity.userModel.SysRole;
 import com.example.demo.entity.userModel.UserInfo;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public interface ValidateService {
 
    // public boolean isApplyOwner(Subject currSubject,long apply_id);
 
-    public void isPermission(Subject subject,long apply_id);
+    public void isPermission(Session session, long apply_id);
 //    public boolean isApplyAuditor (Subject currSubject,long apply_id);
 //
 //    public boolean isApplyAcceptor(Subject currSubject,long apply_id);

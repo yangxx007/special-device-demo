@@ -63,7 +63,7 @@ public class fileController {
         fileData.setId(file_id);
         fileData.setFileTypeId(file_type_id);
         fileData.setApplyId(apply_id);
-        ApplyInfo applyInfo = applyService.findByApplyID(apply_id,SecurityUtils.getSubject());
+        ApplyInfo applyInfo = applyService.findByApplyID(apply_id,SecurityUtils.getSubject().getSession());
         JSONObject jsonObject = UtilServiceImpl.string2JSON(applyInfo.getFilesId());
         String path = FilePathUtil.getPathById(file_id);
         FileOutputStream fos = new FileOutputStream(new File(path));
@@ -79,7 +79,7 @@ public class fileController {
         }
         fos.close();
         fs.close();
-        applyService.saveApply(applyInfo,SecurityUtils.getSubject());
+        applyService.saveApply(applyInfo,SecurityUtils.getSubject().getSession());
         fileService.save(fileData);
         return new JsonResponse(true,null,null);
     }
