@@ -9,12 +9,8 @@ import com.sun.pdfview.PDFPage;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;

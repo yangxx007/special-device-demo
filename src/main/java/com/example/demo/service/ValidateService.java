@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.dataModel.ApplyInfo;
 import com.example.demo.entity.userModel.SysPermission;
 import com.example.demo.entity.userModel.SysRole;
 import com.example.demo.entity.userModel.UserInfo;
@@ -19,7 +20,7 @@ public interface ValidateService {
 
    // public boolean isApplyOwner(Subject currSubject,long apply_id);
 
-    public void isPermission(Session session, long apply_id);
+    public void isPermission(Session session, ApplyInfo applyInfo);
 //    public boolean isApplyAuditor (Subject currSubject,long apply_id);
 //
 //    public boolean isApplyAcceptor(Subject currSubject,long apply_id);

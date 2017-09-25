@@ -8,6 +8,7 @@ import com.example.demo.service.UserService;
 import com.example.demo.service.UserStatusService;
 import com.example.demo.service.ValidateService;
 import com.example.demo.service.exception.KaptchaFailException;
+import com.example.demo.service.exception.ValidateFailException;
 import com.google.code.kaptcha.Constants;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.shiro.SecurityUtils;
@@ -100,26 +101,7 @@ public class HomeController {
                             @RequestParam("verifycode") String vertifycode, HttpServletRequest request) throws Exception {
         JsonResponse jsonResponse = new JsonResponse();
         Map<String, Object> data = new HashMap<>();
-        UsernamePasswordToken uptoken = new UsernamePasswordToken(username, password);
         Subject currentuser = SecurityUtils.getSubject();
-//        try {
-//            kaptchaService.KaptchaValidate(currentuser, request.getParameter("verifycode"));
-//            currentuser.login(uptoken);
-//        } catch (UnknownAccountException e) {
-//            System.out.println("UnknownAccountException -- > 账号不存在：");
-//            msg = "账号不存在";
-//        } catch (IncorrectCredentialsException e) {
-//            System.out.println("IncorrectCredentialsException -- > 密码不正确：");
-//            msg = "密码不正确";
-//        } catch (KaptchaFailException e) {
-//            System.out.println("kaptchaFailedException -- > " + e.getMsgDes());
-//            msg = e.getMsgDes();
-//        } catch (Exception e) {
-//            msg = "else >> " + e;
-//            System.out.println("else -- >" + e);
-//        }
-        // kaptchaService.KaptchaValidate(currentuser, vertifycode);
-        currentuser.login(uptoken);
         if (currentuser.isAuthenticated()) {
             jsonResponse.setStatus(true);
             //这里要把获取角色的方法要放到service里
@@ -128,10 +110,12 @@ public class HomeController {
             data.put("role", userInfo.getRoleList().get(0).getId());
             jsonResponse.setData(data);
             return jsonResponse;
-
-        } else
-
-            throw new Exception("please relogin");
+        } else {
+            UsernamePasswordToken uptoken = new UsernamePasswordToken(username, password);
+            // kaptchaService.KaptchaValidate(currentuser, vertifycode);
+            currentuser.login(uptoken);
+            return adminlogin(username,password,vertifycode,request);
+        }
 
     }
 
