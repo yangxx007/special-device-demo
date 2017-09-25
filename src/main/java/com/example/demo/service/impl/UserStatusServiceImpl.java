@@ -52,9 +52,9 @@ public class UserStatusServiceImpl implements UserStatusService {
     }
 
     @Override
-    @Cacheable(value = "userInfo",key ="\"userstatus\"+#session.getId()")
+    @Cacheable(value = "userInfo",key ="'userstatus'+#session.getId()")
     public UserInfo getCurrUser(Session session) {
-        //try{
+        try{
             //System.out.println(currSubject.getSession().getId().toString());
             String username=session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY).toString();
             //System.out.println(username);
@@ -63,10 +63,10 @@ public class UserStatusServiceImpl implements UserStatusService {
             UserInfo userInfo = userDao.findByUsername(username);
             return userInfo;
 
-//        }catch (NullPointerException e){
-//            e.printStackTrace();
-//            throw new ValidateFailException("你还没有登录");
-//        }
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            throw new ValidateFailException("你还没有登录");
+        }
 
     }
 }

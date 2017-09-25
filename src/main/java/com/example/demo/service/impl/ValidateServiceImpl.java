@@ -6,6 +6,7 @@ import com.example.demo.entity.userModel.UserInfo;
 import com.example.demo.service.ApplyService;
 import com.example.demo.service.UserStatusService;
 import com.example.demo.service.ValidateService;
+import com.example.demo.service.exception.NotFoundException;
 import com.example.demo.service.exception.ValidateFailException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -27,21 +28,21 @@ public class ValidateServiceImpl implements ValidateService {
     }
 
     @Override
-    public void isPermission(Session session,long applyId){
-        if(applyId!=0){
-            if(!isApplyOwner(session,applyId))
-                throw new ValidateFailException("你没有权限查看");
-        }
-        else
+    public void isPermission(Session session,ApplyInfo applyInfo){
+        try {
+            if (applyInfo.getId() != 0) {
+                if (!isApplyOwner(session, applyInfo))
+                    throw new ValidateFailException("你没有权限查看");
+            } else
                 throw new ValidateFailException("查看的资料非法或参数传输不正确");
 
-
+        }catch (NullPointerException e){
+            throw new NotFoundException("can not find the object that you want");
+        }
     }
-    public boolean isApplyOwner(Session session,long applyId) {
-        try{
-            UserInfo userInfo=userStatusService.getCurrUser(session);
+    public boolean isApplyOwner(Session session,ApplyInfo applyInfo) {
 
-        ApplyInfo applyInfo=applyInfoDao.findApplyInfoById(applyId);
+        UserInfo userInfo=userStatusService.getCurrUser(session);
         //1. user 2. acceptor 3.approver 4.supervisor 5.admin
         switch (userInfo.getRoleList().get(0).getId())
         {
@@ -55,16 +56,13 @@ public class ValidateServiceImpl implements ValidateService {
                 return userInfo.getAgencyId()==applyInfo.getApproverAgencyId();
 
         }
-
         return true;
-        }catch (NullPointerException e){
-            throw new ValidateFailException("申请id错误，找不到申请");
-        }
+
     }
-    public void validateApplyOwner(Session session, long applyId) throws ValidateFailException{
-        if(!isApplyOwner(session,applyId)){
-            throw new ValidateFailException("access apply without permission");
-        }
+//    public void validateApplyOwner(Session session, ApplyInfo applyInfo) throws ValidateFailException{
+//        if(!isApplyOwner(session,applyInfo)){
+//            throw new ValidateFailException("access apply without permission");
+//        }
 
     }
 //    @Override
@@ -81,4 +79,4 @@ public class ValidateServiceImpl implements ValidateService {
 //        return userInfo.getUid()==applyInfo.getAcceptor_adminstration_id();
 //    }
 
-}
+//}

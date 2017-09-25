@@ -5,21 +5,16 @@ import com.example.demo.Dao.apply.ApplyInfoSpecification;
 import com.example.demo.config.annotation.CacheDuration;
 import com.example.demo.entity.dataModel.ApplyInfo;
 import com.example.demo.entity.dataModel.ApplyStatus;
-import com.example.demo.entity.formModel.Form1;
+
 import com.example.demo.service.ApplyService;
 import com.example.demo.service.UserStatusService;
 import com.example.demo.service.ValidateService;
 import com.example.demo.service.exception.NotFoundException;
-import com.example.demo.service.exception.ValidateFailException;
-import com.example.demo.service.exception.VerifyFailException;
-import com.example.demo.service.staticfunction.VerifyUtil;
-import jdk.nashorn.internal.codegen.ApplySpecialization;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
-import org.apache.shiro.subject.support.DefaultSubjectContext;
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import com.example.demo.service.staticfunction.VerifyUtil;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -50,7 +45,7 @@ public class ApplyServiceImpl implements ApplyService{
     public ApplyInfo findByApplyID(Long applyId,Session session) throws NotFoundException {
         System.out.println("信息："+session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY));
         ApplyInfo applyInfo=applyDao.findApplyInfoById(applyId);
-        //validateService.isPermission(session,ID);
+      //  validateService.isPermission(session,applyInfo);
         return applyInfo;
     }
 
@@ -112,7 +107,7 @@ public class ApplyServiceImpl implements ApplyService{
     @CachePut(value = "apply",key="#applyInfo.getId()+#session.getId()")
     public void saveApply(ApplyInfo applyInfo, Session session) {
 
-        validateService.isPermission(session,applyInfo.getId());
+        validateService.isPermission(session,applyInfo);
         applyInfo.setOwnerId(statusService.getCurrUserId(session));
         applyDao.save(applyInfo);
     }
