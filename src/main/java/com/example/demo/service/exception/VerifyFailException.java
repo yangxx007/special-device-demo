@@ -1,6 +1,6 @@
 package com.example.demo.service.exception;
 
-public class VerifyFailException  extends RuntimeException{
+public class VerifyFailException  extends CustomException{
     public VerifyFailException() {
         super();
     }
@@ -9,13 +9,4 @@ public class VerifyFailException  extends RuntimeException{
         super(message);
     }
 
-    @Override
-    public String getMessage() {
-        return super.getMessage();
-    }
-
-    @Override
-    public void printStackTrace() {
-        super.printStackTrace();
-    }
 }

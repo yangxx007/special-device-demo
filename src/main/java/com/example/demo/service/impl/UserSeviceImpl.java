@@ -45,7 +45,7 @@ public class UserSeviceImpl implements UserService {
         userInfo.setSalt(UtilServiceImpl.encryptPWD(UtilServiceImpl.getRandomString(), null));
         userInfo.setPassword(UtilServiceImpl.encryptPWD(userInfo.getPassword(), userInfo.getSalt()));
         userInfo.setCreatetime(UtilServiceImpl.date2Long(new Date()));
-        userInfo.setRoleList(accountService.createUserAccount(1));
+        userInfo.setRoleList(accountService.createUserAccount(level));
         userDao.save(userInfo);
     }
 

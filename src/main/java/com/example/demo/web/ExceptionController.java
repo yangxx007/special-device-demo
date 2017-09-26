@@ -19,10 +19,9 @@ public class ExceptionController
     public
     JsonResponse handleException(Exception e){
         e.printStackTrace();
-        return new JsonResponse(false,e.getClass().toString(),null);
+        return new JsonResponse(false,e.getClass().getSimpleName(),null);
     }
-    @ExceptionHandler(value = {KaptchaFailException.class,NotFoundException.class,FileFailException.class,
-            ValidateFailException.class, VerifyFailException.class})
+    @ExceptionHandler(value =CustomException.class)
     @ResponseBody
     public
     JsonResponse handleKaptchaFailException(Exception e){

@@ -17,4 +17,60 @@ public class Form1 implements Serializable{
     private String productName;
     private String deviceCode;
     private String modelSpecifications;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getDeviceType() {
+        return deviceType;
+    }
+
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
+    }
+
+    public String getDeviceClass() {
+        return deviceClass;
+    }
+
+    public void setDeviceClass(String deviceClass) {
+        this.deviceClass = deviceClass;
+    }
+
+    public String getDeviceVarieties() {
+        return deviceVarieties;
+    }
+
+    public void setDeviceVarieties(String deviceVarieties) {
+        this.deviceVarieties = deviceVarieties;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getDeviceCode() {
+        return deviceCode;
+    }
+
+    public void setDeviceCode(String deviceCode) {
+        this.deviceCode = deviceCode;
+    }
+
+    public String getModelSpecifications() {
+        return modelSpecifications;
+    }
+
+    public void setModelSpecifications(String modelSpecifications) {
+        this.modelSpecifications = modelSpecifications;
+    }
 }

@@ -16,11 +16,11 @@ import java.util.stream.Stream;
 public interface ApplyService {
      ApplyInfo findByApplyID(Long ID,Session session);
      Page<ApplyInfo> findApplyInfosForUser(long user_id, long device_id, long before, long after, Pageable pageable);
-     List<ApplyStatus> findByApplierName(String username);
-     List<ApplyStatus> findAllApply();
+     List<ApplyInfo> findByApplierName(String username);
+     List<ApplyInfo> findAllApply();
      void createApply(ApplyInfo apply,long userId);
      Page<ApplyInfo> searchForUser(long userId,long deviceTypeId,long start,long end,Pageable pageable);
-     ApplyStatus findApplyStatusByApplyId(long apply_id);
+
     Page<ApplyInfo> searchForApprover(long userId,long deviceTypeId,long start,long end,Pageable pageable);
     Page<ApplyInfo> searchForAcceptor(long userId,long deviceTypeId,long start,long end,Pageable pageable);
 

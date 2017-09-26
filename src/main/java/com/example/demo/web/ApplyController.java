@@ -1,6 +1,7 @@
 package com.example.demo.web;
 
 import com.example.demo.entity.dataModel.ApplyInfo;
+import com.example.demo.entity.dataModel.ApplyInfoForView;
 import com.example.demo.entity.dataModel.ApplyStatus;
 import com.example.demo.enums.JsonResponse;
 import com.example.demo.service.ApplyService;
@@ -9,7 +10,9 @@ import com.example.demo.service.exception.VerifyFailException;
 import com.example.demo.service.staticfunction.UtilServiceImpl;
 import org.apache.shiro.SecurityUtils;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -70,25 +73,34 @@ public class ApplyController {
         }
 
         Pageable pageable = new PageRequest(page, size, sort);
+
         Page<ApplyInfo> applyInfos = applyService.searchForUser(userId,device_id, start, end, pageable);
-        return new JsonResponse(true,null,applyInfos);
+        Page<ApplyInfoForView> applyInfoForViews=applyInfos.map(new Converter<ApplyInfo, ApplyInfoForView>() {
+            @Override
+            public ApplyInfoForView convert(ApplyInfo applyInfo) {
+                ApplyInfoForView applyInfoForView=applyInfo;
+                return applyInfoForView;
+            }
+        });
+        return new JsonResponse(true,null,applyInfoForViews);
 
     }
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public @ResponseBody
     JsonResponse getApply(@RequestParam("applyId") long id) {
-
-        return new JsonResponse(true, null, applyService.findByApplyID(id,SecurityUtils.getSubject().getSession()));
-
+        ApplyInfoForView applyInfoForView=applyService.findByApplyID(id,SecurityUtils.getSubject().getSession());
+        //return new JsonResponse(true, null, applyService.findByApplyID(id,SecurityUtils.getSubject().getSession()));
+        return new JsonResponse(true, null, applyInfoForView);
     }
 
 
-    @RequestMapping(value = "/create", method = RequestMethod.PUT)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public @ResponseBody
     JsonResponse createApply(@RequestBody ApplyInfo applyInfo) throws Exception {
 
-        applyInfo.setCreateTime(UtilServiceImpl.string2Long("2016-10-12", "yyyy-MM-dd") + 1000000);
+        applyInfo.setCreateTime(UtilServiceImpl.date2Long(new Date()));
+        //System.out.println(new JSONObject(applyInfo.getForm1()).toString());
         applyInfo.setApplyStatus(new ApplyStatus());
         applyService.createApply(applyInfo,statusService.getCurrUserId(SecurityUtils.getSubject().getSession()));
         return new JsonResponse(true, null, null);

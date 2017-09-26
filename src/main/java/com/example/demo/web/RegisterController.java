@@ -25,7 +25,7 @@ public class RegisterController {
         return new JsonResponse(true,null,null);
     }
     @RequestMapping(value = "/acceptor", method = RequestMethod.POST)
-    @RequiresPermissions("acceptor:create")
+    //@RequiresPermissions("acceptor:create")
     public @ResponseBody
     JsonResponse createAcceptor(@RequestBody UserInfo userInfo) throws Exception {
 
@@ -34,7 +34,7 @@ public class RegisterController {
     }
 
     @RequestMapping(value = "/approver", method = RequestMethod.POST)
-    @RequiresPermissions("approver:create")
+    //@RequiresPermissions("approver:create")
     public @ResponseBody
     JsonResponse createApprover(@RequestBody UserInfo userInfo) throws Exception {
 
@@ -42,7 +42,7 @@ public class RegisterController {
         return new JsonResponse(true,null,null);
     }
     @RequestMapping(value = "/supervisor", method = RequestMethod.POST)
-    @RequiresPermissions("acceptor:create")
+    //@RequiresPermissions("acceptor:create")
     public @ResponseBody
     JsonResponse createSupervisor(@RequestBody UserInfo userInfo) throws Exception {
 

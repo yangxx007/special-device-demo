@@ -1,17 +1,17 @@
 package com.example.demo.service.exception;
 
-public class KaptchaFailException extends CustomException {
+public class CustomException extends RuntimeException{
     private String retCd;
     private String msgDes;
-    public KaptchaFailException() {
+    public CustomException() {
         super();
     }
-    public  KaptchaFailException(String message)
+    public  CustomException(String message)
     {
         super(message);
         this.msgDes=message;
     }
-    public  KaptchaFailException(String retCd,String message)
+    public  CustomException(String retCd,String message)
     {
         super();
         this.msgDes=message;

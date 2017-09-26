@@ -1,6 +1,7 @@
 INSERT INTO `applicants`.`ApplyInfo` (`acceptorAgencyId`, `action`, `applyTypeId`, `approverAgencyId`, `codeId`, `createTime`, `deviceId`, `deviceTypeId`, `hasFile`, `ownerId`) VALUES ('1', '1', '1', '1', '1', '1', '1', '1', true, '1');
 INSERT INTO `applicants`.`FileType` (`id`, `description`, `type`) VALUES ('1', '1', '1');
 INSERT INTO `applicants`.`FileType` (`id`, `description`) VALUES ('2', '2');
+
 insert into `District` ( `name`, `code`, `level`) values('北京市','110000',1);
 insert into `District` ( `name`, `code`, `level`) values('东城区','110101',3);
 insert into `District` ( `name`, `code`, `level`) values('西城区','110102',3);

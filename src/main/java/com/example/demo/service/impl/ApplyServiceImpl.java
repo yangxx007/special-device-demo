@@ -57,12 +57,12 @@ public class ApplyServiceImpl implements ApplyService{
     }
 
     @Override
-    public List<ApplyStatus> findByApplierName(String username) {
+    public List<ApplyInfo> findByApplierName(String username) {
         return null;
     }
 
     @Override
-    public List<ApplyStatus> findAllApply() {
+    public List<ApplyInfo> findAllApply() {
         return null;
     }
 
@@ -91,12 +91,6 @@ public class ApplyServiceImpl implements ApplyService{
                 deviceTypeId,start,end),pageable);
 
     }
-
-    @Override
-    public ApplyStatus findApplyStatusByApplyId(long apply_id) {
-        return applyDao.findApplyStatusByapplyInfoId(apply_id);
-    }
-
     @Override
     @CacheEvict(value="apply",key = "#applyId+#session.getId()")
     public void delApply(long applyId,Session session) {

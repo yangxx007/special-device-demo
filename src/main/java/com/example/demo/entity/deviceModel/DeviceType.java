@@ -12,7 +12,8 @@ public class DeviceType implements Serializable{
     private Long id;
     private String name;
     private String description;
-    private boolean only_company;
+    private byte forNormalUser;
+    private byte forCompany;
 
     public Long getId() {
         return id;
@@ -38,11 +39,21 @@ public class DeviceType implements Serializable{
         this.description = description;
     }
 
-    public boolean isOnly_company() {
-        return only_company;
+    public byte getForNormalUser() {
+        return forNormalUser;
     }
 
-    public void setOnly_company(boolean only_company) {
-        this.only_company = only_company;
+    public void setForNormalUser(byte forNormalUser) {
+        this.forNormalUser = forNormalUser;
     }
+
+    public byte getForCompany() {
+        return forCompany;
+    }
+
+    public void setForCompany(byte forCompany) {
+        this.forCompany = forCompany;
+    }
+
+
 }

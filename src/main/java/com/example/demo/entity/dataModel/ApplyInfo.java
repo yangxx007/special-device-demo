@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class ApplyInfo implements Serializable {
+public class ApplyInfo extends ApplyInfoForView implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -16,10 +16,10 @@ public class ApplyInfo implements Serializable {
     private long approverAgencyId;
     private long acceptorAgencyId;
     private long ownerId;
-    private String address;
+    private int address;
     private boolean hasFile=true;
     private long createTime;
-    private String action;
+
     private int deviceTypeId;
     private String filesId;
     @OneToOne(cascade = CascadeType.ALL)
@@ -91,13 +91,6 @@ public class ApplyInfo implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
 
     public int getDeviceTypeId() {
         return deviceTypeId;
@@ -196,11 +189,11 @@ public class ApplyInfo implements Serializable {
         this.form8 = form8;
     }
 
-    public String getAddress() {
+    public int getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(int address) {
         this.address = address;
     }
 

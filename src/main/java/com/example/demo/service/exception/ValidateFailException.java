@@ -1,6 +1,6 @@
 package com.example.demo.service.exception;
 
-public class ValidateFailException extends RuntimeException{
+public class ValidateFailException extends CustomException {
     public ValidateFailException() {
         super();
     }
@@ -9,13 +9,5 @@ public class ValidateFailException extends RuntimeException{
         super(message);
     }
 
-    @Override
-    public String getMessage() {
-        return super.getMessage();
-    }
 
-    @Override
-    public void printStackTrace() {
-        super.printStackTrace();
-    }
 }

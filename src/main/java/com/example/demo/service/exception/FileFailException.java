@@ -1,6 +1,6 @@
 package com.example.demo.service.exception;
 
-public class FileFailException extends RuntimeException {
+public class FileFailException extends CustomException {
 
 
     public FileFailException() {
