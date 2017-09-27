@@ -1,11 +1,16 @@
 package com.example.demo.enums;
 
+import com.example.demo.service.view.View;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class JsonResponse {
+    @JsonView(View.ApplyForView.class)
     private boolean status;
+    @JsonView(View.ApplyForView.class)
     private String msg;
+    @JsonView(View.ApplyForView.class)
     private Object data;
     public  JsonResponse(boolean status,String msg,Object data){
         this.status=status;
