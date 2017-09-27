@@ -52,16 +52,15 @@ public class HomeController {
     @Autowired
     KaptchaService kaptchaService;
 
-    @RequestMapping({"/", "/index"})
-    public String index() {
-        return "/index";
-    }
+//    @RequestMapping({"/", "/index"})
+//    public String index() {
+//        return "/index";
+//    }
 
-    @RequestMapping("/logout")
-    public @ResponseBody JsonResponse logout() {
+    @RequestMapping(value = "/logout",method = RequestMethod.GET)
+    public @ResponseBody JsonResponse logout() throws Exception{
 
-            Subject subject = SecurityUtils.getSubject();
-            subject.logout();
+        SecurityUtils.getSubject().logout();
 
         return new JsonResponse(true,null,null);
 

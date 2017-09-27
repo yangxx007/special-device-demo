@@ -1,24 +1,31 @@
 package com.example.demo.web;
 
+import com.example.demo.config.DatabaseForDataConfig;
 import com.example.demo.entity.dataModel.ApplyInfo;
 import com.example.demo.entity.dataModel.ApplyStatus;
+import com.example.demo.enums.ApplyConditions;
+import com.example.demo.enums.CustomePage;
 import com.example.demo.enums.JsonResponse;
 import com.example.demo.enums.MyPage;
-import com.example.demo.service.impl.SearchCondition;
+import com.example.demo.Dao.apply.ApplySearchCondition;
 import com.example.demo.service.ApplyService;
 import com.example.demo.service.UserStatusService;
+import com.example.demo.service.exception.ValidateFailException;
 import com.example.demo.service.staticfunction.UtilServiceImpl;
 import com.example.demo.service.view.View;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.apache.shiro.SecurityUtils;
+import org.hibernate.annotations.Source;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
 import java.util.Date;
 
 /**
@@ -28,7 +35,9 @@ import java.util.Date;
 @RequestMapping("/apply")
 
 public class ApplyController {
-
+    @Autowired
+    @Qualifier(value = "productEntityManager")
+    private EntityManager em;
     @Autowired
     ApplyService applyService;
     @Autowired
@@ -37,19 +46,19 @@ public class ApplyController {
     @RequestMapping(value = "/get",method = RequestMethod.POST)
     @JsonView(View.ApplyForView.class)
     public @ResponseBody
-    JsonResponse getApplyList(@RequestBody SearchCondition searchCondition) throws Exception {
-        long start = 0;
-        long end = UtilServiceImpl.date2Long(new Date());
-        String format = "yyyy-MM-dd";
-        if(searchCondition.getTime()!=null)
-        {   String[] time=searchCondition.getTime();
-            start=UtilServiceImpl.string2Long(time[0],format);
-            end=UtilServiceImpl.string2Long(time[1],format)+ 86400000;
-        }
+    JsonResponse getApplyList(@RequestBody ApplyConditions applyConditions) throws Exception {
+//        long start = 0;
+//        long end = UtilServiceImpl.date2Long(new Date());
+//        String format = "yyyy-MM-dd";
+//        if(applySearchCondition.getTime()!=null)
+//        {   String[] time= applySearchCondition.getTime();
+//            start=UtilServiceImpl.string2Long(time[0],format);
+//            end=UtilServiceImpl.string2Long(time[1],format)+ 86400000;
+//        }
 
         long userId=statusService.getCurrUserId(SecurityUtils.getSubject().getSession());
 
-
+        applyConditions.setUserId(userId);
 //        try {
 //            Enumeration<String> queryNames=request.getParameterNames();
 //            while(queryNames.hasMoreElements())
@@ -69,8 +78,9 @@ public class ApplyController {
 //        {//do nothing maybe the format is not suitable
 //            e.printStackTrace();
 //        }
+        ApplySearchCondition searchCondition=new ApplySearchCondition(applyConditions);
         Sort sort = null;
-        switch (searchCondition.getOderBy()){
+        switch (applyConditions.getOrderBy()){
             case 1:
                 sort = new Sort(Sort.Direction.ASC, "id");
                 break;
@@ -82,9 +92,8 @@ public class ApplyController {
                 break;
         }
 
-        Pageable pageable = new PageRequest(searchCondition.getPage(), searchCondition.getSize(), sort);
-        MyPage<ApplyInfo> applyInfos = new MyPage<>(applyService.searchForUser(userId,searchCondition.getDeviceTypeId(), start, end,
-                pageable));
+        Pageable pageable = new PageRequest(applyConditions.getPage(), applyConditions.getSize(), sort);
+        CustomePage<ApplyInfo> applyInfos = searchCondition.result(searchCondition.searchByConditions(em),pageable);
         return new JsonResponse(true,null,applyInfos);
 
     }
