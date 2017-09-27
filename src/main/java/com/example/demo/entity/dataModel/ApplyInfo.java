@@ -1,25 +1,36 @@
 package com.example.demo.entity.dataModel;
 
 import com.example.demo.entity.formModel.*;
+import com.example.demo.service.view.View;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class ApplyInfo extends ApplyInfoForView implements Serializable {
+//@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ApplyInfo  implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(View.ApplyForView.class)
     private long id;
     private String codeId;
+    @JsonView(View.ApplyForView.class)
     private int  applyTypeId;
+    @JsonView(View.ApplyForView.class)
     private long deviceId;
+
     private long approverAgencyId;
     private long acceptorAgencyId;
     private long ownerId;
+    @JsonView(View.ApplyForView.class)
     private int address;
     private boolean hasFile=true;
+    @JsonView(View.ApplyForView.class)
     private long createTime;
-
+    @JsonView(View.ApplyForView.class)
     private int deviceTypeId;
     private String filesId;
     @OneToOne(cascade = CascadeType.ALL)
