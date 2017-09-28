@@ -13,7 +13,7 @@ public class District implements Serializable{
     private Integer id;
 
     private String name;
-    private String code;
+    private String code;//行政区划代码
 
     public Integer getLevel() {
         return level;
