@@ -1,6 +1,7 @@
 package com.example.demo.Dao.user;
 
 import com.example.demo.entity.userModel.UserInfo;
+import com.example.demo.enums.UserSexEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
@@ -21,6 +22,7 @@ public interface UserDao extends JpaRepository<UserInfo,Integer> {
     public UserInfo findByUidOrUsername(long id,String username);
     public Integer deleteUserInfoByUsernameOrUid(String username, long id);
     public List<UserInfo> findAllByUidNotNullOrderByUid();
+    //public List<UserInfo> findAllBySex(UserSexEnum sex);
     //List<UserInfo> findAllIgnoreRoleList();
     //对于申请可以是findAllByUidNotNullOrderByCreateTime();
 }

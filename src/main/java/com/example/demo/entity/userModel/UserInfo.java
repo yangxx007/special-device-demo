@@ -1,5 +1,7 @@
 package com.example.demo.entity.userModel;
 
+import com.example.demo.enums.UserSexEnum;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -23,6 +25,7 @@ public class UserInfo implements  Serializable{
     private List<SysRole> roleList;// 一个用户具有多个角色
     private long createtime;
     private long agencyId;
+    private UserSexEnum sex;
 
     public long getCreatetime() {
         return createtime;
@@ -102,6 +105,14 @@ public class UserInfo implements  Serializable{
 
     public void setAgencyId(long agencyId) {
         this.agencyId = agencyId;
+    }
+
+    public UserSexEnum getSex() {
+        return sex;
+    }
+
+    public void setSex(UserSexEnum sex) {
+        this.sex = sex;
     }
 
     //重新对盐重新进行了定义，用户名+salt，这样就更加不容易被破解

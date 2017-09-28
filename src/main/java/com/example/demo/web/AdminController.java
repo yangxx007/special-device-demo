@@ -1,8 +1,10 @@
 package com.example.demo.web;
 
+import com.example.demo.Dao.user.UserDao;
 import com.example.demo.entity.dataModel.ApplyInfo;
 import com.example.demo.entity.dataModel.ApplyStatus;
 import com.example.demo.entity.userModel.UserInfo;
+import com.example.demo.enums.UserSexEnum;
 import com.example.demo.service.*;
 import com.example.demo.service.exception.KaptchaFailException;
 import com.example.demo.service.staticfunction.UtilServiceImpl;
@@ -54,6 +56,8 @@ public class AdminController {
     //autowired 标识这个变量是一个接口变量，并且会自动在标识有service的实现类中自动继承
     @Autowired
     private UserService userSevice;
+    @Autowired
+    private UserDao userDao;
 
     @RequestMapping(value = "/user/all", method = RequestMethod.GET)
     //responsebody标识是直接返回字符串，没有标识返回对应名字的html
@@ -70,12 +74,17 @@ public class AdminController {
     }
 
     //requstparam是从get方法中获取相应的key的value值
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public @ResponseBody
-    UserInfo getUserByUidandUsername(@RequestParam(name = "username", required = false) String username,
-                                     @RequestParam(name = "uid", defaultValue = "0", required = false) Long uid) {
-
-        return userSevice.findByUidOrUsername(uid, username);
+//    @RequestMapping(value = "/user", method = RequestMethod.GET)
+//    public @ResponseBody
+//    UserInfo getUserByUidandUsername(@RequestParam(name = "username", required = false) String username,
+//                                     @RequestParam(name = "uid", defaultValue = "0", required = false) Long uid) {
+//
+//        return userSevice.findByUidOrUsername(uid, username);
+//    }
+    @RequestMapping(value = "/user",method = RequestMethod.GET)
+    public @ResponseBody List<UserInfo> getUserBysex(@RequestParam(name = "sex")UserSexEnum sex){
+     // return   userDao.findAllBySex(sex);
+        return  null;
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.DELETE)

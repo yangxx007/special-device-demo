@@ -4,6 +4,7 @@ import com.example.demo.entity.dataModel.ApplyInfo;
 import com.example.demo.entity.dataModel.FileData;
 import com.example.demo.entity.userModel.SysRole;
 import com.example.demo.entity.userModel.UserInfo;
+import com.example.demo.enums.ApplyType;
 import com.example.demo.enums.JsonResponse;
 import com.example.demo.service.ApplyService;
 import com.example.demo.service.FileService;
@@ -42,6 +43,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/file")
@@ -64,13 +66,16 @@ public class fileController {
         fileData.setFileTypeId(file_type_id);
         fileData.setApplyId(apply_id);
         ApplyInfo applyInfo = applyService.findByApplyID(apply_id,SecurityUtils.getSubject().getSession());
-        JSONObject jsonObject = UtilServiceImpl.string2JSON(applyInfo.getFilesId());
+//        JSONObject jsonObject = UtilServiceImpl.string2JSON(applyInfo.getFilesId());
+        Map<ApplyType,Long> filemap=applyInfo.getFiles();
         String path = FilePathUtil.getPathById(file_id);
         FileOutputStream fos = new FileOutputStream(new File(path));
         MultipartFile file = multiReq.getFile("file");
         fileData.setFileName(file.getOriginalFilename());
-        jsonObject.put(file.getOriginalFilename(), file_id);
-        applyInfo.setFilesId(jsonObject.toString());
+//        jsonObject.put(file.getOriginalFilename(), file_id);
+
+        filemap.put(ApplyType.values()[file_type_id],file_id);
+        applyInfo.setFiles(filemap);
         FileInputStream fs = (FileInputStream) file.getInputStream();
         byte[] buffer = new byte[1024];
         int len = 0;

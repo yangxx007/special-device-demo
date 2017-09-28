@@ -7,8 +7,13 @@ import com.lowagie.text.pdf.PdfWriter;
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.json.JSONObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -17,6 +22,7 @@ import java.nio.channels.FileChannel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -161,5 +167,9 @@ public class UtilServiceImpl  {
         }catch(Exception e){
             return null;
         }
+    }
+    public static PageImpl<T>  list2Page(List<T> list, PageRequest pageRequest){
+        return new PageImpl<T>(list,pageRequest,list.size());
+
     }
 }

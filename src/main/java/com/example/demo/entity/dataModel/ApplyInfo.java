@@ -1,27 +1,40 @@
 package com.example.demo.entity.dataModel;
 
 import com.example.demo.entity.formModel.*;
+import com.example.demo.enums.ApplyType;
+import com.example.demo.service.view.View;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Map;
 
 @Entity
-public class ApplyInfo extends ApplyInfoForView implements Serializable {
+//@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ApplyInfo  implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(View.ApplyForView.class)
     private long id;
     private String codeId;
+    @JsonView(View.ApplyForView.class)
     private int  applyTypeId;
+    @JsonView(View.ApplyForView.class)
     private long deviceId;
     private long approverAgencyId;
     private long acceptorAgencyId;
     private long ownerId;
+    @JsonView(View.ApplyForView.class)
     private int address;
     private boolean hasFile=true;
+    @JsonView(View.ApplyForView.class)
     private long createTime;
-
+    @JsonView(View.ApplyForView.class)
     private int deviceTypeId;
-    private String filesId;
+    @ElementCollection
+    private Map<ApplyType,Long> files;
     @OneToOne(cascade = CascadeType.ALL)
     private ApplyStatus applyStatus;
     @OneToOne(cascade = CascadeType.ALL)
@@ -100,13 +113,7 @@ public class ApplyInfo extends ApplyInfoForView implements Serializable {
         this.deviceTypeId = deviceTypeId;
     }
 
-    public String getFilesId() {
-        return filesId;
-    }
 
-    public void setFilesId(String filesId) {
-        this.filesId = filesId;
-    }
 
 
     public int getApplyTypeId() {
@@ -211,5 +218,14 @@ public class ApplyInfo extends ApplyInfoForView implements Serializable {
 
     public void setAcceptorAgencyId(long acceptorAgencyId) {
         this.acceptorAgencyId = acceptorAgencyId;
+    }
+
+
+    public Map<ApplyType, Long> getFiles() {
+        return files;
+    }
+
+    public void setFiles(Map<ApplyType, Long> files) {
+        this.files = files;
     }
 }

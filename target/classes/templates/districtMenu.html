@@ -23,12 +23,16 @@
 <select name="" id="qu" disabled="disabled">
     <option value="">请选择</option>
 </select>
+<<<<<<< HEAD
 机构：
 <select name="" id="jigou" disabled="disabled">
     <option value="">请选择</option>
 </select>
 <script type="text/javascript">
     var code;
+=======
+<script type="text/javascript">
+>>>>>>> 60bfaccdfa2d311f76c902f5c9ae8e0ab80e440f
     //省
     $.getJSON("http://localhost:8080/map/provinces",function(date){
         date.forEach(function(item){
@@ -57,20 +61,28 @@
         $("#qu").attr("disabled",false);
         $("#qu").children(":not(:first)").remove();
         var sId = $("#shi").val();
+<<<<<<< HEAD
         if(sId != null){
             code = sId;
         }
+=======
+>>>>>>> 60bfaccdfa2d311f76c902f5c9ae8e0ab80e440f
         $.getJSON("http://localhost:8080/map/areas?cityCode="+sId,function(date){
             console.log(date);
 
             date.forEach(function(item){
 
+<<<<<<< HEAD
                     var qOption = "<option value='"+item.code+"'>"+item.name+"</option>";
+=======
+                    var qOption = "<option value='"+item.id+"'>"+item.name+"</option>";
+>>>>>>> 60bfaccdfa2d311f76c902f5c9ae8e0ab80e440f
                     $("#qu").append(qOption);
 
             });
         });
     });
+<<<<<<< HEAD
     //县
     $("#qu").change(function(){
         $("#jigou").attr("disabled",false);
@@ -91,6 +103,8 @@
             });
         });
     });
+=======
+>>>>>>> 60bfaccdfa2d311f76c902f5c9ae8e0ab80e440f
 </script>
 </body>
 </html>
