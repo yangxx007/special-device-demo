@@ -1,6 +1,8 @@
 package com.example.demo;
 
 
+import com.example.demo.enums.ApplyType;
+import com.example.demo.enums.DeviceType;
 import org.apache.poi.xwpf.converter.pdf.PdfConverter;
 import org.apache.poi.xwpf.converter.pdf.PdfOptions;
 import org.apache.poi.xwpf.usermodel.*;
@@ -24,31 +26,31 @@ import java.util.regex.Pattern;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class DemoApplicationTests {
-	@Test
-	public void word2pdf() throws  Exception{
-		OutputStream os = null;
-		try {
-			WordprocessingMLPackage mlPackage = WordprocessingMLPackage.load(new File
-					("/Users/yang/yang-workspace/form2.docx"));
-			//Mapper fontMapper = new BestMatchingMapper();
-			org.docx4j.fonts.Mapper fontMapper = new IdentityPlusMapper();
-			fontMapper.put("华文行楷", PhysicalFonts.get("STXingkai"));
-			fontMapper.put("华文仿宋", PhysicalFonts.get("STFangsong"));
-			fontMapper.put("隶书", PhysicalFonts.get("LiSu"));
-			mlPackage.setFontMapper(fontMapper);
-
-			os = new java.io.FileOutputStream("/Users/yang/yang-workspace/write2.pdf");
-
-			FOSettings foSettings = Docx4J.createFOSettings();
-			foSettings.setWmlPackage(mlPackage);
-			Docx4J.toFO(foSettings, os, Docx4J.FLAG_EXPORT_PREFER_XSL);
-
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}finally {
-			IOUtil.closeQuietly(os);
-		}
-	}
+//	@Test
+//	public void word2pdf() throws  Exception{
+//		OutputStream os = null;
+//		try {
+//			WordprocessingMLPackage mlPackage = WordprocessingMLPackage.load(new File
+//					("/Users/yang/yang-workspace/form2.docx"));
+//			//Mapper fontMapper = new BestMatchingMapper();
+//			org.docx4j.fonts.Mapper fontMapper = new IdentityPlusMapper();
+//			fontMapper.put("华文行楷", PhysicalFonts.get("STXingkai"));
+//			fontMapper.put("华文仿宋", PhysicalFonts.get("STFangsong"));
+//			fontMapper.put("隶书", PhysicalFonts.get("LiSu"));
+//			mlPackage.setFontMapper(fontMapper);
+//
+//			os = new java.io.FileOutputStream("/Users/yang/yang-workspace/write2.pdf");
+//
+//			FOSettings foSettings = Docx4J.createFOSettings();
+//			foSettings.setWmlPackage(mlPackage);
+//			Docx4J.toFO(foSettings, os, Docx4J.FLAG_EXPORT_PREFER_XSL);
+//
+//		}catch(Exception ex){
+//			ex.printStackTrace();
+//		}finally {
+//			IOUtil.closeQuietly(os);
+//		}
+//	}
 //	@Test
 //	public void documents4j() throws Exception{
 //		File wordFile = new File( "/Users/yang/yang-workspace/form2.docx" ),target = new File
@@ -65,30 +67,36 @@ public class DemoApplicationTests {
 //				.prioritizeWith(1000) // optional
 //				.schedule();
 //	}
+//	@Test
+//	public void contextLoads() throws Exception{
+//		try {
+//
+//			InputStream is = new FileInputStream("/Users/yang/yang-workspace/form2.docx");
+//			Map<String,Object> replacetor=new HashMap<String,Object>();
+//			replacetor.put("first","dianshu");
+//			replacetor.put("second","dierg");
+//			XWPFDocument doc=new XWPFDocument(is);
+//
+//			this.replaceInPara(doc,replacetor);
+//			this.replaceInTable(doc,replacetor);
+//			PdfOptions options = PdfOptions.create();
+//
+//			OutputStream os = new FileOutputStream("/Users/yang/yang-workspace/write.pdf");
+//			PdfConverter.getInstance().convert(doc,os,options);
+//			doc.write(os);
+//			os.close();
+//			is.close();
+//		}
+//		catch (Exception e){
+//			System.out.println(e.getMessage());
+//			e.printStackTrace();
+//		}
+//	}
 	@Test
-	public void contextLoads() throws Exception{
-		try {
+	public void testEnums(){
 
-			InputStream is = new FileInputStream("/Users/yang/yang-workspace/form2.docx");
-			Map<String,Object> replacetor=new HashMap<String,Object>();
-			replacetor.put("first","dianshu");
-			replacetor.put("second","dierg");
-			XWPFDocument doc=new XWPFDocument(is);
 
-			this.replaceInPara(doc,replacetor);
-			this.replaceInTable(doc,replacetor);
-			PdfOptions options = PdfOptions.create();
 
-			OutputStream os = new FileOutputStream("/Users/yang/yang-workspace/write.pdf");
-			PdfConverter.getInstance().convert(doc,os,options);
-			doc.write(os);
-			os.close();
-			is.close();
-		}
-		catch (Exception e){
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
 	}
 
 
