@@ -94,18 +94,18 @@ public class ApplyController {
 
         Pageable pageable = new PageRequest(applyConditions.getPage(), applyConditions.getSize(), sort);
         CustomePage<ApplyInfo> applyInfos = searchCondition.result(searchCondition.searchByConditions(em),pageable);
-        return new JsonResponse(true,null,applyInfos);
+        return new JsonResponse(200,null,applyInfos);
 
     }
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public @ResponseBody
     JsonResponse     getApply(@RequestParam("applyId") long id) {
-        JSONObject object=new JSONObject( applyService.findByApplyID(id,SecurityUtils.getSubject()
-                .getSession()));
-        System.out.println(object.toString());
+//        JSONObject object=new JSONObject( applyService.findByApplyID(id,SecurityUtils.getSubject()
+//                .getSession()));
+//        System.out.println(object.toString());
         //return applyService.findByApplyID(id,SecurityUtils.getSubject().getSession());
-        return new JsonResponse(true, null, applyService.findByApplyID(id,SecurityUtils.getSubject().getSession()));
+        return new JsonResponse(200, null, applyService.findByApplyID(id,SecurityUtils.getSubject().getSession()));
 
     }
 
@@ -116,9 +116,9 @@ public class ApplyController {
 
         applyInfo.setCreateTime(UtilServiceImpl.date2Long(new Date()));
         //System.out.println(new JSONObject(applyInfo.getForm1()).toString());
-        applyInfo.setApplyStatus(new ApplyStatus());
+        applyInfo.setStatus(new ApplyStatus());
         applyService.createApply(applyInfo,statusService.getCurrUserId(SecurityUtils.getSubject().getSession()));
-        return new JsonResponse(true, null, null);
+        return new JsonResponse();
 
 
     }
@@ -127,7 +127,7 @@ public class ApplyController {
     public
     JsonResponse delApply(@RequestParam("applyId") long id) throws RuntimeException{
         applyService.delApply(id,SecurityUtils.getSubject().getSession());
-        return new JsonResponse(true, null, null);
+        return new JsonResponse();
 
     }
     @RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -135,13 +135,13 @@ public class ApplyController {
     JsonResponse updateApply(@RequestBody ApplyInfo applyInfo) throws RuntimeException{
 
         applyService.saveApply(applyInfo,SecurityUtils.getSubject().getSession());
-        return new JsonResponse(true, null, null);
+        return new JsonResponse();
 
     }
     @RequestMapping(value = "/confirm",method = RequestMethod.GET)
     public @ResponseBody JsonResponse confirmApply(@RequestParam("applyId") long id)throws Exception{
         applyService.confirmApply(id,SecurityUtils.getSubject().getSession());
-        return new JsonResponse(true, null, null);
+        return new JsonResponse();
 
     }
 

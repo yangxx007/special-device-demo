@@ -2,13 +2,11 @@ package com.example.demo.web;
 
 import com.example.demo.entity.dataModel.ApplyInfo;
 import com.example.demo.entity.dataModel.FileData;
-import com.example.demo.entity.userModel.SysRole;
-import com.example.demo.entity.userModel.UserInfo;
-import com.example.demo.enums.ApplyType;
+import com.example.demo.enums.ApplyTypeEnum;
+import com.example.demo.enums.FileTypeEnum;
 import com.example.demo.enums.JsonResponse;
 import com.example.demo.service.ApplyService;
 import com.example.demo.service.FileService;
-import com.example.demo.service.ValidateService;
 
 import com.example.demo.service.exception.FileFailException;
 import com.example.demo.service.staticfunction.FilePathUtil;
@@ -16,11 +14,7 @@ import com.example.demo.service.staticfunction.UtilServiceImpl;
 
 import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.MimeUtility;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,9 +34,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URLEncoder;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -67,14 +59,14 @@ public class fileController {
         fileData.setApplyId(apply_id);
         ApplyInfo applyInfo = applyService.findByApplyID(apply_id,SecurityUtils.getSubject().getSession());
 //        JSONObject jsonObject = UtilServiceImpl.string2JSON(applyInfo.getFilesId());
-        Map<ApplyType,Long> filemap=applyInfo.getFiles();
+        Map<FileTypeEnum,Long> filemap=applyInfo.getFiles();
         String path = FilePathUtil.getPathById(file_id);
         FileOutputStream fos = new FileOutputStream(new File(path));
         MultipartFile file = multiReq.getFile("file");
         fileData.setFileName(file.getOriginalFilename());
 //        jsonObject.put(file.getOriginalFilename(), file_id);
 
-        filemap.put(ApplyType.values()[file_type_id],file_id);
+        filemap.put(FileTypeEnum.values()[file_type_id],file_id);
         applyInfo.setFiles(filemap);
         FileInputStream fs = (FileInputStream) file.getInputStream();
         byte[] buffer = new byte[1024];
@@ -86,7 +78,7 @@ public class fileController {
         fs.close();
         applyService.saveApply(applyInfo,SecurityUtils.getSubject().getSession());
         fileService.save(fileData);
-        return new JsonResponse(true,null,null);
+        return new JsonResponse();
     }
 
     @RequestMapping("/index")
@@ -215,6 +207,6 @@ public class fileController {
 //        //redisTemplate.opsForHash().put("image","2","image2's path");
 //        System.out.println(redisTemplate.opsForHash().get("image","1"));
 //        //System.out.println(redisTemplate.opsForHash().entries("image"));
-        return new JsonResponse(true,null,null);
+        return new JsonResponse();
     }
 }

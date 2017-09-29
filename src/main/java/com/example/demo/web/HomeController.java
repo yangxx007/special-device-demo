@@ -62,7 +62,7 @@ public class HomeController {
 
         SecurityUtils.getSubject().logout();
 
-        return new JsonResponse(true,null,null);
+        return new JsonResponse();
 
     }
 
@@ -102,7 +102,7 @@ public class HomeController {
         Map<String, Object> data = new HashMap<>();
         Subject currentuser = SecurityUtils.getSubject();
         if (currentuser.isAuthenticated()) {
-            jsonResponse.setStatus(true);
+            jsonResponse.setStatus(200);
             //这里要把获取角色的方法要放到service里
             UserInfo userInfo = userStatusService.getCurrUser(currentuser.getSession());
             data.put("username", userInfo.getUsername());

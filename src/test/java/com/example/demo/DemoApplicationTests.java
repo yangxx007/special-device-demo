@@ -1,26 +1,13 @@
 package com.example.demo;
 
 
-import com.example.demo.enums.ApplyType;
-import com.example.demo.enums.DeviceType;
-import org.apache.poi.xwpf.converter.pdf.PdfConverter;
-import org.apache.poi.xwpf.converter.pdf.PdfOptions;
 import org.apache.poi.xwpf.usermodel.*;
-import org.docx4j.Docx4J;
-import org.docx4j.convert.out.FOSettings;
-import org.docx4j.fonts.IdentityPlusMapper;
-import org.docx4j.fonts.PhysicalFonts;
-import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.internal.util.io.IOUtil;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.*;
 import java.util.*;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 @RunWith(SpringRunner.class)

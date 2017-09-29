@@ -22,7 +22,7 @@ public class RegisterController {
     JsonResponse createUser(@RequestBody UserInfo userInfo) throws Exception {
 
         userService.createUser(userInfo,1);
-        return new JsonResponse(true,null,null);
+        return new JsonResponse();
     }
     @RequestMapping(value = "/acceptor", method = RequestMethod.POST)
     //@RequiresPermissions("acceptor:create")
@@ -30,7 +30,7 @@ public class RegisterController {
     JsonResponse createAcceptor(@RequestBody UserInfo userInfo) throws Exception {
 
         userService.createUser(userInfo,2);
-        return new JsonResponse(true,null,null);
+        return new JsonResponse();
     }
 
     @RequestMapping(value = "/approver", method = RequestMethod.POST)
@@ -39,7 +39,7 @@ public class RegisterController {
     JsonResponse createApprover(@RequestBody UserInfo userInfo) throws Exception {
 
         userService.createUser(userInfo,3);
-        return new JsonResponse(true,null,null);
+        return new JsonResponse();
     }
     @RequestMapping(value = "/supervisor", method = RequestMethod.POST)
     //@RequiresPermissions("acceptor:create")
@@ -47,6 +47,6 @@ public class RegisterController {
     JsonResponse createSupervisor(@RequestBody UserInfo userInfo) throws Exception {
 
         userService.createUser(userInfo,4);
-        return new JsonResponse(true,null,null);
+        return new JsonResponse();
     }
 }

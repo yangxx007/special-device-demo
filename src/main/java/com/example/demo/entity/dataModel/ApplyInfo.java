@@ -1,14 +1,23 @@
 package com.example.demo.entity.dataModel;
 
+
+
+import com.example.demo.Dao.user.UserDao;
 import com.example.demo.entity.formModel.*;
-import com.example.demo.enums.ApplyType;
+import com.example.demo.enums.ApplyTypeEnum;
+import com.example.demo.enums.DeviceTypeEnum;
+import com.example.demo.enums.FileTypeEnum;
+
 import com.example.demo.service.view.View;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 @Entity
@@ -20,23 +29,32 @@ public class ApplyInfo  implements Serializable{
     private long id;
     private String codeId;
     @JsonView(View.ApplyForView.class)
-    private int  applyTypeId;
+    private ApplyTypeEnum  applyType;
     @JsonView(View.ApplyForView.class)
-    private long deviceId;
-    private long approverAgencyId;
-    private long acceptorAgencyId;
+    private long deviceId=0;
+//    @JsonView(View.ApplyForView.class)
+//    private int approverAgencyId;
+//    @JsonView(View.ApplyForView.class)
+//    private String approverAgencyName;
+    @JsonView(View.ApplyForView.class)
+    private int acceptorAgencyId;
+    @JsonView(View.ApplyForView.class)
+    private String acceptorAgencyName;
     private long ownerId;
     @JsonView(View.ApplyForView.class)
-    private int address;
+    private int addressId;
+    @JsonView(View.ApplyForView.class)
+    private String addressName;
     private boolean hasFile=true;
     @JsonView(View.ApplyForView.class)
     private long createTime;
     @JsonView(View.ApplyForView.class)
-    private int deviceTypeId;
-    @ElementCollection
-    private Map<ApplyType,Long> files;
+    private DeviceTypeEnum deviceType;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Map<FileTypeEnum,Long> files=new HashMap<>();
     @OneToOne(cascade = CascadeType.ALL)
-    private ApplyStatus applyStatus;
+    @JsonView(View.ApplyForView.class)
+    private ApplyStatus status;
     @OneToOne(cascade = CascadeType.ALL)
     private Form1 form1;
     @OneToOne(cascade = CascadeType.ALL)
@@ -72,14 +90,6 @@ public class ApplyInfo  implements Serializable{
         this.codeId = codeId;
     }
 
-    public long getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(long deviceId) {
-        this.deviceId = deviceId;
-    }
-
     public long getOwnerId() {
         return ownerId;
     }
@@ -105,32 +115,13 @@ public class ApplyInfo  implements Serializable{
     }
 
 
-    public int getDeviceTypeId() {
-        return deviceTypeId;
-    }
-
-    public void setDeviceTypeId(int deviceTypeId) {
-        this.deviceTypeId = deviceTypeId;
-    }
-
-
-
-
-    public int getApplyTypeId() {
-        return applyTypeId;
-    }
-
-    public void setApplyTypeId(int applyTypeId) {
-        this.applyTypeId = applyTypeId;
-    }
-
-    public ApplyStatus getApplyStatus() {
-        return applyStatus;
-    }
-
-    public void setApplyStatus(ApplyStatus applyStatus) {
-        this.applyStatus = applyStatus;
-    }
+//    public ApplyStatus getApplyStatus() {
+//        return applyStatus;
+//    }
+//
+//    public void setApplyStatus(ApplyStatus applyStatus) {
+//        this.applyStatus = applyStatus;
+//    }
 
     public Form1 getForm1() {
         return form1;
@@ -196,36 +187,100 @@ public class ApplyInfo  implements Serializable{
         this.form8 = form8;
     }
 
-    public int getAddress() {
-        return address;
-    }
 
-    public void setAddress(int address) {
-        this.address = address;
-    }
 
-    public long getApproverAgencyId() {
-        return approverAgencyId;
-    }
+//    public int getApproverAgencyId() {
+//        return approverAgencyId;
+//    }
 
-    public void setApproverAgencyId(long approverAgencyId) {
-        this.approverAgencyId = approverAgencyId;
-    }
+//    public void setApproverAgencyId(int approverAgencyId) {
+//        this.approverAgencyId = approverAgencyId;
+//    }
 
-    public long getAcceptorAgencyId() {
+    public int getAcceptorAgencyId() {
         return acceptorAgencyId;
     }
 
-    public void setAcceptorAgencyId(long acceptorAgencyId) {
+    public void setAcceptorAgencyId(int acceptorAgencyId) {
         this.acceptorAgencyId = acceptorAgencyId;
     }
 
 
-    public Map<ApplyType, Long> getFiles() {
+    public Map<FileTypeEnum, Long> getFiles() {
         return files;
     }
 
-    public void setFiles(Map<ApplyType, Long> files) {
+    public void setFiles(Map<FileTypeEnum, Long> files) {
         this.files = files;
+    }
+
+    public ApplyTypeEnum getApplyType() {
+        return applyType;
+    }
+
+    public void setApplyType(ApplyTypeEnum applyType) {
+        this.applyType = applyType;
+    }
+
+
+    public DeviceTypeEnum getDeviceType() {
+        return deviceType;
+    }
+
+    public void setDeviceType(DeviceTypeEnum deviceType) {
+        this.deviceType = deviceType;
+    }
+
+    public long getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(long deviceId) {
+        this.deviceId = deviceId;
+    }
+
+//    public String getApproverAgencyName() {
+//        return approverAgencyName;
+//    }
+
+//    public void setApproverAgencyName(String approverAgencyName) {
+//        this.approverAgencyName = approverAgencyName;
+//    }
+
+    public String getAcceptorAgencyName() {
+        return acceptorAgencyName;
+    }
+
+    public void setAcceptorAgencyName(String acceptorAgencyName) {
+        this.acceptorAgencyName = acceptorAgencyName;
+    }
+
+    public int getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(int addressId) {
+//        this.addressName="津港区技术监督局";
+        this.addressId = addressId;
+
+        //this.addressName=userDao.findByUid(2).getUsername();
+
+
+    }
+
+    public String getAddressName() {
+        return addressName;
+    }
+
+    public void setAddressName(String addressName) {
+        this.addressName = addressName;
+    }
+
+    public ApplyStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ApplyStatus status) {
+        this.status = status;
     }
 }

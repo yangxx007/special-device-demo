@@ -2,6 +2,10 @@ package com.example.demo.entity.dataModel;
 
 
 
+import com.example.demo.enums.ApplyStatesEnum;
+import com.example.demo.service.view.View;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -10,22 +14,11 @@ public class ApplyStatus implements Serializable{
     @Id
     @GeneratedValue
     private long id;
-    private boolean accepted=false;
-    private boolean passed=false;
+    @JsonView(View.ApplyForView.class)
+    private ApplyStatesEnum states=ApplyStatesEnum.未提交;
+    private String acceptedComments;
+    private String approveComments;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name="applyInfo_id",unique=true)
-//    private ApplyInfo apply;
-
-
-
-    public boolean isAccepted() {
-        return accepted;
-    }
-
-    public void setAccepted(boolean accepted) {
-        this.accepted = accepted;
-    }
 
 
     public long getId() {
@@ -36,11 +29,27 @@ public class ApplyStatus implements Serializable{
         this.id = id;
     }
 
-    public boolean isPassed() {
-        return passed;
+    public ApplyStatesEnum getStates() {
+        return states;
     }
 
-    public void setPassed(boolean passed) {
-        this.passed = passed;
+    public void setStates(ApplyStatesEnum states) {
+        this.states = states;
+    }
+
+    public String getAcceptedComments() {
+        return acceptedComments;
+    }
+
+    public void setAcceptedComments(String acceptedComments) {
+        this.acceptedComments = acceptedComments;
+    }
+
+    public String getApproveComments() {
+        return approveComments;
+    }
+
+    public void setApproveComments(String approveComments) {
+        this.approveComments = approveComments;
     }
 }
