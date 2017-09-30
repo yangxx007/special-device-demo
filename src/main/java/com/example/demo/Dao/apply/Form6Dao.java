@@ -1,6 +1,5 @@
 package com.example.demo.Dao.apply;
 
-import com.example.demo.entity.formModel.Form6;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
