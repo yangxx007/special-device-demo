@@ -28,6 +28,12 @@ public class ExceptionController
         e.printStackTrace();
         return new JsonResponse(500,e.getMessage(),null);
     }
+    @ExceptionHandler(value =ValidateFailException.class)
+    @ResponseBody
+    public JsonResponse UnauthorizedException(Exception e){
+        e.printStackTrace();
+        return new JsonResponse(401,e.getMessage(),null);
+    }
     @ExceptionHandler(value = UnknownAccountException.class)
     @ResponseBody
     public
