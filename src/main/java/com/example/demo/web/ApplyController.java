@@ -8,6 +8,7 @@ import com.example.demo.enums.CustomePage;
 import com.example.demo.enums.JsonResponse;
 import com.example.demo.enums.MyPage;
 import com.example.demo.Dao.apply.ApplySearchCondition;
+import com.example.demo.responseModel.ApplyResponse;
 import com.example.demo.service.ApplyService;
 import com.example.demo.service.UserStatusService;
 import com.example.demo.service.exception.ValidateFailException;
@@ -105,7 +106,8 @@ public class ApplyController {
 //                .getSession()));
 //        System.out.println(object.toString());
         //return applyService.findByApplyID(id,SecurityUtils.getSubject().getSession());
-        return new JsonResponse(200, null, applyService.findByApplyID(id,SecurityUtils.getSubject().getSession()));
+
+        return new JsonResponse(200, null, new ApplyResponse(applyService.findByApplyID(id,SecurityUtils.getSubject().getSession())));
 
     }
 

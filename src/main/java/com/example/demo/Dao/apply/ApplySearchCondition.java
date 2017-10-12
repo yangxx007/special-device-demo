@@ -30,11 +30,11 @@ public class ApplySearchCondition<T> extends MultiSearch<T> {
         //Adding predicates in case of parameter not being null
         if (conditions.getApplyTypeId() != 0) {
             predicates.add(
-                    qb.equal(customer.get("applyTypeId"), conditions.getApplyTypeId()));
+                    qb.equal(customer.get("applyType"), conditions.getApplyTypeId()));
         }
         if (conditions.getDeviceTypeId() != 0) {
             predicates.add(
-                    qb.equal(customer.get("deviceTypeId"), conditions.getDeviceTypeId()));
+                    qb.equal(customer.get("deviceType"), conditions.getDeviceTypeId()));
         }
         if (conditions.getStates()!=0){
             predicates.add(

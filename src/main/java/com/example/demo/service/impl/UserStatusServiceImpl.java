@@ -29,7 +29,7 @@ public class UserStatusServiceImpl implements UserStatusService {
     private UserDao userDao;
 
     @Override
-    @Cacheable(value = "userInfo",key ="'userstatusId'+#session.getId()")
+    //@Cacheable(value = "userInfo",key ="'userstatusId'+#session.getId()")
     public long getCurrUserId(Session session) {
         UserInfo userInfo=getCurrUser(session);
         return userInfo.getUid();
@@ -52,7 +52,7 @@ public class UserStatusServiceImpl implements UserStatusService {
     }
 
     @Override
-    @Cacheable(value = "userInfo",key ="'userstatus'+#session.getId()")
+    //@Cacheable(value = "userInfo",key ="'userstatus'+#session.getId()")
     public UserInfo getCurrUser(Session session) {
         try{
             //System.out.println(currSubject.getSession().getId().toString());

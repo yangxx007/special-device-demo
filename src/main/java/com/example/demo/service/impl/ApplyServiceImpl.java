@@ -40,8 +40,8 @@ public class ApplyServiceImpl implements ApplyService{
     private UserStatusService statusService;
 
     @Override
-    @Cacheable(value = "apply",key = "#applyId.toString()+#session.getId()")
-    @CacheDuration(duration = 60L)
+    //@Cacheable(value = "apply",key = "#applyId.toString()+#session.getId()")
+   // @CacheDuration(duration = 60L)
     public ApplyInfo findByApplyID(Long applyId,Session session) throws NotFoundException {
         System.out.println("信息："+session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY));
         ApplyInfo applyInfo=applyDao.findApplyInfoById(applyId);
@@ -92,13 +92,13 @@ public class ApplyServiceImpl implements ApplyService{
 
     }
     @Override
-    @CacheEvict(value="apply",key = "#applyId+#session.getId()")
+    //@CacheEvict(value="apply",key = "#applyId+#session.getId()")
     public void delApply(long applyId,Session session) {
         applyDao.delete(findByApplyID(applyId,session));
     }
 
     @Override
-    @CachePut(value = "apply",key="#applyInfo.getId()+#session.getId()")
+    //@CachePut(value = "apply",key="#applyInfo.getId()+#session.getId()")
     public void saveApply(ApplyInfo applyInfo, Session session) {
 
         validateService.isPermission(session,applyInfo);

@@ -4,12 +4,14 @@ package com.example.demo.entity.dataModel;
 
 import com.example.demo.enums.ApplyStatesEnum;
 import com.example.demo.service.view.View;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApplyStatus implements Serializable{
     @Id
     @GeneratedValue
