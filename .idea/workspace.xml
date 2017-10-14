@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="233a3f45-9e4b-4791-96f6-e1932ef45cbb" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/entity/dataModel/ApplyDetailType.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/example/demo/Dao/apply/ApplySearchCondition.class" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/Dao/apply/ApplySearchCondition.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/example/demo/entity/dataModel/ApplyInfo.class" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/entity/dataModel/ApplyInfo.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/example/demo/enums/ApplyConditions.class" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/enums/ApplyConditions.class" />
@@ -10,18 +9,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/example/demo/service/multiSearch/MultiSearch.class" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/service/multiSearch/MultiSearch.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/example/demo/web/ApplyController.class" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/web/ApplyController.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Dao/apply/ApplySearchCondition.java" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Dao/apply/ApplySearchCondition.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Dao/map/OrganizationDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Dao/map/OrganizationDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entity/dataModel/ApplyInfo.java" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/entity/dataModel/ApplyInfo.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entity/dataModel/Organization.java" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/entity/dataModel/Organization.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/enums/ApplyConditions.java" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/enums/ApplyConditions.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/enums/ApplyStatesEnum.java" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/enums/ApplyStatesEnum.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/enums/CustomePage.java" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/enums/CustomePage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/enums/DeviceTypeEnum.java" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/enums/DeviceTypeEnum.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/responseModel/ApplyResponse.java" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/responseModel/ApplyResponse.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/service/multiSearch/MultiSearch.java" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/service/multiSearch/MultiSearch.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/web/ApplyController.java" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/web/ApplyController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/application.properties" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/database/importOrganization.sql" afterPath="$PROJECT_DIR$/src/main/resources/database/importOrganization.sql" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/application.properties" afterPath="$PROJECT_DIR$/target/classes/application.properties" />
     </list>
@@ -678,7 +667,7 @@
       <workItem from="1507609933855" duration="10802000" />
       <workItem from="1507707821700" duration="114000" />
       <workItem from="1507707948331" duration="10703000" />
-      <workItem from="1507787828753" duration="21992000" />
+      <workItem from="1507787828753" duration="22028000" />
     </task>
     <task id="LOCAL-00001" summary="add the Exceptionhandler &amp; VerifyUtil">
       <created>1506010340748</created>
@@ -757,7 +746,14 @@
       <option name="project" value="LOCAL" />
       <updated>1507792185952</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="add Organization model">
+      <created>1507977874975</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1507977874975</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -778,7 +774,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="222624000" />
+    <option name="totallyTimeSpent" value="222660000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1301" height="772" extended-state="6" />
