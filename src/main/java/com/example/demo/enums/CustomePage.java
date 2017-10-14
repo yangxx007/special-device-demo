@@ -3,13 +3,14 @@ package com.example.demo.enums;
 
 import com.example.demo.service.view.View;
 import com.fasterxml.jackson.annotation.JsonView;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
-public class CustomePage<T> extends PageImpl<T>  {
+public class CustomePage<T> extends PageImpl<T> {
 
     public CustomePage(List<T> content, Pageable pageable, long total) {
         super(content, pageable, total);

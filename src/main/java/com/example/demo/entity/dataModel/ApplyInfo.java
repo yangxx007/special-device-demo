@@ -32,6 +32,7 @@ public class ApplyInfo  implements Serializable{
     private ApplyTypeEnum  applyType;
     @JsonView(View.ApplyForView.class)
     private long deviceId=0;
+   // private ApplyDetailType applyDetailType;
 //    @JsonView(View.ApplyForView.class)
 //    private int approverAgencyId;
 //    @JsonView(View.ApplyForView.class)

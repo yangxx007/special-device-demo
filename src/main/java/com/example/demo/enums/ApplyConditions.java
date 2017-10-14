@@ -12,8 +12,16 @@ public class ApplyConditions implements Serializable {
     private long userId;
     private int deviceTypeId;
     private int applyTypeId;
-    private int states;
+    private int[] states;
     private int OrderBy;
+
+    public int[] getStates() {
+        return states;
+    }
+
+    public void setStates(int[] states) {
+        this.states = states;
+    }
 
     public int getRoleId() {
         return roleId;
@@ -95,11 +103,5 @@ public class ApplyConditions implements Serializable {
         this.applyTypeId = applyTypeId;
     }
 
-    public int getStates() {
-        return states;
-    }
 
-    public void setStates(int states) {
-        this.states = states;
-    }
 }

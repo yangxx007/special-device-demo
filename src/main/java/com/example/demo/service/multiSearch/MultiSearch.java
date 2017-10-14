@@ -2,6 +2,7 @@ package com.example.demo.service.multiSearch;
 
 import com.example.demo.enums.ApplyConditions;
 import com.example.demo.enums.CustomePage;
+import com.example.demo.responseModel.ApplyResponse;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

@@ -20,6 +20,7 @@ import org.hibernate.annotations.Source;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -45,7 +46,7 @@ public class ApplyController {
     UserStatusService statusService;
 
     @RequestMapping(value = "/get",method = RequestMethod.POST)
-    @JsonView(View.ApplyForView.class)
+    //@JsonView(View.ApplyForView.class)
     public @ResponseBody
     JsonResponse getApplyList(@RequestBody ApplyConditions applyConditions) throws Exception {
 //        long start = 0;
@@ -93,8 +94,15 @@ public class ApplyController {
                 break;
         }
 
+
         Pageable pageable = new PageRequest(applyConditions.getPage(), applyConditions.getSize(), sort);
-        CustomePage<ApplyInfo> applyInfos = searchCondition.result(searchCondition.searchByConditions(em),pageable);
+        CustomePage<ApplyResponse> applyInfos = searchCondition.result(searchCondition.searchByConditions(em),pageable);
+//        applyInfos.map(new Converter<ApplyInfo,ApplyResponse>(){
+//            @Override
+//            public ApplyResponse convert(ApplyInfo applyInfo) {
+//                return new ApplyResponse(applyInfo);
+//            }
+//        });
         return new JsonResponse(200,null,applyInfos);
 
     }
@@ -126,7 +134,7 @@ public class ApplyController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public
+    public @ResponseBody
     JsonResponse delApply(@RequestParam("applyId") long id) throws RuntimeException{
         applyService.delApply(id,SecurityUtils.getSubject().getSession());
         return new JsonResponse();
