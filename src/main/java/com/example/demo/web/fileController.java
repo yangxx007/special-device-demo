@@ -100,7 +100,8 @@ public class fileController {
             FileData fileData = fileService.getFileById(file_id);
             String fileName = fileData.getFileName();
             if (agent.contains(FIREFOX)){
-                fileName = MimeUtility.encodeWord(fileName);}
+//                fileName = MimeUtility.encodeWord(fileName);
+}
             else{
                 fileName = URLEncoder.encode(fileName, "utf-8").replaceAll("\\+", "%20");}
             response.setHeader("content-type", "application/octet-stream");

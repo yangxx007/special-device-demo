@@ -28,11 +28,11 @@
 			<name>pdf_for_maven</name>
 			<url>https://mvnrepository.com/artifact/fr.opensagres.xdocreport/org.apache.poi.xwpf.converter.pdf</url>
 		</repository>
-		<!--<repository>-->
-			<!--<id>3rd-party</id>-->
-			<!--<name>3rd Party maven repo</name>-->
-			<!--<url>http://maven.jahia.org/maven2/</url>-->
-		<!--</repository>-->
+		<repository>
+			<id>3rd-party</id>
+			<name>3rd Party maven repo</name>
+			<url>http://maven.jahia.org/maven2/</url>
+		</repository>
 		<repository>
 			<id>poi</id>
 			<name>poi repo</name>

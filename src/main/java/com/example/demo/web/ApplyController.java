@@ -115,7 +115,7 @@ public class ApplyController {
 //        System.out.println(object.toString());
         //return applyService.findByApplyID(id,SecurityUtils.getSubject().getSession());
 
-        return new JsonResponse(200, null, new ApplyResponse(applyService.findByApplyID(id,SecurityUtils.getSubject().getSession())));
+        return new JsonResponse(200, null, applyService.findByApplyID(id,SecurityUtils.getSubject().getSession()));
 
     }
 
