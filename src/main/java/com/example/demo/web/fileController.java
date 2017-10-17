@@ -48,7 +48,7 @@ public class fileController {
     private RedisTemplate<String,Object> redisTemplate;
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public @ResponseBody JsonResponse testUploadFile(HttpServletRequest req, MultipartHttpServletRequest multiReq, @RequestParam("applyId")
+    public @ResponseBody JsonResponse testUploadFile(HttpServletResponse response,HttpServletRequest req, MultipartHttpServletRequest multiReq, @RequestParam("applyId")
             long apply_id, @RequestParam("fileTypeId") int file_type_id)
             throws
             Exception {
@@ -79,6 +79,7 @@ public class fileController {
         fs.close();
         applyService.saveApply(applyInfo,SecurityUtils.getSubject().getSession());
         fileService.save(fileData);
+        thumbnailImage(response,file_id);
         return new JsonResponse();
     }
 
