@@ -2,7 +2,7 @@ package com.example.demo.web;
 
 import com.example.demo.entity.dataModel.ApplyInfo;
 import com.example.demo.entity.dataModel.FileData;
-import com.example.demo.enums.ApplyTypeEnum;
+
 import com.example.demo.enums.FileTypeEnum;
 import com.example.demo.enums.JsonResponse;
 import com.example.demo.service.ApplyService;
@@ -12,7 +12,7 @@ import com.example.demo.service.exception.FileFailException;
 import com.example.demo.service.staticfunction.FilePathUtil;
 import com.example.demo.service.staticfunction.UtilServiceImpl;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.MimeUtility;
+
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -99,7 +99,8 @@ public class fileController {
             FileData fileData = fileService.getFileById(file_id);
             String fileName = fileData.getFileName();
             if (agent.contains("Firefox"))
-                fileName = MimeUtility.encodeWord(fileName);
+                //fileName = MimeUtility.encodeWord(fileName);
+                ;
             else
                 fileName = URLEncoder.encode(fileName, "utf-8").replaceAll("\\+", "%20");
             response.setHeader("content-type", "application/octet-stream");
@@ -210,3 +211,4 @@ public class fileController {
         return new JsonResponse();
     }
 }
+

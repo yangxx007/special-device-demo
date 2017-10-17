@@ -19,6 +19,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<repositories>
+<repository>
+            <id>aliyunmaven</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+        </repository>
 		<repository>
 			<id>pdf</id>
 			<name>pdf_for_maven</name>
@@ -34,13 +38,6 @@
 			<name>poi repo</name>
 			<url>https://mvnrepository.com/artifact/org.apache.poi/poi</url>
 		</repository>
-		<repository>
-			<id>redis</id>
-			<name>redis repo</name>
-			<url>https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis </url>
-		</repository>
-
-
 	</repositories>
 
 	<properties>
@@ -62,6 +59,12 @@
 			<groupId>fr.opensagres.xdocreport</groupId>
 			<artifactId>org.apache.poi.xwpf.converter.pdf</artifactId>
 			<version>1.0.4</version>
+
+		</dependency>
+		<dependency>
+	  	<groupId>xml-apis</groupId>
+ 		 <artifactId>xml-apis</artifactId>
+  		<version>1.4.01</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
@@ -83,6 +86,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-redis</artifactId>
+                        <version>1.4.7.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
