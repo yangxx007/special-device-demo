@@ -11,8 +11,7 @@ import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApplyResponse extends ApplyInfo{
-    @JsonIgnore
-    private long id;
+
 
 
 
@@ -26,6 +25,7 @@ public class ApplyResponse extends ApplyInfo{
         super.setDeviceType(applyInfo.getDeviceType());
         setDeviceTypeId(applyInfo.getDeviceType().ordinal());
         super.setApplyType(applyInfo.getApplyType());
+        super.setId(applyInfo.getId());
 
     }
     public int getDeviceTypeId() {

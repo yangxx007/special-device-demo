@@ -143,7 +143,7 @@ public class UtilServiceImpl  {
                 rect.width, rect.height, //width & height
                 rect, // clip rect
                 null, // null for the ImageObserver
-                false, // fill background with white
+                true, // fill background with white
                 true  // block until drawing is done
         );
         return UtilServiceImpl.toBufferedImage(img);
