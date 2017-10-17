@@ -52,6 +52,7 @@ public class fileController {
             long apply_id, @RequestParam("fileTypeId") int file_type_id)
             throws
             Exception {
+
         long file_id = apply_id * 100 + file_type_id;
         FileData fileData = new FileData();
         fileData.setId(file_id);
@@ -90,7 +91,7 @@ public class fileController {
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public void testDownload(HttpServletRequest request, HttpServletResponse response, @RequestParam("fileId") long
             file_id) throws Exception {
-
+            String FIREFOX="Firefox";
             File file = new File(FilePathUtil.getPathById(file_id));
             //检查applyid是否是下载者的
             //validate.isPermission(SecurityUtils.getSubject(),fileService.getFileById(file_id).getApplyId());
@@ -98,10 +99,10 @@ public class fileController {
             String agent = request.getHeader("User-Agent");
             FileData fileData = fileService.getFileById(file_id);
             String fileName = fileData.getFileName();
-            if (agent.contains("Firefox"))
-                fileName = MimeUtility.encodeWord(fileName);
-            else
-                fileName = URLEncoder.encode(fileName, "utf-8").replaceAll("\\+", "%20");
+            if (agent.contains(FIREFOX)){
+                fileName = MimeUtility.encodeWord(fileName);}
+            else{
+                fileName = URLEncoder.encode(fileName, "utf-8").replaceAll("\\+", "%20");}
             response.setHeader("content-type", "application/octet-stream");
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment;filename=\"" + fileName + "\"");
