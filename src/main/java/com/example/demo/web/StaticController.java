@@ -17,7 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.util.Date;
-
+/**
+ * @author yang
+ * @create_at 2017/10/17
+ **/
 @Controller
 @RequestMapping("/static")
 public class StaticController {

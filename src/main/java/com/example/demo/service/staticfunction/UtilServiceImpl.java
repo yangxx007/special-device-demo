@@ -10,7 +10,6 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.poi.ss.formula.functions.T;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.json.JSONObject;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
@@ -95,13 +94,9 @@ public class UtilServiceImpl  {
     }
     public static BufferedImage toBufferedImage(Image img)
     {
-        if (img instanceof BufferedImage)
-        {
-            return (BufferedImage) img;
-        }
 
         // Create a buffered image with transparency
-        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
 
         // Draw the image on to the buffered image
         Graphics2D bGr = bimage.createGraphics();

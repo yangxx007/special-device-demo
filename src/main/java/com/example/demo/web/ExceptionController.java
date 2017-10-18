@@ -8,7 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+/**
+ * @author yang
+ * @create_at 2017/10/17
+ **/
 @Controller
 @ControllerAdvice
 public class ExceptionController

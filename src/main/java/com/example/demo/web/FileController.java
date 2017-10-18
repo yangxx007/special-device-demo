@@ -2,7 +2,6 @@ package com.example.demo.web;
 
 import com.example.demo.entity.dataModel.ApplyInfo;
 import com.example.demo.entity.dataModel.FileData;
-import com.example.demo.enums.ApplyTypeEnum;
 import com.example.demo.enums.FileTypeEnum;
 import com.example.demo.enums.JsonResponse;
 import com.example.demo.service.ApplyService;
@@ -12,7 +11,6 @@ import com.example.demo.service.exception.FileFailException;
 import com.example.demo.service.staticfunction.FilePathUtil;
 import com.example.demo.service.staticfunction.UtilServiceImpl;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.MimeUtility;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -34,21 +32,25 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URLEncoder;
 
-import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
-
+/**
+* @author yang
+* @create_at 2017/10/17
+ **/
 @Controller
 @RequestMapping("/file")
-public class fileController {
+public class FileController {
     @Autowired
     private ApplyService applyService;
     @Autowired
     private FileService fileService;
     @Autowired
-    private RedisTemplate<String,Object> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public @ResponseBody JsonResponse testUploadFile(HttpServletResponse response,HttpServletRequest req, MultipartHttpServletRequest multiReq, @RequestParam("applyId")
+    public @ResponseBody
+    JsonResponse testUploadFile(HttpServletRequest req, MultipartHttpServletRequest multiReq, @RequestParam("applyId")
             long apply_id, @RequestParam("fileTypeId") int file_type_id)
             throws
             Exception {
@@ -57,16 +59,14 @@ public class fileController {
         fileData.setId(file_id);
         fileData.setFileTypeId(file_type_id);
         fileData.setApplyId(apply_id);
-        ApplyInfo applyInfo = applyService.findByApplyID(apply_id,SecurityUtils.getSubject().getSession());
-//        JSONObject jsonObject = UtilServiceImpl.string2JSON(applyInfo.getFilesId());
-        Map<FileTypeEnum,Long> filemap=applyInfo.getFiles();
+        ApplyInfo applyInfo = applyService.findByApplyID(apply_id, SecurityUtils.getSubject().getSession());
+        Map<FileTypeEnum, Long> filemap = applyInfo.getFiles();
         String path = FilePathUtil.getPathById(file_id);
         FileOutputStream fos = new FileOutputStream(new File(path));
         MultipartFile file = multiReq.getFile("file");
         fileData.setFileName(file.getOriginalFilename());
-//        jsonObject.put(file.getOriginalFilename(), file_id);
 
-        filemap.put(FileTypeEnum.values()[file_type_id],file_id);
+        filemap.put(FileTypeEnum.values()[file_type_id], file_id);
         applyInfo.setFiles(filemap);
         FileInputStream fs = (FileInputStream) file.getInputStream();
         byte[] buffer = new byte[1024];
@@ -76,10 +76,15 @@ public class fileController {
         }
         fos.close();
         fs.close();
-        applyService.saveApply(applyInfo,SecurityUtils.getSubject().getSession());
+        applyService.saveApply(applyInfo, SecurityUtils.getSubject().getSession());
         fileService.save(fileData);
-        thumbnailImage(response,file_id);
-        return new JsonResponse();
+        Map<String, String> data = new HashMap<>();
+
+        data.put("thumbnail", "/file/thumbnail?fileId=" + file_id);
+        data.put("preview", "/file/preview?fileId=" + file_id);
+        data.put("download", "/file/download?fileId=" + file_id);
+
+        return new JsonResponse(200, null, data);
     }
 
     @RequestMapping("/index")
@@ -92,42 +97,42 @@ public class fileController {
     public void testDownload(HttpServletRequest request, HttpServletResponse response, @RequestParam("fileId") long
             file_id) throws Exception {
 
-            File file = new File(FilePathUtil.getPathById(file_id));
-            //检查applyid是否是下载者的
-            //validate.isPermission(SecurityUtils.getSubject(),fileService.getFileById(file_id).getApplyId());
+        File file = new File(FilePathUtil.getPathById(file_id));
+        //检查applyid是否是下载者的
+        //validate.isPermission(SecurityUtils.getSubject(),fileService.getFileById(file_id).getApplyId());
         try {
             String agent = request.getHeader("User-Agent");
             FileData fileData = fileService.getFileById(file_id);
             String fileName = fileData.getFileName();
-            if (agent.contains("Firefox"))
-                fileName = MimeUtility.encodeWord(fileName);
+            if (agent.contains("Firefox")) ;
+                //fileName = MimeUtility.encodeWord(fileName);
             else
                 fileName = URLEncoder.encode(fileName, "utf-8").replaceAll("\\+", "%20");
             response.setHeader("content-type", "application/octet-stream");
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment;filename=\"" + fileName + "\"");
-            OutputStream os=response.getOutputStream();
-            FileInputStream fo=new FileInputStream(file);
-            try{
-                byte[] bis=UtilServiceImpl.readStream(fo);
+            OutputStream os = response.getOutputStream();
+            FileInputStream fo = new FileInputStream(file);
+            try {
+                byte[] bis = UtilServiceImpl.readStream(fo);
                 os.write(bis);
                 os.flush();
             } catch (Exception e) {
                 throw e;
-            }finally {
+            } finally {
                 fo.close();
                 os.close();
             }
 
         } catch (Exception e) {
-           throw new FileFailException(e.getMessage());
+            throw new FileFailException(e.getMessage());
         }
 
 
     }
 
     @RequestMapping(value = "/preview", method = RequestMethod.GET)
-    void  preview(HttpServletRequest request, HttpServletResponse response, @RequestParam("fileId") long
+    void preview(HttpServletRequest request, HttpServletResponse response, @RequestParam("fileId") long
             file_id)
             throws Exception {
         File file = new File(FilePathUtil.getPathById(file_id));
@@ -140,20 +145,19 @@ public class fileController {
         response.setHeader("content-type", "application/pdf");
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "inline;filename=\"" + fileName + "\"");
-        OutputStream os=response.getOutputStream();
-        FileInputStream fo=new FileInputStream(file);
-        try{
-            byte[] bis=UtilServiceImpl.readStream(fo);
+        OutputStream os = response.getOutputStream();
+        FileInputStream fo = new FileInputStream(file);
+        try {
+            byte[] bis = UtilServiceImpl.readStream(fo);
             os.write(bis);
             os.flush();
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
-        }finally {
+        } finally {
             fo.close();
             os.close();
         }
-
 
 
     }
@@ -162,24 +166,17 @@ public class fileController {
     public void thumbnailImage(HttpServletResponse response, @RequestParam("fileId") long
             file_id) throws Exception {
         String path = FilePathUtil.getPathById(file_id);
-        response.setDateHeader("Expires", UtilServiceImpl.date2Long(new Date()) + 156000);
-        response.setHeader("Cache-Control", "public,max-age=156000");
-        // response.addHeader("Cache-Control", "post-check=0, pre-check=0");
-        //response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+        response.setHeader("Cache-Control", "no-cache, must-revalidate");
+        response.addHeader("Cache-Control", "post-check=0, pre-check=0");
+        response.setHeader("Pragma", "no-cache");
         response.setContentType("image/jpeg");
         ServletOutputStream out = response.getOutputStream();
-        FileInputStream imageCache= UtilServiceImpl.getFileStream(path+"p");
-        //以后的path就用缓存去记录，主要是想要用缓存的expire时间以及缓存刷新。
-        if(imageCache!=null)
-        {
-            byte[] btImg = UtilServiceImpl.readStream(imageCache);
-
-            out.write(btImg);
-        }
-        else {
-
-            File file = new File(path + "p");
-            BufferedImage image = null;
+        BufferedImage image;
+        File file = new File(path + "p");
+        if (file.exists()) {
+            image = UtilServiceImpl.getImage(path + "p");
+        } else {
             try {
                 image = UtilServiceImpl.getImage(path);
             } catch (Exception e) {
@@ -187,10 +184,9 @@ public class fileController {
                 UtilServiceImpl.fixpdf(path, new FileOutputStream(file));
                 image = UtilServiceImpl.getImage(path + "p");
             }
-
-            ImageIO.write(image, "jpg", out);
-            ImageIO.write(image, "jpg", file);
         }
+        ImageIO.write(image, "jpg", out);
+
         out.flush();
         out.close();
 
@@ -198,7 +194,8 @@ public class fileController {
 
 
     @RequestMapping("/test")
-    public @ResponseBody JsonResponse test(){
+    public @ResponseBody
+    JsonResponse test() {
 //        UserInfo fileData=new UserInfo();
 //        fileData.setUsername("admin");
 //        List<SysRole> sysRoles=new ArrayList<>();

@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
-
+/**
+ * @author yang
+ * @create_at 2017/10/17
+ **/
 @Controller
 @RequestMapping("/map")
 public class MapController {

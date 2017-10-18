@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+/**
+ * @author yang
+ * @create_at 2017/10/17
+ **/
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
