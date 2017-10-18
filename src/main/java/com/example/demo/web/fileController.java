@@ -48,7 +48,7 @@ public class fileController {
     private RedisTemplate<String,Object> redisTemplate;
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public @ResponseBody JsonResponse testUploadFile(HttpServletRequest req, MultipartHttpServletRequest multiReq, @RequestParam("applyId")
+    public @ResponseBody JsonResponse testUploadFile(HttpServletResponse response,HttpServletRequest req, MultipartHttpServletRequest multiReq, @RequestParam("applyId")
             long apply_id, @RequestParam("fileTypeId") int file_type_id)
             throws
             Exception {
@@ -79,7 +79,13 @@ public class fileController {
         fs.close();
         applyService.saveApply(applyInfo,SecurityUtils.getSubject().getSession());
         fileService.save(fileData);
-        return new JsonResponse();
+        Map<String,String> data=new HashMap<>();
+
+        data.put("thumbnail","file/thumbnail?fileId="+file_id);
+        data.put("preview","file/preview?fileId="+file_id);
+        data.put("download","file/download?fileId="+file_id);
+
+        return new JsonResponse(200,null,data);
     }
 
     @RequestMapping("/index")
@@ -171,13 +177,13 @@ public class fileController {
         ServletOutputStream out = response.getOutputStream();
         FileInputStream imageCache= UtilServiceImpl.getFileStream(path+"p");
         //以后的path就用缓存去记录，主要是想要用缓存的expire时间以及缓存刷新。
-        if(imageCache!=null)
-        {
-            byte[] btImg = UtilServiceImpl.readStream(imageCache);
+//        if(imageCache!=null)
+//        {
+//            byte[] btImg = UtilServiceImpl.readStream(imageCache);
 
-            out.write(btImg);
-        }
-        else {
+//            out.write(btImg);
+//        }
+//        else {
 
             File file = new File(path + "p");
             BufferedImage image = null;
@@ -191,7 +197,7 @@ public class fileController {
 
             ImageIO.write(image, "jpg", out);
             ImageIO.write(image, "jpg", file);
-        }
+//        }
         out.flush();
         out.close();
 
@@ -212,4 +218,5 @@ public class fileController {
         return new JsonResponse();
     }
 }
+
 
