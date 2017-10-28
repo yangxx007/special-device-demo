@@ -1,8 +1,9 @@
 package com.example.demo.web;
 
-import com.example.demo.entity.dataModel.ApplyInfo;
-import com.example.demo.entity.dataModel.FileData;
+import com.example.demo.entity.data.ApplyInfo;
+import com.example.demo.entity.data.FileData;
 import com.example.demo.enums.FileTypeEnum;
+import com.example.demo.enums.FormTypeEnum;
 import com.example.demo.enums.JsonResponse;
 import com.example.demo.service.ApplyService;
 import com.example.demo.service.FileService;

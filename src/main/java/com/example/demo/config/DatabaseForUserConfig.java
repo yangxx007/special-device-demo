@@ -25,7 +25,7 @@ import java.util.HashMap;
 
 @PropertySource({"classpath:application.properties"})
 @EnableJpaRepositories(
-        basePackages = "com.example.demo.Dao.user",
+        basePackages = "com.example.demo.dao.user",
         entityManagerFactoryRef ="userEntityManager",
         transactionManagerRef = "userTransactionManager"
 
@@ -47,7 +47,7 @@ public class DatabaseForUserConfig {
 
         em.setPackagesToScan(new
 
-                String[] { "com.example.demo.entity.userModel"
+                String[] { "com.example.demo.entity.user"
 
         });
 

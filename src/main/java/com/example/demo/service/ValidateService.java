@@ -1,18 +1,12 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.dataModel.ApplyInfo;
-import com.example.demo.entity.userModel.SysPermission;
-import com.example.demo.entity.userModel.SysRole;
-import com.example.demo.entity.userModel.UserInfo;
+import com.example.demo.entity.data.ApplyInfo;
 import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
-
-import java.util.List;
-
 
 /**
- * Created by yang on 2017/7/27.
- */
+ * @author yang
+ * @create_at 2017/10/17
+ **/
 public interface ValidateService {
 
     public boolean validateForm ();

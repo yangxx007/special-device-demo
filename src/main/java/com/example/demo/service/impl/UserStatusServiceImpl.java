@@ -1,22 +1,15 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.Dao.user.UserDao;
-import com.example.demo.entity.userModel.SysPermission;
-import com.example.demo.entity.userModel.SysRole;
-import com.example.demo.entity.userModel.UserInfo;
-import com.example.demo.service.ApplyService;
-import com.example.demo.service.RedisService;
-import com.example.demo.service.UserService;
+import com.example.demo.dao.user.UserDao;
+import com.example.demo.entity.user.SysPermission;
+import com.example.demo.entity.user.SysRole;
+import com.example.demo.entity.user.UserInfo;
 import com.example.demo.service.UserStatusService;
 import com.example.demo.service.exception.ValidateFailException;
 import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
-import org.docx4j.wml.U;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.util.Validate;
 
 import java.util.List;
 

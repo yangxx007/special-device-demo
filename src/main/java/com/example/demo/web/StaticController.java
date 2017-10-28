@@ -1,5 +1,7 @@
 package com.example.demo.web;
 
+import com.example.demo.entity.device.DeviceType;
+import com.example.demo.service.DeviceTypeService;
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import org.apache.shiro.SecurityUtils;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.imageio.ImageIO;
@@ -17,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.util.Date;
+import java.util.List;
+
 /**
  * @author yang
  * @create_at 2017/10/17
@@ -59,5 +64,26 @@ public class StaticController {
         }
 
     }
+    @Autowired
+    DeviceTypeService deviceTypeService;
+    @RequestMapping("/deviceCategory")
+    public @ResponseBody
+    List<DeviceType> getDeviceCategory(){
+
+        return deviceTypeService.findAllCategory();
+    }
+    @RequestMapping("/deviceClass")
+    public @ResponseBody
+    List<DeviceType> getDeviceClass(@RequestParam(name = "code")String code){
+
+        return deviceTypeService.findAllClass(code);
+    }
+    @RequestMapping("/deviceType")
+    public @ResponseBody
+    List<DeviceType> getDeviceType(@RequestParam(name = "code")String code){
+
+        return deviceTypeService.findAllType(code);
+    }
+
 
 }

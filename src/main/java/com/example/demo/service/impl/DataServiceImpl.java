@@ -1,9 +1,7 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.Dao.apply.*;
-import com.example.demo.entity.dataModel.ApplyInfo;
+import com.example.demo.entity.data.ApplyInfo;
 import com.example.demo.service.DataService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

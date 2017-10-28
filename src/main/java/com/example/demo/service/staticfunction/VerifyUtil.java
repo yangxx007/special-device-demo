@@ -1,6 +1,6 @@
 package com.example.demo.service.staticfunction;
 
-import com.example.demo.entity.dataModel.ApplyInfo;
+import com.example.demo.entity.data.ApplyInfo;
 import com.example.demo.service.exception.VerifyFailException;
 
 import java.lang.reflect.Field;

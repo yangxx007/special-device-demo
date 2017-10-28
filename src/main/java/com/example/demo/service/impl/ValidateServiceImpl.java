@@ -1,16 +1,14 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.Dao.apply.ApplyInfoDao;
-import com.example.demo.entity.dataModel.ApplyInfo;
-import com.example.demo.entity.userModel.UserInfo;
+import com.example.demo.dao.apply.ApplyInfoDao;
+import com.example.demo.entity.data.ApplyInfo;
+import com.example.demo.entity.user.UserInfo;
 import com.example.demo.enums.ApplyStatesEnum;
-import com.example.demo.service.ApplyService;
 import com.example.demo.service.UserStatusService;
 import com.example.demo.service.ValidateService;
 import com.example.demo.service.exception.NotFoundException;
 import com.example.demo.service.exception.ValidateFailException;
 import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,19 +46,16 @@ public class ValidateServiceImpl implements ValidateService {
         switch (userInfo.getRoleList().get(0).getId())
         {
             case 1:
-                if(ApplyStatesEnum.已受理待审批.compareTo(applyInfo.getStatus().getStates())>0)
-                    return userInfo.getUid()==applyInfo.getOwnerId();
-                else
-                    throw new ValidateFailException("can't accept your operation");
-
+                return userInfo.getUid()==applyInfo.getOwnerId();
             case 2:
                 return userInfo.getAgencyId()==applyInfo.getAcceptorAgencyId();
 
             case 3:
                 return userInfo.getAgencyId()==applyInfo.getAcceptorAgencyId();
+            default:
+                return true;
 
         }
-        return true;
 
     }
 //    public void validateApplyOwner(Session session, ApplyInfo applyInfo) throws ValidateFailException{

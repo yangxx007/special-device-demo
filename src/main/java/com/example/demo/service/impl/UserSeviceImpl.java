@@ -1,8 +1,8 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.Dao.user.UserDao;
-import com.example.demo.Dao.user.UserPageDao;
-import com.example.demo.entity.userModel.UserInfo;
+import com.example.demo.dao.user.UserDao;
+import com.example.demo.dao.user.UserPageDao;
+import com.example.demo.entity.user.UserInfo;
 import com.example.demo.service.AccountService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.exception.VerifyFailException;
@@ -84,7 +84,8 @@ public class UserSeviceImpl implements UserService {
 
     @Override
     public List<UserInfo> finduserfortest(String name, long start, long end) {
-        return userPageDao.findAllByNameAndUidIsBetween(name,start,end);
+        return null ;
+        //userPageDao.findAllByNameAndUidIsBetween(name,start,end);
     }
 
 }

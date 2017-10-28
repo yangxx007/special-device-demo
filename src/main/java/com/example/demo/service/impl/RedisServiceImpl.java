@@ -1,13 +1,10 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.userModel.UserInfo;
 import com.example.demo.service.RedisService;
-import com.example.demo.service.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service

@@ -1,6 +1,6 @@
 package com.example.demo.service.staticfunction;
 
-import com.example.demo.entity.deviceModel.DeviceStatus;
+import com.example.demo.entity.device.DeviceStatus;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfStamper;
 import com.lowagie.text.pdf.PdfWriter;

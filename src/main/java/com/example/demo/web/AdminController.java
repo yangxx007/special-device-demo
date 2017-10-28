@@ -1,46 +1,29 @@
 package com.example.demo.web;
 
-import com.example.demo.Dao.user.UserDao;
-import com.example.demo.entity.dataModel.ApplyInfo;
-import com.example.demo.entity.dataModel.ApplyStatus;
-import com.example.demo.entity.userModel.UserInfo;
-import com.example.demo.enums.UserSexEnum;
+import com.example.demo.connector.responser.ApplyResponse;
+import com.example.demo.connector.conditions.ApplyConditions;
+import com.example.demo.connector.updater.ApplyHandler;
+import com.example.demo.dao.apply.ApplySearchCondition;
+import com.example.demo.dao.user.UserDao;
+import com.example.demo.entity.data.ApplyInfo;
+import com.example.demo.entity.form.Form1;
+import com.example.demo.entity.user.UserInfo;
+import com.example.demo.enums.*;
 import com.example.demo.service.*;
-import com.example.demo.service.exception.KaptchaFailException;
-import com.example.demo.service.staticfunction.UtilServiceImpl;
-import com.google.code.kaptcha.Constants;
-import com.google.code.kaptcha.Producer;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.crypto.hash.Md5Hash;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.imageio.ImageIO;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.awt.image.BufferedImage;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
+import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author yang
@@ -58,13 +41,13 @@ public class AdminController {
     private UserService userSevice;
     @Autowired
     private UserDao userDao;
-
-    @RequestMapping(value = "/user/all", method = RequestMethod.GET)
+    @RequestMapping("/user/all")
     //responsebody标识是直接返回字符串，没有标识返回对应名字的html
     public @ResponseBody
     List<UserInfo> getUserList() {
         return userSevice.findAll();
     }
+
 
     @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
     public @ResponseBody
@@ -302,7 +285,90 @@ public class AdminController {
 ////        return applyService.findApplyInfosForUser(userStatusService.getCurrUserId(SecurityUtils.getSubject()),
 ////                device_id,start,end);
 //    }
+@Autowired
+private UserStatusService statusService;
+    @Autowired
+    @Qualifier(value = "productEntityManager")
+   private EntityManager em;
+    public
+    JsonResponse getApplies(@RequestBody ApplyConditions applyConditions)throws Exception{
+     UserInfo user=statusService.getCurrUser(SecurityUtils.getSubject().getSession());
+     applyConditions.setAgencyId(user.getAgencyId());
+     ApplySearchCondition searchCondition=new ApplySearchCondition(applyConditions);
+     Pageable pageable = new PageRequest(applyConditions.getPage(), applyConditions.getSize(), applyConditions.getSort());
+     CustomePage<ApplyResponse> applyInfos = searchCondition.result(searchCondition.searchByConditions(em),pageable);
+     return new JsonResponse(200,null,applyInfos);
+ }
+    @RequestMapping(value = "/unacceptedApplies/get",method = RequestMethod.POST)
+    public @ResponseBody
+    JsonResponse getUnacceptedApplies(@RequestBody ApplyConditions applyConditions)throws Exception{
+        int[] a={1,1};
+        applyConditions.setStates(a);
+        return getApplies(applyConditions);
+    }
+ @RequestMapping(value = "/acceptedApplies/get",method = RequestMethod.POST)
+    public @ResponseBody
+    JsonResponse getAcceptedApplies(@RequestBody ApplyConditions applyConditions)throws Exception{
+        int[] a={2,5};
+        applyConditions.setStates(a);
+        return getApplies(applyConditions);
+    }
+    @RequestMapping(value = "/unapprovedApplies/get",method = RequestMethod.POST)
+    public @ResponseBody
+    JsonResponse getUnapprovedApplies(@RequestBody ApplyConditions applyConditions)throws Exception{
+        int[] a={2,2};
+        applyConditions.setStates(a);
+        return getApplies(applyConditions);
+    }
+    @RequestMapping(value = "/approvedApplies/get",method = RequestMethod.POST)
+    public @ResponseBody
+    JsonResponse getapprovedApplies(@RequestBody ApplyConditions applyConditions)throws Exception{
+        int[] a={3,5};
+        applyConditions.setStates(a);
+        return getApplies(applyConditions);
+    }
+    @Autowired
+    private ApplyService applyService;
+    @RequestMapping("/apply/accept")
+    public @ResponseBody JsonResponse acceptApply(@RequestBody ApplyHandler handler){
+        System.out.println(handler.getPass());
+        ApplyInfo applyInfo=applyService.findByApplyID(handler.getApplyId(),SecurityUtils.getSubject().getSession());
+        if(handler.getPass()){
 
-
-
+            applyInfo.getStatus().setStates(ApplyStatesEnum.已受理待审批);
+        }else{
+            applyInfo.getStatus().setStates(ApplyStatesEnum.受理驳回);
+            apply2DeviceService.apply2Device(applyInfo,false);
+        }
+        applyInfo.getStatus().setAcceptedComments(handler.getComments());
+        applyService.saveApply(applyInfo,SecurityUtils.getSubject().getSession());
+        return new JsonResponse();
+    }
+    @Autowired
+    private Apply2DeviceService apply2DeviceService;
+    @RequestMapping("/apply/approve")
+    public @ResponseBody JsonResponse approveApply(@RequestBody ApplyHandler handler){
+        System.out.println(new JSONObject(handler).toString());
+        ApplyInfo applyInfo=applyService.findByApplyID(handler.getApplyId(),SecurityUtils.getSubject().getSession());
+        if(handler.getPass()){
+            applyInfo.getStatus().setStates(ApplyStatesEnum.已审批通过);
+            apply2DeviceService.apply2Device(applyInfo,true);
+        }else{
+            applyInfo.getStatus().setStates(ApplyStatesEnum.审批驳回);
+            apply2DeviceService.apply2Device(applyInfo,false);
+        }
+        applyInfo.getStatus().setApproveComments(handler.getComments());
+        applyService.saveApply(applyInfo,SecurityUtils.getSubject().getSession());
+        return new JsonResponse();
+    }
+    @Autowired
+    private FileService fileService;
+    @RequestMapping("/test")
+    public void test()throws Exception{
+        Form1 form1=new Form1();
+        form1.setCheckCategory("daffff");
+        form1.setComCode("ddddd");
+        form1.setComPhone("11111222");
+        fileService.form2pdf(form1,1,20);
+    }
 }

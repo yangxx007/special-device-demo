@@ -1,16 +1,15 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.userModel.SysPermission;
-import com.example.demo.entity.userModel.SysRole;
-import com.example.demo.entity.userModel.UserInfo;
+import com.example.demo.entity.user.SysPermission;
+import com.example.demo.entity.user.SysRole;
+import com.example.demo.entity.user.UserInfo;
 import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 
 import java.util.List;
-
 /**
- * Created by yang on 2017/9/12.
- */
+ * @author yang
+ * @create_at 2017/10/17
+ **/
 public interface UserStatusService {
 
     public long getCurrUserId(Session session);

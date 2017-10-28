@@ -1,6 +1,7 @@
 package com.example.demo.web;
 
-import com.example.demo.entity.dataModel.District;
+import com.example.demo.entity.data.District;
+import com.example.demo.entity.data.Organization;
 import com.example.demo.service.MapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,4 +45,8 @@ public class MapController {
         return mapService.findAllArea(code);
     }
 
+    @RequestMapping("/organization")
+    public @ResponseBody List<Organization> getOrganizations(@RequestParam("addressCode")String code){
+        return mapService.findOrganizationsByCode(code);
+    }
 }

@@ -1,15 +1,15 @@
 package com.example.demo.service;
 
 
-import com.example.demo.entity.userModel.UserInfo;
+import com.example.demo.entity.user.UserInfo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-
 /**
- * Created by yang on 2017/7/26.
- */
+ * @author yang
+ * @create_at 2017/10/17
+ **/
 public interface UserService {
     public UserInfo findByUsername(String username);
     public void createUser(UserInfo userInfo,int level);

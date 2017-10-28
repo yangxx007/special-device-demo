@@ -8,7 +8,10 @@ public class FilePathUtil {
         path=path+"..//files//"+id/5000+"//";
         File file=new File(path);
         if(!file.exists())
+        {
             file.mkdir();
+        }
+
         return  path+id;
     }
 }

@@ -23,8 +23,7 @@ import java.util.HashMap;
 
 @PropertySource({"classpath:application.properties"})
 @EnableJpaRepositories(
-        basePackages = {"com.example.demo.Dao.apply","com.example.demo.Dao.file","com.example.demo.Dao.map","com" +
-                ".example.Dao.device","com.example.demo.Dao.agency"},
+        basePackages = {"com.example.demo.dao.apply", "com.example.demo.dao.file", "com.example.demo.dao.map", "com.example.demo.dao.device", "com.example.demo.dao.agency"},
         entityManagerFactoryRef ="productEntityManager",
         transactionManagerRef = "productTransactionManager"
 
@@ -46,8 +45,8 @@ public class DatabaseForDataConfig {
 
         em.setPackagesToScan(new
 
-                String[] {"com.example.demo.entity.formModel","com.example.demo.entity.dataModel","com.example.demo" +
-                ".entity.deviceModel"
+                String[] {"com.example.demo.entity.form","com.example.demo.entity.data","com.example.demo" +
+                ".entity.device"
 
         });
 
