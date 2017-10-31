@@ -7,7 +7,7 @@ import java.util.List;
 @Table(name = "Cylinders")
 public class Form7 extends Form {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String useCompany;
     @OneToMany(fetch = FetchType.LAZY)

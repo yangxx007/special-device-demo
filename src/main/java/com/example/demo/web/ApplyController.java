@@ -17,6 +17,7 @@ import com.example.demo.service.staticfunction.UtilServiceImpl;
 import org.apache.shiro.SecurityUtils;
 
 import org.apache.shiro.session.Session;
+import org.docx4j.openpackaging.Base;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
@@ -36,21 +37,21 @@ import java.util.Map;
 @Controller
 @RequestMapping("/apply")
 
-public class ApplyController {
+public class ApplyController extends BaseController {
     @Autowired
     @Qualifier(value = "productEntityManager")
     private EntityManager em;
     @Autowired
-    ApplyService applyService;
+    private ApplyService applyService;
     @Autowired
-    UserStatusService statusService;
+    private UserStatusService statusService;
 
     @RequestMapping(value = "/get",method = RequestMethod.POST)
     //@JsonView(View.ApplyForView.class)
     public @ResponseBody
     JsonResponse getApplyList(@RequestBody ApplyConditions applyConditions) throws Exception {
 
-        long userId=statusService.getCurrUserId(SecurityUtils.getSubject().getSession());
+        long userId=statusService.getCurrUserId(getSession());
 
         applyConditions.setUserId(userId);
 
@@ -64,7 +65,7 @@ public class ApplyController {
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public @ResponseBody
     JsonResponse     getApply(@RequestParam("applyId") long id) {
-        return new JsonResponse(200, null, applyService.findByApplyID(id,SecurityUtils.getSubject().getSession()));
+        return new JsonResponse(200, null, applyService.findByApplyID(id,getSession()));
 
     }
 
@@ -75,7 +76,7 @@ public class ApplyController {
 
         applyInfo.setCreateTime(UtilServiceImpl.date2Long(new Date()));
         applyInfo.setStatus(new ApplyStatus());
-        applyInfo=applyService.createApply(applyInfo,statusService.getCurrUserId(SecurityUtils.getSubject().getSession()));
+        applyInfo=applyService.createApply(applyInfo,statusService.getCurrUserId(getSession()));
         Map<String,String> map= new HashMap<>();
         map.put("applyId",applyInfo.getId()+"");
         map.put("forms",applyInfo.getForms().toString());
@@ -100,7 +101,7 @@ public class ApplyController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public @ResponseBody
     JsonResponse updateApply(@RequestBody ApplyUpdater updater) throws RuntimeException{
-        Session session=SecurityUtils.getSubject().getSession();
+        Session session=getSession();
         ApplyInfo applyInfo=applyService.findByApplyID(updater.getId(),session);
         updater.update(applyInfo);
         ApplyInfo applyInfo1=applyService.saveApply(applyInfo,session);
@@ -115,7 +116,7 @@ public class ApplyController {
     private DeviceService deviceService;
     @RequestMapping(value = "/confirm",method = RequestMethod.GET)
     public @ResponseBody JsonResponse confirmApply(@RequestParam("applyId") long id)throws Exception{
-        Session session=SecurityUtils.getSubject().getSession();
+        Session session=getSession();
         applyService.confirmApply(id,session);
         ApplyInfo applyInfo=applyService.findByApplyID(id,session);
         if(applyInfo.getApplyType()!= ApplyTypeEnum.首次申请&&applyInfo.getDeviceId()!=0){

@@ -1,16 +1,14 @@
 package com.example.demo.entity.form;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "sdProofofChange")
 public class Form4 extends Form  {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private long id;
     private String number;
     private String eqSpecies;

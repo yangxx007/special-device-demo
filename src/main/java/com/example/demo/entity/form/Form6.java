@@ -7,7 +7,7 @@ import java.util.List;
 @Table(name = "IndustrialPiping")
 public class Form6 extends Form  {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String useCompany;
     private String useCompanyAdd;

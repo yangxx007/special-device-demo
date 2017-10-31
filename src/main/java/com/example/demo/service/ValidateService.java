@@ -14,7 +14,7 @@ public interface ValidateService {
 
    // public boolean isApplyOwner(Subject currSubject,long apply_id);
 
-    public void isPermission(Session session, ApplyInfo applyInfo);
+    public void isPermission(Session session, Validatable validate);
 //    public boolean isApplyAuditor (Subject currSubject,long apply_id);
 //
 //    public boolean isApplyAcceptor(Subject currSubject,long apply_id);

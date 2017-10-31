@@ -8,6 +8,7 @@ import com.example.demo.enums.DeviceTypeEnum;
 import com.example.demo.enums.FileTypeEnum;
 import com.example.demo.enums.FormTypeEnum;
 
+import com.example.demo.service.Validatable;
 import com.example.demo.service.view.View;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -19,9 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Entity
-public class ApplyInfo  implements Serializable{
+public class ApplyInfo  implements Serializable,Validatable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String codeId;
     private long deviceId=0;
@@ -84,7 +85,7 @@ public class ApplyInfo  implements Serializable{
     public void setCodeId(String codeId) {
         this.codeId = codeId;
     }
-
+    @Override
     public long getOwnerId() {
         return ownerId;
     }
@@ -276,7 +277,7 @@ public class ApplyInfo  implements Serializable{
     public void setDeviceType(DeviceTypeEnum deviceType) {
         this.deviceType = deviceType;
     }
-
+    @Override
     public long getAcceptorAgencyId() {
         return acceptorAgencyId;
     }

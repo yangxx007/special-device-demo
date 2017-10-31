@@ -11,6 +11,8 @@ import com.example.demo.entity.user.UserInfo;
 import com.example.demo.enums.*;
 import com.example.demo.service.*;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,7 @@ import java.util.List;
 @RequestMapping("/admin")
 //requirespermissions 标识当前用户需要怎样的权限才能访问这个url
 //@RequiresPermissions(value ={"admin:view","admin:edit","admin:del"},logical = Logical.AND)
-public class AdminController {
+public class AdminController extends BaseController{
     //autowired 标识这个变量是一个接口变量，并且会自动在标识有service的实现类中自动继承
     @Autowired
     private UserService userSevice;
@@ -289,10 +291,12 @@ public class AdminController {
 private UserStatusService statusService;
     @Autowired
     @Qualifier(value = "productEntityManager")
-   private EntityManager em;
+    private EntityManager em;
+
+
     public
     JsonResponse getApplies(@RequestBody ApplyConditions applyConditions)throws Exception{
-     UserInfo user=statusService.getCurrUser(SecurityUtils.getSubject().getSession());
+     UserInfo user=statusService.getCurrUser(getSession());
      applyConditions.setAgencyId(user.getAgencyId());
      ApplySearchCondition searchCondition=new ApplySearchCondition(applyConditions);
      Pageable pageable = new PageRequest(applyConditions.getPage(), applyConditions.getSize(), applyConditions.getSort());
@@ -334,11 +338,10 @@ private UserStatusService statusService;
         System.out.println(handler.getPass());
         ApplyInfo applyInfo=applyService.findByApplyID(handler.getApplyId(),SecurityUtils.getSubject().getSession());
         if(handler.getPass()){
-
             applyInfo.getStatus().setStates(ApplyStatesEnum.已受理待审批);
         }else{
             applyInfo.getStatus().setStates(ApplyStatesEnum.受理驳回);
-            apply2DeviceService.apply2Device(applyInfo,false);
+            apply2DeviceService.apply2Device(applyInfo,false,getSession());
         }
         applyInfo.getStatus().setAcceptedComments(handler.getComments());
         applyService.saveApply(applyInfo,SecurityUtils.getSubject().getSession());
@@ -349,16 +352,16 @@ private UserStatusService statusService;
     @RequestMapping("/apply/approve")
     public @ResponseBody JsonResponse approveApply(@RequestBody ApplyHandler handler){
         System.out.println(new JSONObject(handler).toString());
-        ApplyInfo applyInfo=applyService.findByApplyID(handler.getApplyId(),SecurityUtils.getSubject().getSession());
+        ApplyInfo applyInfo=applyService.findByApplyID(handler.getApplyId(),getSession());
         if(handler.getPass()){
             applyInfo.getStatus().setStates(ApplyStatesEnum.已审批通过);
-            apply2DeviceService.apply2Device(applyInfo,true);
+            apply2DeviceService.apply2Device(applyInfo,true,getSession());
         }else{
             applyInfo.getStatus().setStates(ApplyStatesEnum.审批驳回);
-            apply2DeviceService.apply2Device(applyInfo,false);
+            apply2DeviceService.apply2Device(applyInfo,false,getSession());
         }
         applyInfo.getStatus().setApproveComments(handler.getComments());
-        applyService.saveApply(applyInfo,SecurityUtils.getSubject().getSession());
+        applyService.saveApply(applyInfo,getSession());
         return new JsonResponse();
     }
     @Autowired

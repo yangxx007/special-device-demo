@@ -7,16 +7,16 @@ import java.util.List;
 @Table(name = "sdCancellationofRe")
 public class Form5 extends Form  {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long  id;
     private String declarationType;
-    private String useCompanyName;
-    private String useCompanyAddr;
-    private String securityAdmin;
-    private String securityAdminTel;
-    private String propertyCompanyName;
-    private String propertyCompanyTel;
-    private String serialNumber;
+    private String noUseNum;
+    private String useComName;
+    private String useComAddr;
+    private String safeAdmin;
+    private String safeAdminTelephone;
+    private String propertyComName;
+    private String propertyComTelephone;
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinTable(name = "CancelDevices",joinColumns = {@JoinColumn(name = "formId")},inverseJoinColumns = {@JoinColumn(name ="deviceId")})
     private List<Form5v1> subList;
@@ -39,62 +39,6 @@ public class Form5 extends Form  {
 
     public void setDeclarationType(String declarationType) {
         this.declarationType = declarationType;
-    }
-
-    public String getUseCompanyName() {
-        return useCompanyName;
-    }
-
-    public void setUseCompanyName(String useCompanyName) {
-        this.useCompanyName = useCompanyName;
-    }
-
-    public String getUseCompanyAddr() {
-        return useCompanyAddr;
-    }
-
-    public void setUseCompanyAddr(String useCompanyAddr) {
-        this.useCompanyAddr = useCompanyAddr;
-    }
-
-    public String getSecurityAdmin() {
-        return securityAdmin;
-    }
-
-    public void setSecurityAdmin(String securityAdmin) {
-        this.securityAdmin = securityAdmin;
-    }
-
-    public String getSecurityAdminTel() {
-        return securityAdminTel;
-    }
-
-    public void setSecurityAdminTel(String securityAdminTel) {
-        this.securityAdminTel = securityAdminTel;
-    }
-
-    public String getPropertyCompanyName() {
-        return propertyCompanyName;
-    }
-
-    public void setPropertyCompanyName(String propertyCompanyName) {
-        this.propertyCompanyName = propertyCompanyName;
-    }
-
-    public String getPropertyCompanyTel() {
-        return propertyCompanyTel;
-    }
-
-    public void setPropertyCompanyTel(String propertyCompanyTel) {
-        this.propertyCompanyTel = propertyCompanyTel;
-    }
-
-    public String getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(String serialNumber) {
-        this.serialNumber = serialNumber;
     }
 
     public String getUseCompanyOpinion() {
@@ -135,5 +79,61 @@ public class Form5 extends Form  {
 
     public void setSubList(List<Form5v1> subList) {
         this.subList = subList;
+    }
+
+    public String getNoUseNum() {
+        return noUseNum;
+    }
+
+    public void setNoUseNum(String noUseNum) {
+        this.noUseNum = noUseNum;
+    }
+
+    public String getUseComName() {
+        return useComName;
+    }
+
+    public void setUseComName(String useComName) {
+        this.useComName = useComName;
+    }
+
+    public String getUseComAddr() {
+        return useComAddr;
+    }
+
+    public void setUseComAddr(String useComAddr) {
+        this.useComAddr = useComAddr;
+    }
+
+    public String getSafeAdmin() {
+        return safeAdmin;
+    }
+
+    public void setSafeAdmin(String safeAdmin) {
+        this.safeAdmin = safeAdmin;
+    }
+
+    public String getSafeAdminTelephone() {
+        return safeAdminTelephone;
+    }
+
+    public void setSafeAdminTelephone(String safeAdminTelephone) {
+        this.safeAdminTelephone = safeAdminTelephone;
+    }
+
+    public String getPropertyComName() {
+        return propertyComName;
+    }
+
+    public void setPropertyComName(String propertyComName) {
+        this.propertyComName = propertyComName;
+    }
+
+    public String getPropertyComTelephone() {
+        return propertyComTelephone;
+    }
+
+    public void setPropertyComTelephone(String propertyComTelephone) {
+        this.propertyComTelephone = propertyComTelephone;
     }
 }

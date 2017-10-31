@@ -2,6 +2,7 @@ package com.example.demo.entity.form;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
@@ -11,7 +12,8 @@ import javax.persistence.Id;
 @Entity
 public class Form2v1 {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private long id;
     private String manuComName;
     private String manufactureDate;

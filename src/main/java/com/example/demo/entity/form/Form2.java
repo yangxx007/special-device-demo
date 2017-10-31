@@ -7,7 +7,7 @@ import java.util.List;
 @Table(name = "sdregistration2")
 public class Form2 extends Form  {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     public long getId() {

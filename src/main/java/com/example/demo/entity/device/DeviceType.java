@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 @Entity
 public class DeviceType implements Serializable{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     private String name;
@@ -34,11 +34,11 @@ public class DeviceType implements Serializable{
     }
 
     public String getName() {
-        return name;
+        return name.trim().replaceAll("\n","");
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name.trim().replaceAll("\n","");
     }
 
     public String getCode() {

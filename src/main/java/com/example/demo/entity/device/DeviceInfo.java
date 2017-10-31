@@ -1,12 +1,14 @@
 package com.example.demo.entity.device;
 
+import com.example.demo.entity.data.ApplyInfo;
+import com.example.demo.enums.ApplyTypeEnum;
 import com.example.demo.enums.DeviceStatesEnum;
+import com.example.demo.service.Validatable;
 import com.example.demo.service.staticfunction.UtilServiceImpl;
-import com.topologi.diffx.algorithm.FactoryException;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -14,9 +16,9 @@ import java.util.Map;
  * @create_at 17-10-24
  **/
 @Entity
-public class DeviceInfo implements Serializable{
+public class DeviceInfo implements Serializable,Validatable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String deviceCode;
     private String deviceCategory;
@@ -31,7 +33,7 @@ public class DeviceInfo implements Serializable{
     private boolean processing;
     private long processedApplyId;
     @ElementCollection(fetch = FetchType.EAGER)
-    private Map<Long,String> logs;
+    private Map<ApplyTypeEnum,String> logs=new HashMap<>();
     public long getId() {
         return id;
     }
@@ -80,16 +82,18 @@ public class DeviceInfo implements Serializable{
         this.deviceStates = deviceStates;
     }
 
+    @Override
+    public long getAcceptorAgencyId() {
+        return agencyId;
+    }
+
+    @Override
     public long getOwnerId() {
         return ownerId;
     }
 
     public void setOwnerId(long ownerId) {
         this.ownerId = ownerId;
-    }
-
-    public long getAgencyId() {
-        return agencyId;
     }
 
     public void setAgencyId(long agencyId) {
@@ -106,14 +110,15 @@ public class DeviceInfo implements Serializable{
         deviceStates=DeviceStatesEnum.在用;
     }
     public void endprocessing(){
+        updateAt= UtilServiceImpl.date2Long(new Date());
         processing=false;
     }
     public void processing(long applyId){
         processing=true;
         processedApplyId=applyId;
     }
-    public void addLogs(String logString){
-        logs.put(UtilServiceImpl.date2Long(new Date()),logString);
+    public void addLogs(ApplyInfo applyInfo){
+        logs.put(applyInfo.getApplyType(),applyInfo.getId()+"");
         processedApplyId=0;
     }
     public String getOwnerComName() {
@@ -153,19 +158,19 @@ public class DeviceInfo implements Serializable{
 
 
 
-    public Map<Long, String> getLogs() {
-        return logs;
-    }
-
-    public void setLogs(Map<Long, String> logs) {
-        this.logs = logs;
-    }
-
     public long getProcessedApplyId() {
         return processedApplyId;
     }
 
     public void setProcessedApplyId(long processedApplyId) {
         this.processedApplyId = processedApplyId;
+    }
+
+    public Map<ApplyTypeEnum, String> getLogs() {
+        return logs;
+    }
+
+    public void setLogs(Map<ApplyTypeEnum, String> logs) {
+        this.logs = logs;
     }
 }

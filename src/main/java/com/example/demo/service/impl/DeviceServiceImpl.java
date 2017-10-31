@@ -10,7 +10,10 @@ import com.example.demo.enums.DeviceStatesEnum;
 import com.example.demo.enums.RoleTypeEnum;
 import com.example.demo.service.Apply2DeviceService;
 import com.example.demo.service.DeviceService;
+import com.example.demo.service.Validatable;
+import com.example.demo.service.ValidateService;
 import com.example.demo.service.staticfunction.UtilServiceImpl;
+import org.apache.shiro.session.Session;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,11 +31,14 @@ public class DeviceServiceImpl implements DeviceService,Apply2DeviceService {
     private DeviceDao deviceDao;
     private DeviceInfo device;
     private ApplyInfo applyInfo;
-
+    @Autowired
+    private ValidateService validateService;
 
     @Override
-    public DeviceInfo getDeviceById(long id) {
-        return deviceDao.findByOwnerId(id);
+    public DeviceInfo getDeviceById(long id,Session session) {
+        DeviceInfo deviceInfo=deviceDao.findById(id);
+        validateService.isPermission(session,deviceInfo);
+        return deviceInfo;
     }
 
     @Override
@@ -42,10 +48,10 @@ public class DeviceServiceImpl implements DeviceService,Apply2DeviceService {
 
 
     @Override
-    public DeviceInfo apply2Device(ApplyInfo applyInfo,boolean pass) {
+    public DeviceInfo apply2Device(ApplyInfo applyInfo,boolean pass,Session session) {
         this.applyInfo=applyInfo;
         if(applyInfo.getDeviceId()!=0){
-        this.device=getDeviceById(applyInfo.getDeviceId());}
+        this.device=getDeviceById(applyInfo.getDeviceId(),session);}
         if(pass) {
             switch (applyInfo.getApplyType()) {
                 case 停用申请:
@@ -69,7 +75,7 @@ public class DeviceServiceImpl implements DeviceService,Apply2DeviceService {
 
         }
         device.endprocessing();
-        device.addLogs(new JSONObject(new ApplyResponse(applyInfo)).toString());
+        device.addLogs(applyInfo);
         return deviceDao.save(device);
     }
 
@@ -90,6 +96,7 @@ public class DeviceServiceImpl implements DeviceService,Apply2DeviceService {
         device.setDeviceClass(applyInfo.getDeviceClass());
         device.setDeviceCode(applyInfo.getDeviceCode());
         device.setDeviceKind(applyInfo.getDeviceKind());
+        this.device=device;
 
     }
 

@@ -1,12 +1,8 @@
 package com.example.demo.dao.device;
 
 import com.example.demo.connector.conditions.DeviceConditions;
-import com.example.demo.connector.conditions.SearchConditions;
-import com.example.demo.connector.responser.ApplyResponse;
 import com.example.demo.entity.data.ApplyInfo;
-import com.example.demo.entity.data.ApplyStatus;
 import com.example.demo.entity.device.DeviceInfo;
-import com.example.demo.entity.device.DeviceStatus;
 import com.example.demo.service.multiSearch.MultiSearch;
 
 import javax.persistence.EntityManager;
@@ -20,7 +16,7 @@ import java.util.List;
 public class DeviceSearchCondition extends MultiSearch {
    private DeviceConditions conditions;
     @Override
-    public List<? extends ApplyInfo> searchByConditions(EntityManager em) throws Exception{
+    public List<? extends DeviceInfo> searchByConditions(EntityManager em) throws Exception{
 
         long[] long_time=conditions.parseTime("yyyy-MM-dd");
         CriteriaBuilder qb = em.getCriteriaBuilder();
@@ -60,6 +56,7 @@ public class DeviceSearchCondition extends MultiSearch {
                    predicates.add( qb.between(customer.get("deviceStates"), conditions.getStates()[0],conditions.getStates()[1]));
        //     predicates.add(qb.equal(customer.get("status"),conditions.getStates()));
         }
+
         if(conditions.getAgencyId()!=0){
             predicates.add(qb.equal(customer.get("agencyId"),conditions.getAgencyId()));
         }
@@ -74,12 +71,12 @@ public class DeviceSearchCondition extends MultiSearch {
         cq.select(customer)
                 .where(predicates.toArray(new Predicate[]{}));
         //execute query and do something with result
-        List<ApplyInfo> applyInfos=em.createQuery(cq).getResultList();
-        List<ApplyResponse>  applyResponses=new ArrayList<>();
-        for(ApplyInfo applyInfo:applyInfos){
-            applyResponses.add(new ApplyResponse(applyInfo));
-        }
-        return applyResponses;
+        List<DeviceInfo> deviceInfos=em.createQuery(cq).getResultList();
+//        List<DeviceResponse>  deviceResponses=new ArrayList<>();
+//        for(DeviceInfo deviceInfo:deviceInfos){
+//            deviceResponses.add(new DeviceResponse(deviceInfo));
+//        }
+        return deviceInfos;
        // return  em.createQuery(cq).getResultList();
 //        Pageable pageable=getPageable(sort);
 //        int start = pageable.getOffset();

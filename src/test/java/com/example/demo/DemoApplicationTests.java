@@ -82,7 +82,9 @@ public class DemoApplicationTests {
 	@Test
 	public void testEnums(){
 
-
+		String str="djfakjdflkasj\n dasdfs";
+		System.out.println(str);
+		System.out.println(str.trim().replaceAll("\n",""));
 
 	}
 

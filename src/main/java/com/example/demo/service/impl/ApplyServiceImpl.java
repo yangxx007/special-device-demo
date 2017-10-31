@@ -103,7 +103,7 @@ public class ApplyServiceImpl implements ApplyService{
         ApplyInfo applyInfo=findByApplyID(applyId,session);
         if(applyInfo.getDeviceId()!=0&&applyInfo.getApplyType()!= ApplyTypeEnum.首次申请)
         {
-            DeviceInfo deviceInfo=deviceService.getDeviceById(applyInfo.getDeviceId());
+            DeviceInfo deviceInfo=deviceService.getDeviceById(applyInfo.getDeviceId(),session);
             deviceInfo.endprocessing();
             deviceService.save(deviceInfo);
         }
@@ -118,7 +118,7 @@ public class ApplyServiceImpl implements ApplyService{
         }
         if(applyInfo.getDeviceId()!=0&&applyInfo.getApplyType()!= ApplyTypeEnum.首次申请)
         {
-            DeviceInfo deviceInfo=deviceService.getDeviceById(applyInfo.getDeviceId());
+            DeviceInfo deviceInfo=deviceService.getDeviceById(applyInfo.getDeviceId(),session);
             deviceInfo.endprocessing();
             deviceService.save(deviceInfo);
         }
@@ -142,7 +142,7 @@ public class ApplyServiceImpl implements ApplyService{
 
         if(applyInfo.getDeviceId()!=0&&applyInfo.getApplyType()!= ApplyTypeEnum.首次申请)
         {
-            DeviceInfo deviceInfo=deviceService.getDeviceById(applyInfo.getDeviceId());
+            DeviceInfo deviceInfo=deviceService.getDeviceById(applyInfo.getDeviceId(),session);
             deviceInfo.processing(applyId);
             deviceService.save(deviceInfo);
         }

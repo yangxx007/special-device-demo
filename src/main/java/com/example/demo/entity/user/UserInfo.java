@@ -12,7 +12,7 @@ import java.util.List;
 public class UserInfo implements  Serializable{
     //id标识标识uid变量是这个UserInfo表的key
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long uid;
     //这里表示设定username列为不重复的列
     @Column(unique =true)

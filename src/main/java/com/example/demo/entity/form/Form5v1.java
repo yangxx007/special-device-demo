@@ -2,6 +2,7 @@ package com.example.demo.entity.form;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
 
@@ -11,7 +12,8 @@ import java.io.Serializable;
  **/
 @Entity
 public class Form5v1 implements Serializable{
-    @Id@GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String eqVariety;
     private String useRegCode;

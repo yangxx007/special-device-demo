@@ -41,7 +41,7 @@ import java.util.Map;
  **/
 @Controller
 @RequestMapping("/file")
-public class FileController {
+public class FileController extends BaseController {
     @Autowired
     private ApplyService applyService;
     @Autowired
@@ -60,7 +60,7 @@ public class FileController {
         fileData.setId(file_id);
         fileData.setFileTypeId(file_type_id);
         fileData.setApplyId(apply_id);
-        ApplyInfo applyInfo = applyService.findByApplyID(apply_id, SecurityUtils.getSubject().getSession());
+        ApplyInfo applyInfo = applyService.findByApplyID(apply_id,getSession());
         Map<FileTypeEnum, Long> filemap = applyInfo.getFiles();
         String path = FilePathUtil.getPathById(file_id);
         FileOutputStream fos = new FileOutputStream(new File(path));
@@ -77,7 +77,7 @@ public class FileController {
         }
         fos.close();
         fs.close();
-        applyService.saveApply(applyInfo, SecurityUtils.getSubject().getSession());
+        applyService.saveApply(applyInfo, getSession());
         fileService.save(fileData);
         Map<String, String> data = new HashMap<>();
 

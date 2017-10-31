@@ -1,6 +1,6 @@
 package com.example.demo.service.staticfunction;
 
-import com.example.demo.entity.device.DeviceStatus;
+import com.example.demo.entity.device.DeviceInfo;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfStamper;
 import com.lowagie.text.pdf.PdfWriter;
@@ -106,7 +106,7 @@ public class UtilServiceImpl  {
         // Return the buffered image
         return bimage;
     }
-    public static String generateDeviceCode(DeviceStatus deviceStatus){
+    public static String generateDeviceCode(DeviceInfo deviceStatus){
         String deviceShorthand=null;
         String deviceTypeCode=null;
         String agencyProvince=null;

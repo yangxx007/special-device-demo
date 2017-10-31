@@ -14,7 +14,7 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApplyStatus implements Serializable{
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @JsonView(View.ApplyForView.class)
     private ApplyStatesEnum states=ApplyStatesEnum.未提交;
