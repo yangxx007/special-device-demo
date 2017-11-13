@@ -6,9 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface DistrictDao  extends JpaRepository<District,Integer> {
-
-
+    District findFirstByCode(String code);
     public List<District> findByLevel(int level);
     public List<District> findByLevelAndCodeLike(int level, String code);
-
 }

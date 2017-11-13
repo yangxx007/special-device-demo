@@ -8,4 +8,5 @@ import java.util.List;
 public interface OrganizationDao extends JpaRepository<Organization,Integer> {
     public List<Organization> findByDistrictCode(String code);
     public List<Organization> findByDistrictCodeLike(String likeCode);
+    Organization findOrganizationById(int id);
 }

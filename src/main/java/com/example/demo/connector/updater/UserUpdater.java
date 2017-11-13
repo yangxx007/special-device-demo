@@ -2,7 +2,8 @@ package com.example.demo.connector.updater;
 
 import com.example.demo.entity.user.UserData;
 import com.example.demo.entity.user.UserInfo;
-import com.example.demo.service.staticfunction.UtilServiceImpl;
+import com.example.demo.service.utils.UtilServiceImpl;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * @Author yang
@@ -11,11 +12,15 @@ import com.example.demo.service.staticfunction.UtilServiceImpl;
 public class UserUpdater {
     private UserData userData;
     private String password;
-    public  UserInfo update(UserInfo userInfo)
+    public  void update(UserInfo userInfo)
     {
-     userInfo.setPassword(UtilServiceImpl.encryptPWD(password,userInfo.getSalt()));
+        if(password!=null){
+     userInfo.setPassword(password);
+    }
+        if(userData!=null){
      userInfo.setUserData(userData);
-     return userInfo;
+        }
+
     }
     public UserData getUserData() {
         return userData;

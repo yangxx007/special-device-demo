@@ -16,8 +16,7 @@ public class Organization implements Serializable {
     private String districtCode;    //行政区号
     private String zipCode;         //邮政编码
     private String address;
-
-
+    private String addressCode;
     public void setId(Integer id){
         this.id = id;
 
@@ -59,4 +58,11 @@ public class Organization implements Serializable {
         return address;
     }
 
+    public String getAddressCode() {
+        return addressCode;
+    }
+
+    public void setAddressCode(String addressCode) {
+        this.addressCode = addressCode;
+    }
 }

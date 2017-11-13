@@ -1,6 +1,5 @@
 package com.example.demo.enums;
 
-import com.example.demo.service.view.View;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
@@ -15,17 +14,14 @@ public class MyPage<T> implements Page<T> {
     public MyPage(Page<T> pageObj){
         this.pageObj=pageObj;
     }
-    @JsonView(View.ApplyForView.class)
     @Override
     public int getTotalPages() {
         return pageObj.getTotalPages();
     }
-    @JsonView(View.ApplyForView.class)
     @Override
     public long getTotalElements() {
         return pageObj.getTotalElements();
     }
-    @JsonView(View.ApplyForView.class)
     @Override
     public int getNumber() {
         return pageObj.getNumber();
@@ -35,12 +31,10 @@ public class MyPage<T> implements Page<T> {
     public int getSize() {
         return pageObj.getSize();
     }
-    @JsonView(View.ApplyForView.class)
     @Override
     public int getNumberOfElements() {
         return pageObj.getNumberOfElements();
     }
-    @JsonView(View.ApplyForView.class)
     @Override
     public List<T> getContent() {
         return pageObj.getContent();
@@ -55,12 +49,10 @@ public class MyPage<T> implements Page<T> {
     public Sort getSort() {
         return pageObj.getSort();
     }
-    @JsonView(View.ApplyForView.class)
     @Override
     public boolean isFirst() {
         return pageObj.isFirst();
     }
-    @JsonView(View.ApplyForView.class)
     @Override
     public boolean isLast() {
         return pageObj.isLast();

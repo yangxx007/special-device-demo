@@ -5,18 +5,17 @@ package com.example.demo.entity.data;
 import com.example.demo.entity.form.*;
 import com.example.demo.enums.ApplyTypeEnum;
 import com.example.demo.enums.DeviceTypeEnum;
-import com.example.demo.enums.FileTypeEnum;
 import com.example.demo.enums.FormTypeEnum;
 
 import com.example.demo.service.Validatable;
-import com.example.demo.service.view.View;
 
-import com.fasterxml.jackson.annotation.JsonView;
+import com.example.demo.service.utils.UtilServiceImpl;
 
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -26,47 +25,40 @@ public class ApplyInfo  implements Serializable,Validatable {
     private long id;
     private String codeId;
     private long deviceId=0;
+    private long[] deviceList;
     @Column(nullable = false)
     private ApplyTypeEnum applyType;
     private long acceptorAgencyId;
     private String acceptorAgencyName;
-    private String deviceName;
+    private String useComName;
     private String deviceCategory;
     private String deviceClass;
     private String deviceKind;
+    private String deviceCode;
     @Column(nullable = false)
     private DeviceTypeEnum deviceType;
-    private String deviceCode;
+    private String eqCode;
     private long ownerId;
-    private int addressId;
-    @JsonView(View.ApplyForView.class)
-    private String addressName;
+    private String ownerName;
+    private String registKind;
+    private String safeAdministrator;
+    private String registCode;
+    private String comCode;
+    private String comTablePerson;
     private boolean hasFile=true;
-    @JsonView(View.ApplyForView.class)
     private long createTime;
     @ElementCollection(fetch = FetchType.EAGER)
     private Map<FormTypeEnum,Long> forms=new HashMap<>();
     @ElementCollection(fetch = FetchType.EAGER)
-    private Map<FileTypeEnum,Long> files=new HashMap<>();
+    private Map<String,Long> files=new HashMap<>();
     @OneToOne(cascade = CascadeType.ALL)
     private ApplyStatus status;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Form1 form1;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Form2 form2;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Form3 form3;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Form4 form4;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Form5 form5;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Form6 form6;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Form7 form7;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Form8 form8;
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinTable(name = "ApplyFormList",joinColumns = {@JoinColumn(name = "applyId")},inverseJoinColumns = {@JoinColumn(name ="formId")})
+    private List<Form> formList;
+
     public ApplyInfo(){
+        createTime= UtilServiceImpl.getLongCurrTime();
         status=new ApplyStatus();
     }
 
@@ -101,79 +93,6 @@ public class ApplyInfo  implements Serializable,Validatable {
     public void setHasFile(boolean hasFile) {
         this.hasFile = hasFile;
     }
-
-    public long getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(long createTime) {
-        this.createTime = createTime;
-    }
-
-    public Form1 getForm1() {
-        return form1;
-    }
-
-    public void setForm1(Form1 form1) {
-        this.form1 = form1;
-    }
-
-    public Form2 getForm2() {
-        return form2;
-    }
-
-    public void setForm2(Form2 form2) {
-        this.form2 = form2;
-    }
-
-    public Form3 getForm3() {
-        return form3;
-    }
-
-    public void setForm3(Form3 form3) {
-        this.form3 = form3;
-    }
-
-    public Form4 getForm4() {
-        return form4;
-    }
-
-    public void setForm4(Form4 form4) {
-        this.form4 = form4;
-    }
-
-    public Form5 getForm5() {
-        return form5;
-    }
-
-    public void setForm5(Form5 form5) {
-        this.form5 = form5;
-    }
-
-    public Form6 getForm6() {
-        return form6;
-    }
-
-    public void setForm6(Form6 form6) {
-        this.form6 = form6;
-    }
-
-    public Form7 getForm7() {
-        return form7;
-    }
-
-    public void setForm7(Form7 form7) {
-        this.form7 = form7;
-    }
-
-    public Form8 getForm8() {
-        return form8;
-    }
-
-    public void setForm8(Form8 form8) {
-        this.form8 = form8;
-    }
-
 
     public ApplyTypeEnum getApplyType() {
         return applyType;
@@ -210,25 +129,6 @@ public class ApplyInfo  implements Serializable,Validatable {
         this.acceptorAgencyName = acceptorAgencyName;
     }
 
-    public int getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(int addressId) {
-        this.addressId = addressId;
-
-        //this.addressName=userDao.findByUid(2).getUsername();
-
-
-    }
-
-    public String getAddressName() {
-        return addressName;
-    }
-
-    public void setAddressName(String addressName) {
-        this.addressName = addressName;
-    }
 
     public ApplyStatus getStatus() {
         return status;
@@ -254,14 +154,6 @@ public class ApplyInfo  implements Serializable,Validatable {
         this.deviceClass = deviceClass;
     }
 
-    public String getDeviceCode() {
-        return deviceCode;
-    }
-
-    public void setDeviceCode(String deviceCode) {
-        this.deviceCode = deviceCode;
-    }
-
     public String getDeviceKind() {
         return deviceKind;
     }
@@ -277,22 +169,6 @@ public class ApplyInfo  implements Serializable,Validatable {
     public void setDeviceType(DeviceTypeEnum deviceType) {
         this.deviceType = deviceType;
     }
-    @Override
-    public long getAcceptorAgencyId() {
-        return acceptorAgencyId;
-    }
-
-    public void setAcceptorAgencyId(long acceptorAgencyId) {
-        this.acceptorAgencyId = acceptorAgencyId;
-    }
-
-    public String getDeviceName() {
-        return deviceName;
-    }
-
-    public void setDeviceName(String deviceName) {
-        this.deviceName = deviceName;
-    }
 
     public Map<FormTypeEnum, Long> getForms() {
         return forms;
@@ -302,11 +178,147 @@ public class ApplyInfo  implements Serializable,Validatable {
         this.forms = forms;
     }
 
-    public Map<FileTypeEnum, Long> getFiles() {
+
+    public long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
+    }
+
+
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public String getRegistCode() {
+        return registCode;
+    }
+
+    public void setRegistCode(String registCode) {
+        this.registCode = registCode;
+    }
+
+    public String getEqCode() {
+        return eqCode;
+    }
+
+    public void setEqCode(String eqCode) {
+        this.eqCode = eqCode;
+    }
+
+    public String getComCode() {
+        return comCode;
+    }
+
+    public void setComCode(String comCode) {
+        this.comCode = comCode;
+    }
+
+    public String getComTablePerson() {
+        return comTablePerson;
+    }
+
+    public void setComTablePerson(String comTablePerson) {
+        this.comTablePerson = comTablePerson;
+    }
+
+    public String getSafeAdministrator() {
+        return safeAdministrator;
+    }
+
+    public void setSafeAdministrator(String safeAdministrator) {
+        this.safeAdministrator = safeAdministrator;
+    }
+
+
+
+    public List<Form> getFormList() {
+        return formList;
+    }
+
+    public boolean setFormList(List<Form> formList) {
+        if(formList.isEmpty()||formList==null)
+        {return false;}
+        Form form=formList.get(0);
+        this.acceptorAgencyId=form.getAcceptorAgencyId();
+        this.acceptorAgencyName=form.getAcceptorAgencyName();
+        this.useComName=form.getUseComName();
+        this.registKind=form.getRegistKind();
+        this.comTablePerson=form.getComTablePerson();
+        this.deviceCode=form.getDeviceKindCode();
+        if(form.getEqCode()!=null){
+            this.eqCode=form.getEqCode();
+        }
+        if(form.getDeviceCategory()!=null){
+            this.deviceCategory=form.getDeviceCategory();
+        }
+        if(form.getDeviceClass()!=null){
+            this.deviceClass=form.getDeviceClass();
+        }
+        if(form.getDeviceKind()!=null){
+            this.deviceKind=form.getDeviceKind();
+        }
+        if(form.getEqComCode()!=null){
+            this.comCode=form.getEqComCode();
+        }
+        this.formList = formList;
+        return true;
+    }
+
+    public String getRegistKind() {
+        return registKind;
+    }
+
+    public void setRegistKind(String registKind) {
+        this.registKind = registKind;
+    }
+
+    public Map<String, Long> getFiles() {
         return files;
     }
 
-    public void setFiles(Map<FileTypeEnum, Long> files) {
+    public void setFiles(Map<String, Long> files) {
         this.files = files;
+    }
+
+    public String getDeviceCode() {
+        return deviceCode;
+    }
+
+    public void setDeviceCode(String deviceCode) {
+        this.deviceCode = deviceCode;
+    }
+
+    public String getUseComName() {
+        return useComName;
+    }
+
+    public void setUseComName(String useComName) {
+        this.useComName = useComName;
+    }
+
+    @Override
+    public long getAcceptorAgencyId() {
+        return acceptorAgencyId;
+    }
+
+    public void setAcceptorAgencyId(long acceptorAgencyId) {
+        this.acceptorAgencyId = acceptorAgencyId;
+    }
+
+    public long[] getDeviceList() {
+        return deviceList;
+    }
+
+    public void setDeviceList(long[] deviceList) {
+        deviceId=deviceList[0];
+        this.deviceList = deviceList;
     }
 }

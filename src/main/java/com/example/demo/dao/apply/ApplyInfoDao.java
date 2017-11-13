@@ -16,12 +16,15 @@ import java.util.stream.Stream;
  */
 public interface ApplyInfoDao extends PagingAndSortingRepository<ApplyInfo,Integer>,
         JpaSpecificationExecutor<ApplyInfo> {
+
      ApplyInfo findApplyInfoById(Long id);
      Page<ApplyInfo> findAllByOwnerIdAndDeviceIdAndCreateTimeIsBetween(long Owner_id, long
             device_id, long before, long after, Pageable pageable);
      Stream<ApplyInfo> findAllByOwnerId(long id);
      @Query(value = "select u from ApplyStatus u where applyInfo_id=?1 ")
      ApplyStatus findApplyStatusByapplyInfoId(long id);
+     @Query(value = "select u from ApplyInfo u left join fetch u.formList uu where u.eqCode=?1")
+     ApplyInfo findapplybyeqcode(String eqCode);
     //@Query(value = "select u from ApplyInfo u")
     //public Stream<ApplyInfo> findAllBy(Stream<ApplyInfo> applyInfoStream);
 

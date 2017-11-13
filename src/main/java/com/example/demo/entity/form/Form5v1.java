@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @create_at 17-10-25
  **/
 @Entity
-public class Form5v1 implements Serializable{
+public class Form5v1  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

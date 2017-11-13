@@ -21,9 +21,8 @@ public class ApplyResponse extends ApplyInfo{
         super.setId(applyInfo.getId());
         super.setDeviceCategory(applyInfo.getDeviceCategory());
         super.setDeviceClass(applyInfo.getDeviceClass());
-        super.setDeviceCode(applyInfo.getDeviceCode());
+        super.setEqCode(applyInfo.getEqCode());
         super.setDeviceKind(applyInfo.getDeviceKind());
-        super.setDeviceName(applyInfo.getDeviceName());
         super.setCreateTime(applyInfo.getCreateTime());
     }
     public int getDeviceTypeId() {

@@ -6,13 +6,14 @@ import com.example.demo.connector.updater.ApplyHandler;
 import com.example.demo.dao.apply.ApplySearchCondition;
 import com.example.demo.dao.user.UserDao;
 import com.example.demo.entity.data.ApplyInfo;
+import com.example.demo.entity.form.Form;
 import com.example.demo.entity.form.Form1;
+import com.example.demo.entity.form.SubForm;
 import com.example.demo.entity.user.UserInfo;
 import com.example.demo.enums.*;
 import com.example.demo.service.*;
+import com.example.demo.service.utils.UtilServiceImpl;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
@@ -59,7 +61,7 @@ public class AdminController extends BaseController{
     }
 
     //requstparam是从get方法中获取相应的key的value值
-//    @RequestMapping(value = "/user", method = RequestMethod.GET)
+//    @RequestMapping(value = "/Applier", method = RequestMethod.GET)
 //    public @ResponseBody
 //    UserInfo getUserByUidandUsername(@RequestParam(name = "username", required = false) String username,
 //                                     @RequestParam(name = "uid", defaultValue = "0", required = false) Long uid) {
@@ -117,7 +119,7 @@ public class AdminController extends BaseController{
 
 
 
-    //@RequestMapping(value = "/user/page",method = RequestMethod.GET)
+    //@RequestMapping(value = "/Applier/page",method = RequestMethod.GET)
 //public String createUser(HttpServletRequest request){
 //    UserInfo userInfo;
 //
@@ -300,7 +302,7 @@ private UserStatusService statusService;
      applyConditions.setAgencyId(user.getAgencyId());
      ApplySearchCondition searchCondition=new ApplySearchCondition(applyConditions);
      Pageable pageable = new PageRequest(applyConditions.getPage(), applyConditions.getSize(), applyConditions.getSort());
-     CustomePage<ApplyResponse> applyInfos = searchCondition.result(searchCondition.searchByConditions(em),pageable);
+     CustomePage<ApplyResponse> applyInfos = searchCondition.result(searchCondition.converter2ApplyResponse(em),pageable);
      return new JsonResponse(200,null,applyInfos);
  }
     @RequestMapping(value = "/unacceptedApplies/get",method = RequestMethod.POST)
@@ -334,33 +336,53 @@ private UserStatusService statusService;
     @Autowired
     private ApplyService applyService;
     @RequestMapping("/apply/accept")
-    public @ResponseBody JsonResponse acceptApply(@RequestBody ApplyHandler handler){
+    @Transactional
+    public @ResponseBody JsonResponse acceptApply(@RequestBody ApplyHandler handler)throws Exception{
         System.out.println(handler.getPass());
         ApplyInfo applyInfo=applyService.findByApplyID(handler.getApplyId(),SecurityUtils.getSubject().getSession());
+        for(Form form:applyInfo.getFormList()){
+            for(SubForm subForm:form.getSubList()){
+                new JSONObject(subForm).toString();
+            }
+        }
         if(handler.getPass()){
             applyInfo.getStatus().setStates(ApplyStatesEnum.已受理待审批);
+            applyInfo.getStatus().setAcceptTellDate(UtilServiceImpl.getLongCurrTime());
         }else{
             applyInfo.getStatus().setStates(ApplyStatesEnum.受理驳回);
+            applyInfo.getStatus().setUnAcceptTellDate(UtilServiceImpl.getLongCurrTime());
             apply2DeviceService.apply2Device(applyInfo,false,getSession());
+            applyInfo.getStatus().setUnAcceptedReason(handler.getReason());
+            applyInfo.getStatus().setUnAcceptedDetailReason(handler.getDetailReason());
         }
-        applyInfo.getStatus().setAcceptedComments(handler.getComments());
+        applyInfo.getStatus().setAcceptorName(statusService.getCurrUsername(getSession()));
         applyService.saveApply(applyInfo,SecurityUtils.getSubject().getSession());
         return new JsonResponse();
     }
     @Autowired
     private Apply2DeviceService apply2DeviceService;
     @RequestMapping("/apply/approve")
-    public @ResponseBody JsonResponse approveApply(@RequestBody ApplyHandler handler){
+    @Transactional
+    public @ResponseBody JsonResponse approveApply(@RequestBody ApplyHandler handler)throws Exception{
         System.out.println(new JSONObject(handler).toString());
         ApplyInfo applyInfo=applyService.findByApplyID(handler.getApplyId(),getSession());
+        for(Form form:applyInfo.getFormList()){
+            for(SubForm subForm:form.getSubList()){
+                new JSONObject(subForm).toString();
+            }
+        }
         if(handler.getPass()){
             applyInfo.getStatus().setStates(ApplyStatesEnum.已审批通过);
+            applyInfo.getStatus().setApprovalDate(UtilServiceImpl.getLongCurrTime());
             apply2DeviceService.apply2Device(applyInfo,true,getSession());
         }else{
             applyInfo.getStatus().setStates(ApplyStatesEnum.审批驳回);
+            applyInfo.getStatus().setUnApprovalDate(UtilServiceImpl.getLongCurrTime());
             apply2DeviceService.apply2Device(applyInfo,false,getSession());
+            applyInfo.getStatus().setUnApprovalReason(handler.getReason());
+            applyInfo.getStatus().setUnApprovalDetailReason(handler.getDetailReason());
         }
-        applyInfo.getStatus().setApproveComments(handler.getComments());
+        applyInfo.getStatus().setApproverName(statusService.getCurrUsername(getSession()));
         applyService.saveApply(applyInfo,getSession());
         return new JsonResponse();
     }

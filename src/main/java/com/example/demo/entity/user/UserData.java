@@ -1,10 +1,14 @@
 package com.example.demo.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 public class UserData implements Serializable{
     @Id
@@ -19,11 +23,14 @@ public class UserData implements Serializable{
     private String zipcode;
     private String propertyComName;
     private String propertyComCode;
-    private String approveAgency;
-    private int ApproveAgencyId;
-    private String address;
-    private String comPhone;
-    private String comMobilePhone;
+    private String addressCode;
+    private long acceptorAgencyId;
+    private String acceptorAgencyName;
+    private String safeAdministrator;
+    private String staticPhone;
+    private String mobilePhone;
+    private String workCode;
+    private boolean company;
 
 
 
@@ -76,45 +83,6 @@ public class UserData implements Serializable{
         this.propertyComCode = propertyComCode;
     }
 
-    public String getApproveAgency() {
-        return approveAgency;
-    }
-
-    public void setApproveAgency(String approveAgency) {
-        this.approveAgency = approveAgency;
-    }
-
-    public int getApproveAgencyId() {
-        return ApproveAgencyId;
-    }
-
-    public void setApproveAgencyId(int approveAgencyId) {
-        ApproveAgencyId = approveAgencyId;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getComPhone() {
-        return comPhone;
-    }
-
-    public void setComPhone(String comPhone) {
-        this.comPhone = comPhone;
-    }
-
-    public String getComMobilePhone() {
-        return comMobilePhone;
-    }
-
-    public void setComMobilePhone(String comMobilePhone) {
-        this.comMobilePhone = comMobilePhone;
-    }
 
     public String getName() {
         return name;
@@ -146,5 +114,71 @@ public class UserData implements Serializable{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getAddressCode() {
+        return addressCode;
+    }
+
+    public void setAddressCode(String addressCode) {
+        this.addressCode = addressCode;
+    }
+
+
+    public String getSafeAdministrator() {
+        return safeAdministrator;
+    }
+
+    public void setSafeAdministrator(String safeAdministrator) {
+        this.safeAdministrator = safeAdministrator;
+    }
+
+    public String getWorkCode() {
+        return workCode;
+    }
+
+    public void setWorkCode(String workCode) {
+        this.workCode = workCode;
+    }
+
+    public boolean isCompany() {
+        return company;
+    }
+
+    public void setCompany(boolean company) {
+        this.company = company;
+    }
+
+    public String getStaticPhone() {
+        return staticPhone;
+    }
+
+    public void setStaticPhone(String staticPhone) {
+        this.staticPhone = staticPhone;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
+    }
+
+
+    public long getAcceptorAgencyId() {
+        return acceptorAgencyId;
+    }
+
+    public void setAcceptorAgencyId(long acceptorAgencyId) {
+        this.acceptorAgencyId = acceptorAgencyId;
+    }
+
+    public String getAcceptorAgencyName() {
+        return acceptorAgencyName;
+    }
+
+    public void setAcceptorAgencyName(String acceptorAgencyName) {
+        this.acceptorAgencyName = acceptorAgencyName;
     }
 }

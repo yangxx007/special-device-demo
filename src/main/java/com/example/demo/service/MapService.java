@@ -14,5 +14,7 @@ public interface MapService {
     public List<District> findAllCity(String code);
     public List<District> findAllArea(String code);
     List<Organization> findOrganizationsByCode(String code);
+    Organization findOrganizationById(long id);
+    District findDistrictByCode(String code);
 
 }

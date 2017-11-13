@@ -5,23 +5,31 @@ import com.example.demo.dao.apply.ApplyInfoSpecification;
 import com.example.demo.entity.data.ApplyInfo;
 
 import com.example.demo.entity.device.DeviceInfo;
+import com.example.demo.entity.form.Form;
 import com.example.demo.enums.ApplyStatesEnum;
 import com.example.demo.enums.ApplyTypeEnum;
+import com.example.demo.enums.DeviceTypeEnum;
 import com.example.demo.enums.FormTypeEnum;
 import com.example.demo.service.*;
 import com.example.demo.service.exception.NotFoundException;
 
 import com.example.demo.service.exception.ValidateFailException;
-import org.apache.bcel.verifier.exc.VerificationException;
+import com.example.demo.service.utils.FileUtil;
+import com.example.demo.service.utils.UtilServiceImpl;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -36,8 +44,6 @@ public class ApplyServiceImpl implements ApplyService{
     @Autowired
     private ValidateService validateService;
     @Autowired
-    private UserStatusService statusService;
-    @Autowired
     private FileService fileService;
     @Autowired
     private DeviceService deviceService;
@@ -47,9 +53,9 @@ public class ApplyServiceImpl implements ApplyService{
    // @CacheDuration(duration = 60L)
     public ApplyInfo findByApplyID(Long applyId,Session session) throws NotFoundException {
         System.out.println("信息："+session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY));
-        ApplyInfo applyInfo=applyDao.findApplyInfoById(applyId);
+        return applyDao.findApplyInfoById(applyId);
        //validateService.isPermission(session,applyInfo);
-        return applyInfo;
+
     }
 
     @Override
@@ -73,10 +79,14 @@ public class ApplyServiceImpl implements ApplyService{
     public ApplyInfo createApply(ApplyInfo apply,long userId) {
         apply.setId(0);
         apply.setOwnerId(userId);
-        ApplyInfo applyInfo= applyDao.save(apply);
-        Map<FormTypeEnum,Long> map=applyInfo.getForms();
-        map.putAll(fileService.createPdf(applyInfo));
-        return applyDao.save(applyInfo);
+        if(apply.getDeviceId()!=0){
+            deviceService.device2Apply(apply.getDeviceId(),apply);
+        }
+        Map<FormTypeEnum,Long> map=apply.getForms();
+        if(fileService.createPdf(apply)!=null){
+        map.putAll(fileService.createPdf(apply));
+        }
+        return applyDao.save(apply);
     }
 
     @Override
@@ -131,9 +141,71 @@ public class ApplyServiceImpl implements ApplyService{
     //@CachePut(value = "apply",key="#applyInfo.getId()+#session.getId()")
     public ApplyInfo saveApply(ApplyInfo applyInfo, Session session) {
         validateService.isPermission(session,applyInfo);
+        return applyDao.save(applyInfo);
+    }
+    @Override
+    //@CachePut(value = "apply",key="#applyInfo.getId()+#session.getId()")
+    public ApplyInfo updateForm(ApplyInfo applyInfo, Session session) {
+        validateService.isPermission(session,applyInfo);
         Map<FormTypeEnum,Long> map=applyInfo.getForms();
         map.putAll(fileService.createPdf(applyInfo));
         return applyDao.save(applyInfo);
+    }
+    @Transactional
+    @Override
+    public ApplyInfo updateApply(MultipartFile file, long applyId,Session session)throws Exception {
+        ApplyInfo applyInfo =findByApplyID(applyId,session);
+        FileUtil fileUtil=new FileUtil(file);
+        List<Form> forms=applyInfo.getFormList();
+        Form form=forms.get(0);
+        if(form.getFormType()==FormTypeEnum.特种设备使用登记表三&&forms.size()==1){
+           switch (applyInfo.getDeviceType()){
+               case 工业管道:
+                   form=createForm(form);
+                   form.setFormType(FormTypeEnum.压力管道基本信息汇总表);
+                   forms.add(form);
+                   break;
+               case 普通气瓶:
+                   form=createForm(form);
+                   form.setFormType(FormTypeEnum.气瓶基本信息汇总表);
+                   forms.add(form);
+                   break;
+               default:
+                   break;
+           }
+
+        }
+        for(Form subform:forms){
+            if(subform.getFormType()== FormTypeEnum.气瓶基本信息汇总表)
+            {
+                subform.setSubList(fileUtil.excel2lists());
+            }
+            if(subform.getFormType()==FormTypeEnum.压力管道基本信息汇总表){
+                subform.setSubList(fileUtil.excel2list2());
+            }
+
+        }
+       return updateForm(applyInfo,session);
+    }
+
+    private Form createForm(Form form) throws Exception{
+        Form form1=new Form();
+        form1.setFormCreateDate(UtilServiceImpl.date2String(new Date(),"yyyy年MM月dd日"));
+        form1.setComTablePerson(form.getComTablePerson());
+        form1.setSuperviseComName(form.getSuperviseComName());
+        form1.setEmail(form.getEmail());
+        form1.setUseComAddr(form.getUseComAddr());
+        form1.setUseComName(form.getUseComName());
+        form1.setSafeAdministrator(form.getSafeAdministrator());
+        form1.setMobilePhone(form.getMobilePhone());
+        return form1;
+    }
+    @Transactional
+    @Override
+    public ApplyInfo findApplyByEqCode(String code) {
+        ApplyInfo applyInfo= applyDao.findapplybyeqcode(code);
+        List<Form> forms=applyInfo.getFormList();
+        return applyInfo;
     }
 
     @Override
@@ -141,12 +213,22 @@ public class ApplyServiceImpl implements ApplyService{
         ApplyInfo applyInfo=findByApplyID(applyId,session);
 
         if(applyInfo.getDeviceId()!=0&&applyInfo.getApplyType()!= ApplyTypeEnum.首次申请)
-        {
-            DeviceInfo deviceInfo=deviceService.getDeviceById(applyInfo.getDeviceId(),session);
+        {   List<DeviceInfo> deviceInfos=new ArrayList<>();
+            if(applyInfo.getDeviceList()!=null&&applyInfo.getDeviceList().length!=0){
+                for(long id:applyInfo.getDeviceList()){
+                    deviceInfos.add(deviceService.getDeviceById(id,session));
+                }
+            }else
+            {
+                deviceInfos.add(deviceService.getDeviceById(applyInfo.getDeviceId(),session));
+            }
+            for(DeviceInfo deviceInfo:deviceInfos){
             deviceInfo.processing(applyId);
             deviceService.save(deviceInfo);
+            }
         }
         applyInfo.getStatus().setStates(ApplyStatesEnum.已提交待受理);
+        applyInfo.getStatus().setApplyDate(UtilServiceImpl.getLongCurrTime());
         saveApply(applyInfo,session);
         //VerifyUtil.verifyApply(null,applyInfo);
         //System.out.println(applyInfo.getClass().getDeclaredFields()[1].getName());

@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "sdregistration1")
-public class Form1 extends Form {
+public class Form1   {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;

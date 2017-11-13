@@ -1,4 +1,4 @@
-package com.example.demo.service.staticfunction;
+package com.example.demo.service.utils;
 
 import com.example.demo.entity.device.DeviceInfo;
 import com.lowagie.text.pdf.PdfReader;
@@ -29,18 +29,23 @@ import java.util.List;
  */
 
 public class UtilServiceImpl  {
-
+    public static String[] CODE={"A","B","C","D","E","F","G","H","I","J","K",
+            "L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
     public static String encryptPWD(String password,String credential) {
         Md5Hash md5Hash=new Md5Hash(password,credential,2);
         return md5Hash.toString();
     }
-
+    public static long getLongCurrTime(){
+        return date2Long(new Date());
+    }
 
     public static String getRandomString()
     {
         return RandomStringUtils.randomAlphanumeric(5);
     }
-
+    public static String long2String(long time,String formatType) throws ParseException{
+        return date2String(long2Date(time,formatType),formatType);
+    }
 
     public static  Date string2Date(String time, String formatType) throws ParseException {
         SimpleDateFormat formater=new SimpleDateFormat(formatType);
@@ -167,4 +172,5 @@ public class UtilServiceImpl  {
         return new PageImpl<T>(list,pageRequest,list.size());
 
     }
+
 }

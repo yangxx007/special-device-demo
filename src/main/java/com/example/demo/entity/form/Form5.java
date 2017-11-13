@@ -5,7 +5,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "sdCancellationofRe")
-public class Form5 extends Form  {
+public class Form5    {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long  id;

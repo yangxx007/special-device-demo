@@ -5,7 +5,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "IndustrialPiping")
-public class Form6 extends Form  {
+public class Form6    {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;

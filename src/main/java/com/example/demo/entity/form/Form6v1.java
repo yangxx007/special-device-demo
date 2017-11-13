@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.SortedSet;
 
 /**
  * @author yang
@@ -15,6 +16,7 @@ public class Form6v1 implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    private long inlineId;
     private String pipeName;
     private String pipeNum;
     private String pipeLevel;
@@ -93,24 +95,24 @@ public class Form6v1 implements Serializable{
         return diameter;
     }
 
-    public void setDiameter(Double diameter) {
-        this.diameter = diameter;
+    public void setDiameter(String diameter) {
+        this.diameter = Double.parseDouble(diameter);
     }
 
     public Double getWallThickness() {
         return wallThickness;
     }
 
-    public void setWallThickness(Double wallThickness) {
-        this.wallThickness = wallThickness;
+    public void setWallThickness(String wallThickness) {
+        this.wallThickness = Double.parseDouble(wallThickness);
     }
 
     public Double getPipeLength() {
         return pipeLength;
     }
 
-    public void setPipeLength(Double pipeLength) {
-        this.pipeLength = pipeLength;
+    public void setPipeLength(String pipeLength) {
+        this.pipeLength = Double.parseDouble(pipeLength);
     }
 
     public String getPressure() {
@@ -175,5 +177,13 @@ public class Form6v1 implements Serializable{
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getInlineId() {
+        return inlineId;
+    }
+
+    public void setInlineId(long inlineId) {
+        this.inlineId = inlineId;
     }
 }

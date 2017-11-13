@@ -3,16 +3,15 @@ package com.example.demo.web;
 import com.example.demo.entity.data.ApplyInfo;
 import com.example.demo.entity.data.FileData;
 import com.example.demo.enums.FileTypeEnum;
-import com.example.demo.enums.FormTypeEnum;
 import com.example.demo.enums.JsonResponse;
 import com.example.demo.service.ApplyService;
 import com.example.demo.service.FileService;
 
 import com.example.demo.service.exception.FileFailException;
-import com.example.demo.service.staticfunction.FilePathUtil;
-import com.example.demo.service.staticfunction.UtilServiceImpl;
+import com.example.demo.service.utils.FilePathUtil;
+import com.example.demo.service.utils.FileUtil;
+import com.example.demo.service.utils.UtilServiceImpl;
 
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -52,23 +51,18 @@ public class FileController extends BaseController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public @ResponseBody
     JsonResponse testUploadFile(HttpServletRequest req, MultipartHttpServletRequest multiReq, @RequestParam("applyId")
-            long apply_id, @RequestParam("fileTypeId") int file_type_id)
+            long apply_id, @RequestParam("fileName") String fileName)
             throws
             Exception {
-        long file_id = apply_id * 100 + file_type_id;
+        ApplyInfo applyInfo = applyService.findByApplyID(apply_id,getSession());
+        long file_id=FilePathUtil.getFileId(fileName, applyInfo);
         FileData fileData = new FileData();
         fileData.setId(file_id);
-        fileData.setFileTypeId(file_type_id);
         fileData.setApplyId(apply_id);
-        ApplyInfo applyInfo = applyService.findByApplyID(apply_id,getSession());
-        Map<FileTypeEnum, Long> filemap = applyInfo.getFiles();
+        fileData.setFileName(fileName+".pdf");
         String path = FilePathUtil.getPathById(file_id);
         FileOutputStream fos = new FileOutputStream(new File(path));
         MultipartFile file = multiReq.getFile("file");
-        fileData.setFileName(file.getOriginalFilename());
-
-        filemap.put(FileTypeEnum.values()[file_type_id], file_id);
-        applyInfo.setFiles(filemap);
         FileInputStream fs = (FileInputStream) file.getInputStream();
         byte[] buffer = new byte[1024];
         int len = 0;
@@ -102,7 +96,7 @@ public class FileController extends BaseController {
         //检查applyid是否是下载者的
         //validate.isPermission(SecurityUtils.getSubject(),fileService.getFileById(file_id).getApplyId());
         try {
-            String agent = request.getHeader("User-Agent");
+            String agent = request.getHeader("Applier-Agent");
             FileData fileData = fileService.getFileById(file_id);
             String fileName = fileData.getFileName();
             if (agent.contains("Firefox")) ;
@@ -139,7 +133,7 @@ public class FileController extends BaseController {
         File file = new File(FilePathUtil.getPathById(file_id));
         //检查applyid是否是下载者的
         //validate.isPermission(SecurityUtils.getSubject(),fileService.getFileById(file_id).getApplyId());
-        String agent = request.getHeader("User-Agent");
+        String agent = request.getHeader("Applier-Agent");
         FileData fileData = fileService.getFileById(file_id);
         //String fileName = fileData.getFileName();
         String fileName = "test";

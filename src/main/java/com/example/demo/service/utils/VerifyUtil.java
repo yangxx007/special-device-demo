@@ -1,4 +1,4 @@
-package com.example.demo.service.staticfunction;
+package com.example.demo.service.utils;
 
 import com.example.demo.entity.data.ApplyInfo;
 import com.example.demo.service.exception.VerifyFailException;

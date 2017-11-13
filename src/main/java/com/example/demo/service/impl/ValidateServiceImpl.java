@@ -41,7 +41,7 @@ public class ValidateServiceImpl implements ValidateService {
     public boolean isApplyOwner(Session session,Validatable validate) {
 
         UserInfo userInfo=userStatusService.getCurrUser(session);
-        //1. user 2. acceptor 3.approver 4.supervisor 5.admin
+        //1. Applier 2. acceptor 3.approver 4.supervisor 5.admin
         switch (userInfo.getRoleList().get(0).getId())
         {
             case 1:

@@ -4,14 +4,14 @@ import com.example.demo.connector.conditions.DeviceConditions;
 import com.example.demo.entity.data.ApplyInfo;
 import com.example.demo.entity.device.DeviceInfo;
 import com.example.demo.service.multiSearch.MultiSearch;
+import org.apache.shiro.util.CollectionUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class DeviceSearchCondition extends MultiSearch {
    private DeviceConditions conditions;
@@ -24,11 +24,14 @@ public class DeviceSearchCondition extends MultiSearch {
         Root<ApplyInfo> customer = cq.from(DeviceInfo.class);
         //Constructing list of parameters
         List<Predicate> predicates = new ArrayList<Predicate>();
-        predicates.add(qb.between(customer.get("createAt"),long_time[0],long_time[1]));
+        predicates.add(qb.between(customer.get("createTime"),long_time[0],long_time[1]));
         //Adding predicates in case of parameter not being null
         if (conditions.getDeviceName() != null) {
             predicates.add(
                     qb.equal(customer.get("deviceName"), conditions.getDeviceName()));
+        }
+        if(!conditions.isProcessing()){
+            predicates.add(qb.equal(customer.get("processing"),conditions.isProcessing()));
         }
         if (conditions.getDeviceCategory() != null) {
             predicates.add(
@@ -52,8 +55,13 @@ public class DeviceSearchCondition extends MultiSearch {
         }
 
         if (conditions.getStates()!=null){
+            Predicate predicate=qb.equal(customer.get("deviceStates"),conditions.getStates()[0]);
+            for(int i:conditions.getStates()){
+                predicate=qb.or(predicate,qb.equal(customer.get("deviceStates"), i));
+            }
+            predicates.add(predicate);
+               // predicates.add( qb.equal(customer.get("deviceStates"), conditions.getStates()));
 
-                   predicates.add( qb.between(customer.get("deviceStates"), conditions.getStates()[0],conditions.getStates()[1]));
        //     predicates.add(qb.equal(customer.get("status"),conditions.getStates()));
         }
 

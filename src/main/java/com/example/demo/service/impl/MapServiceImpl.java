@@ -17,6 +17,15 @@ public class MapServiceImpl implements MapService {
     private DistrictDao districtDao;
     @Autowired
     private OrganizationDao organizationDao;
+    @Override
+    public  Organization findOrganizationById(long id){
+        return organizationDao.findOrganizationById((int)id);
+    }
+
+    @Override
+    public District findDistrictByCode(String code) {
+        return districtDao.findFirstByCode(code);
+    }
 
     @Override
     public List<District> findAllProvince() {

@@ -47,4 +47,8 @@ public class RedisServiceImpl implements RedisService{
     public void deleteByKey(String key) {
 
     }
+
+    @Override
+    public void incr(String key) {
+    }
 }

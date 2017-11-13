@@ -41,7 +41,7 @@ public class UserStatusServiceImpl implements UserStatusService {
     }
     @Override
     public String getCurrUsername(Session session){
-         return getCurrUser(session).getUsername();
+         return getCurrUser(session).getUserData().getName();
     }
 
     @Override

@@ -6,8 +6,8 @@ import com.example.demo.entity.user.UserInfo;
 import com.example.demo.service.AccountService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.exception.VerifyFailException;
-import com.example.demo.service.staticfunction.UtilServiceImpl;
-import com.example.demo.service.staticfunction.VerifyUtil;
+import com.example.demo.service.utils.UtilServiceImpl;
+import com.example.demo.service.utils.VerifyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,10 +38,10 @@ public class UserSeviceImpl implements UserService {
     @Override
     public void createUser(UserInfo userInfo,int level) throws RuntimeException{
         userInfo.setUid(0);
-        if(!VerifyUtil.verify(userInfo.getUsername(),VerifyUtil.USERNAME))
-            throw new VerifyFailException("用户名格式不正确");
-        if(!VerifyUtil.verify(userInfo.getPassword(),VerifyUtil.PASSWORD))
-            throw new VerifyFailException("密码格式不正确");
+        if(!VerifyUtil.verify(userInfo.getUsername(),VerifyUtil.USERNAME)){
+            throw new VerifyFailException("用户名格式不正确");}
+        if(!VerifyUtil.verify(userInfo.getPassword(),VerifyUtil.PASSWORD)){
+            throw new VerifyFailException("密码格式不正确");}
         userInfo.setSalt(UtilServiceImpl.encryptPWD(UtilServiceImpl.getRandomString(), null));
         userInfo.setPassword(UtilServiceImpl.encryptPWD(userInfo.getPassword(), userInfo.getSalt()));
         userInfo.setCreatetime(UtilServiceImpl.date2Long(new Date()));
@@ -63,7 +63,9 @@ public class UserSeviceImpl implements UserService {
 
     @Override
     public UserInfo updateUser(UserInfo userInfo) {
-
+        if(!VerifyUtil.verify(userInfo.getPassword(),VerifyUtil.PASSWORD)){
+            throw new VerifyFailException("密码格式不正确");}
+        userInfo.setPassword(UtilServiceImpl.encryptPWD(userInfo.getPassword(), userInfo.getSalt()));
         return userDao.save(userInfo);
     }
 

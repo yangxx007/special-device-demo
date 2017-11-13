@@ -2,7 +2,7 @@ INSERT INTO `test`.`SysPermission` (`id`,`available`,`name`,`parentId`,`parentId
 INSERT INTO `test`.`SysPermission` (`id`,`available`,`name`,`parentId`,`parentIds`,`permission`,`resourceType`,`url`) VALUES (2,0,'用户添加',1,'0/1','userInfo:add','button','userInfo/userAdd');
 INSERT INTO `test`.`SysPermission` (`id`,`available`,`name`,`parentId`,`parentIds`,`permission`,`resourceType`,`url`) VALUES (3,0,'用户删除',1,'0/1','userInfo:del','button','userInfo/userDel');
 INSERT INTO `test`.`SysRole` (`id`,`available`,`description`,`role`) VALUES (1,0,'管理员','admin');
-INSERT INTO `test`.`SysRole` (`id`,`available`,`description`,`role`) VALUES (2,0,'用户','user');
+INSERT INTO `test`.`SysRole` (`id`,`available`,`description`,`role`) VALUES (2,0,'用户','Applier');
 INSERT INTO `test`.`SysRole` (`id`,`available`,`description`,`role`) VALUES (3,0,'受理人','acceptor');
 INSERT INTO `test`.`SysRole` (`id`,`available`,`description`,`role`) VALUES (4,0,'审批人','approver');
 INSERT INTO `test`.`SysRole` (`id`,`available`,`description`,`role`) VALUES (5,0,'监管人','supervisor');

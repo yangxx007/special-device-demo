@@ -44,8 +44,12 @@ public class DeviceController extends BaseController{
         long id=statusService.getCurrUserId(getSession());
         conditions.setUserId(id);
         DeviceSearchCondition searchCondition=new DeviceSearchCondition(conditions);
+        CustomePage<DeviceResponse> devices=null;
+        if(conditions.getSize()==0){
+             devices= searchCondition.result(searchCondition.searchByConditions(em));
+        }else{
         Pageable pageable = new PageRequest(conditions.getPage(), conditions.getSize(), conditions.getSort());
-        CustomePage<DeviceResponse> devices = searchCondition.result(searchCondition.searchByConditions(em),pageable);
+            devices = searchCondition.result(searchCondition.searchByConditions(em),pageable);}
         return new JsonResponse(200,null,devices);
 
     }

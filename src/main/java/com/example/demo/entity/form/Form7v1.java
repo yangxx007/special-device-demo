@@ -16,6 +16,7 @@ public class Form7v1 implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
 
     private long id;
+    private long inlineId;
     private String eqType;
     private String productNum;
     private String fillMedia;
@@ -28,6 +29,7 @@ public class Form7v1 implements Serializable{
     private String companyNum;
     private String changeOrDisable;
     private String infoManage;
+
 
     public String getEqType() {
         return eqType;
@@ -131,5 +133,13 @@ public class Form7v1 implements Serializable{
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getInlineId() {
+        return inlineId;
+    }
+
+    public void setInlineId(long inlineId) {
+        this.inlineId = inlineId;
     }
 }

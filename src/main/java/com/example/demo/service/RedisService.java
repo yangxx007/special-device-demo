@@ -11,5 +11,5 @@ public interface RedisService {
     Object find(String key,String type);
     void delete(String key,String type);
     void deleteByKey(String key);
-
+    void incr(String key);
 }

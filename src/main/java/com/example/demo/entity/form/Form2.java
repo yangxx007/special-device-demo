@@ -5,18 +5,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "sdregistration2")
-public class Form2 extends Form  {
+public class Form2    {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     private String registKind;
 
@@ -54,7 +46,13 @@ public class Form2 extends Form  {
     private String regisPerson;
     private String comDate3;
     private String registCode;
+    public long getId() {
+        return id;
+    }
 
+    public void setId(long id) {
+        this.id = id;
+    }
     public String getRegistKind() {
         return registKind;
     }

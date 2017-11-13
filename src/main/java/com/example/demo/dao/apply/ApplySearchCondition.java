@@ -4,8 +4,8 @@ import com.example.demo.connector.responser.ApplyResponse;
 import com.example.demo.connector.conditions.SearchConditions;
 import com.example.demo.entity.data.ApplyInfo;
 import com.example.demo.entity.data.ApplyStatus;
+import com.example.demo.connector.responser.WorkFlowInfo;
 import com.example.demo.service.multiSearch.MultiSearch;
-import sun.java2d.pipe.AlphaPaintPipe;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -18,7 +18,7 @@ import java.util.List;
 public class ApplySearchCondition extends MultiSearch {
    private SearchConditions conditions;
     @Override
-    public List<? extends ApplyInfo> searchByConditions(EntityManager em) throws Exception{
+    public List<ApplyInfo> searchByConditions(EntityManager em) throws Exception{
 
         long[] long_time=conditions.parseTime("yyyy-MM-dd");
         CriteriaBuilder qb = em.getCriteriaBuilder();
@@ -39,9 +39,11 @@ public class ApplySearchCondition extends MultiSearch {
         }
         predicates.add(qb.equal(customer.get("status"),appender.get("id")));
         if (conditions.getStates()!=null){
-
-                   predicates.add( qb.between(appender.get("states"), conditions.getStates()[0],conditions.getStates()[1]));
-       //     predicates.add(qb.equal(customer.get("status"),conditions.getStates()));
+            Predicate predicate=qb.equal(appender.get("states"),conditions.getStates()[0]);
+            for(int i:conditions.getStates()){
+                predicate=qb.or(predicate,qb.equal(appender.get("states"), i));
+            }
+            predicates.add(predicate);
         }
         if(conditions.getAgencyId()!=0){
             predicates.add(qb.equal(customer.get("acceptorAgencyId"),conditions.getAgencyId()));
@@ -58,11 +60,8 @@ public class ApplySearchCondition extends MultiSearch {
                 .where(predicates.toArray(new Predicate[]{}));
         //execute query and do something with result
         List<ApplyInfo> applyInfos=em.createQuery(cq).getResultList();
-        List<ApplyResponse>  applyResponses=new ArrayList<>();
-        for(ApplyInfo applyInfo:applyInfos){
-            applyResponses.add(new ApplyResponse(applyInfo));
-        }
-        return applyResponses;
+
+        return applyInfos;
        // return  em.createQuery(cq).getResultList();
 //        Pageable pageable=getPageable(sort);
 //        int start = pageable.getOffset();
@@ -70,7 +69,22 @@ public class ApplySearchCondition extends MultiSearch {
 //        return new CustomePage<ApplyInfo>(list.subList(start,end),getPageable(sort),list.size());
 
     }
-
+    public List<WorkFlowInfo> convert2Workflow(EntityManager em)throws Exception{
+        List<ApplyInfo> applyInfos=searchByConditions(em);
+        List<WorkFlowInfo>  workFlowInfos=new ArrayList<>();
+        for(ApplyInfo applyInfo:applyInfos){
+            workFlowInfos.add(new WorkFlowInfo(applyInfo));
+        }
+        return workFlowInfos;
+    }
+    public List<ApplyResponse> converter2ApplyResponse(EntityManager em)throws Exception{
+        List<ApplyInfo> applyInfos=searchByConditions(em);
+        List<ApplyResponse>  applyResponses=new ArrayList<>();
+        for(ApplyInfo applyInfo:applyInfos){
+            applyResponses.add(new ApplyResponse(applyInfo));
+        }
+        return applyResponses;
+    }
     public ApplySearchCondition(Object conditions) {
         super(conditions);
         this.conditions=(SearchConditions) conditions;

@@ -1,9 +1,10 @@
 package com.example.demo.connector.conditions;
 
-import com.example.demo.service.staticfunction.UtilServiceImpl;
+import com.example.demo.service.utils.UtilServiceImpl;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class SearchConditions implements Serializable {
     private String[] time;
@@ -26,13 +27,6 @@ public class SearchConditions implements Serializable {
 
     private long AgencyId;
 
-    public int[] getStates() {
-        return states;
-    }
-
-    public void setStates(int[] states) {
-        this.states = states;
-    }
 
     public int getRoleId() {
         return roleId;
@@ -115,4 +109,11 @@ public class SearchConditions implements Serializable {
     }
 
 
+    public int[] getStates() {
+        return states;
+    }
+
+    public void setStates(int[] states) {
+        this.states = states;
+    }
 }

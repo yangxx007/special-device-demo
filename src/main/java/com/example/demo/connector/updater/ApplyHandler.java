@@ -9,7 +9,9 @@ import java.io.Serializable;
 public class ApplyHandler implements Serializable{
     private long  applyId;
     private boolean pass;
-    private String comments;
+    private String reason;
+    private String detailReason;
+
     private String rejectReasons;
 
     public long getApplyId() {
@@ -22,13 +24,7 @@ public class ApplyHandler implements Serializable{
 
 
 
-    public String getComments() {
-        return comments;
-    }
 
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
 
     public String getRejectReasons() {
         return rejectReasons;
@@ -44,5 +40,21 @@ public class ApplyHandler implements Serializable{
 
     public void setPass(boolean pass) {
         this.pass = pass;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public String getDetailReason() {
+        return detailReason;
+    }
+
+    public void setDetailReason(String detailReason) {
+        this.detailReason = detailReason;
     }
 }

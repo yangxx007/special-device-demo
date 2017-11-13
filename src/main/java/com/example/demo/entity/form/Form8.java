@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-public class Form8 extends Form {
+public class Form8   {
     @Id
     @GeneratedValue
     private long id;

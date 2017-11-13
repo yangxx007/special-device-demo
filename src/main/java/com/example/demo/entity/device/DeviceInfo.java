@@ -3,13 +3,13 @@ package com.example.demo.entity.device;
 import com.example.demo.entity.data.ApplyInfo;
 import com.example.demo.enums.ApplyTypeEnum;
 import com.example.demo.enums.DeviceStatesEnum;
+import com.example.demo.enums.DeviceTypeEnum;
 import com.example.demo.service.Validatable;
-import com.example.demo.service.staticfunction.UtilServiceImpl;
+import com.example.demo.service.exception.CustomException;
+import com.example.demo.service.utils.UtilServiceImpl;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author yang
@@ -20,34 +20,39 @@ public class DeviceInfo implements Serializable,Validatable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private String deviceCode;
+    private String eqCode;
+    private String comCode;
+    private DeviceTypeEnum deviceType;
+    private int     deviceTypeId;
     private String deviceCategory;
     private String deviceClass;
     private String deviceKind;
+    private String noUseDate;
+    private String noUseEndDate;
+    private String disableDate;
+    private String comTablePerson;
+    private String acceptorAgencyName;
+    private String registPerson;
+    private String productCode;
+    private String useComName;
+    private String eqUseAddr;
+    @Column(unique = true)
+    private String registCode;
     private DeviceStatesEnum deviceStates=DeviceStatesEnum.在用;
     private long ownerId;
     private String ownerComName;
     private long agencyId;
-    private long createAt;
-    private long updateAt;
+    private long createTime;
     private boolean processing;
     private long processedApplyId;
-    @ElementCollection(fetch = FetchType.EAGER)
-    private Map<ApplyTypeEnum,String> logs=new HashMap<>();
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private List<DeviceLogs> logs;
     public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getDeviceCode() {
-        return deviceCode;
-    }
-
-    public void setDeviceCode(String deviceCode) {
-        this.deviceCode = deviceCode;
     }
 
     public String getDeviceCategory() {
@@ -101,24 +106,55 @@ public class DeviceInfo implements Serializable,Validatable {
     }
 
     public void scrapped(){
-        deviceStates=DeviceStatesEnum.报废;
+        if(deviceStates==DeviceStatesEnum.在用||deviceStates==DeviceStatesEnum.停用) {
+            this.deviceStates = DeviceStatesEnum.报废;
+        }else{
+            throw new CustomException("can not change device states or already changed");
+        }
     }
     public void disabled(){
-        deviceStates=DeviceStatesEnum.停用;
+        if (deviceStates==DeviceStatesEnum.在用){
+            this.deviceStates=DeviceStatesEnum.停用;
+        }
+//        else{
+//            throw new CustomException("can not change device states or already changed");
+//        }
     }
     public void enabled(){
-        deviceStates=DeviceStatesEnum.在用;
+        if(this.deviceStates==DeviceStatesEnum.停用){
+            this.deviceStates=DeviceStatesEnum.在用;
+        }
+//        else{
+//            throw new CustomException("can not change device states or already changed");
+//        }
     }
     public void endprocessing(){
-        updateAt= UtilServiceImpl.date2Long(new Date());
-        processing=false;
+        if(processing==true) {
+            this.createTime = UtilServiceImpl.date2Long(new Date());
+            this.processing = false;
+        }
+//        else{
+//            throw new CustomException("can not change device states or already changed");
+//        }
     }
     public void processing(long applyId){
-        processing=true;
-        processedApplyId=applyId;
+        if(processing==false){
+        this.processing=true;
+        this.processedApplyId=applyId;
+        }
+//        else{
+//            throw new CustomException("can not change device states or already changed");
+//        }
     }
     public void addLogs(ApplyInfo applyInfo){
-        logs.put(applyInfo.getApplyType(),applyInfo.getId()+"");
+        DeviceLogs logs=new DeviceLogs();
+        logs.setUpdateTime(applyInfo.getCreateTime()+"");
+        logs.setApplyId(applyInfo.getId());
+        logs.setApplyType(applyInfo.getApplyType());
+        if(this.logs==null){
+            this.logs=new ArrayList<>();
+        }
+        this.logs.add(logs);
         processedApplyId=0;
     }
     public String getOwnerComName() {
@@ -129,21 +165,7 @@ public class DeviceInfo implements Serializable,Validatable {
         this.ownerComName = ownerComName;
     }
 
-    public long getCreateAt() {
-        return createAt;
-    }
 
-    public void setCreateAt(long createAt) {
-        this.createAt = createAt;
-    }
-
-    public long getUpdateAt() {
-        return updateAt;
-    }
-
-    public void setUpdateAt(long updateAt) {
-        this.updateAt = updateAt;
-    }
 
     public void changed() {
     }
@@ -166,11 +188,139 @@ public class DeviceInfo implements Serializable,Validatable {
         this.processedApplyId = processedApplyId;
     }
 
-    public Map<ApplyTypeEnum, String> getLogs() {
+
+    public String getEqCode() {
+        return eqCode;
+    }
+
+    public void setEqCode(String eqCode) {
+        this.eqCode = eqCode;
+    }
+
+    public String getComCode() {
+        return comCode;
+    }
+
+    public void setComCode(String comCode) {
+        this.comCode = comCode;
+    }
+
+    public String getNoUseDate() {
+        return noUseDate;
+    }
+
+    public void setNoUseDate(String noUseDate) {
+        this.noUseDate = noUseDate;
+    }
+
+    public String getNoUseEndDate() {
+        return noUseEndDate;
+    }
+
+    public void setNoUseEndDate(String noUseEndDate) {
+        this.noUseEndDate = noUseEndDate;
+    }
+
+    public String getDisableDate() {
+        return disableDate;
+    }
+
+    public void setDisableDate(String disableDate) {
+        this.disableDate = disableDate;
+    }
+
+    public String getComTablePerson() {
+        return comTablePerson;
+    }
+
+    public void setComTablePerson(String comTablePerson) {
+        this.comTablePerson = comTablePerson;
+    }
+
+    public String getAcceptorAgencyName() {
+        return acceptorAgencyName;
+    }
+
+    public void setAcceptorAgencyName(String acceptorAgencyName) {
+        this.acceptorAgencyName = acceptorAgencyName;
+    }
+
+    public String getRegistPerson() {
+        return registPerson;
+    }
+
+    public void setRegistPerson(String registPerson) {
+        this.registPerson = registPerson;
+    }
+
+    public String getUseComName() {
+        return useComName;
+    }
+
+    public void setUseComName(String useComName) {
+        this.useComName = useComName;
+    }
+
+    public String getRegistCode() {
+        return registCode;
+    }
+
+    public void setRegistCode(String registCode) {
+        this.registCode = registCode;
+    }
+
+    public long getAgencyId() {
+        return agencyId;
+    }
+
+    public long getCreateTime(){
+       // return UtilServiceImpl.date2String(UtilServiceImpl.long2Date(createTime,"yyyy年MM月dd日"),"yyyy年MM月dd日");
+        return createTime;
+    }
+
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
+    }
+
+    public DeviceTypeEnum getDeviceType() {
+        return deviceType;
+    }
+
+    public void setDeviceType(DeviceTypeEnum deviceType) {
+        deviceTypeId=deviceType.ordinal();
+        this.deviceType = deviceType;
+    }
+
+    public int getDeviceTypeId() {
+        return deviceTypeId;
+    }
+
+    public void setDeviceTypeId(int deviceTypeId) {
+        this.deviceTypeId = deviceTypeId;
+    }
+
+
+    public List<DeviceLogs> getLogs() {
         return logs;
     }
 
-    public void setLogs(Map<ApplyTypeEnum, String> logs) {
+    public void setLogs(List<DeviceLogs> logs) {
         this.logs = logs;
+    }
+
+    public String getEqUseAddr() {
+        return eqUseAddr;
+    }
+
+    public void setEqUseAddr(String eqUseAddr) {
+        this.eqUseAddr = eqUseAddr;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
     }
 }

@@ -1,10 +1,9 @@
 package com.example.demo.entity.user;
 
-import com.example.demo.service.staticfunction.UtilServiceImpl;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 //entity标识了这个类是一个实体类，这样hidernate就能够找到这个类，并将这个表与数据库的表进行映射或者创建。
 @Entity
@@ -35,6 +34,8 @@ public class UserInfo implements  Serializable{
 //        createtime= UtilServiceImpl.date2Long(new Date());
 //    }
     public void setUserData(UserData userData) {
+        userData.setId(uid);
+        agencyId=userData.getAcceptorAgencyId();
         this.userData = userData;
     }
     public long getCreatetime() {

@@ -7,7 +7,7 @@ import com.example.demo.entity.form.*;
 import com.example.demo.enums.FormTypeEnum;
 import com.example.demo.service.FileService;
 import com.example.demo.service.exception.FileFailException;
-import com.example.demo.service.staticfunction.FilePathUtil;
+import com.example.demo.service.utils.FilePathUtil;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -53,58 +53,71 @@ public class FileServiceImpl implements FileService {
         fileDao.delete(fileData);
         //要删除相应的file
     }
-
     @Override
     public Map<FormTypeEnum,Long> createPdf(ApplyInfo applyInfo){
         Map<FormTypeEnum,Long> stringMap=new HashMap<>();
-
-        long apply_id=applyInfo.getId();
-        Form1 form1=applyInfo.getForm1();
-        Form2 form2=applyInfo.getForm2();
-        Form3 form3=applyInfo.getForm3();
-        Form4 form4=applyInfo.getForm4();
-        Form5 form5=applyInfo.getForm5();
-        Form6 form6=applyInfo.getForm6();
-        Form7 form7=applyInfo.getForm7();
-        if(form1!=null){
-            stringMap.put(FormTypeEnum.特种设备使用登记表一,form2pdf(form1,1,apply_id));
+        if(applyInfo.getFormList()==null){
+            return null;
         }
-        if(form2!=null){
-            stringMap.put(FormTypeEnum.特种设备使用登记表二,form2pdf(form2,2,apply_id));
-        }
-        if(form3!=null){
-            stringMap.put(FormTypeEnum.特种设备使用登记表三,form2pdf(form3,3,apply_id));
+        for (Form form:applyInfo.getFormList()){
+            int formId=form.getFormType().ordinal();
+           stringMap.put(form.getFormType(),form2pdf(form,formId,applyInfo.getId())) ;
 
         }
-        if(form4!=null){
-            stringMap.put(FormTypeEnum.特种设备使用登记证变更证明,form2pdf(form4,4,apply_id));
-
-        }
-        if(form5!=null){
-            stringMap.put(FormTypeEnum.特种设备停用报废注销登记表,form2pdf(form5,5,apply_id));
-
-        }
-        if(form6!=null){
-            stringMap.put(FormTypeEnum.压力管道基本信息汇总表,form2pdf(form6,6,apply_id));
-
-        }
-        if(form7!=null){
-            stringMap.put(FormTypeEnum.气瓶基本信息汇总表,form2pdf(form7,7,apply_id));
-
-        }
-
         return stringMap;
     }
+
+//    @Override
+//    public Map<FormTypeEnum,Long> createPdf(ApplyInfo applyInfo){
+//        Map<FormTypeEnum,Long> stringMap=new HashMap<>();
+//
+//        long apply_id=applyInfo.getId();
+//        Form1 form1=applyInfo.getForm1();
+//        Form2 form2=applyInfo.getForm2();
+//        Form3 form3=applyInfo.getForm3();
+//        Form4 form4=applyInfo.getForm4();
+//        Form5 form5=applyInfo.getForm5();
+//        Form6 form6=applyInfo.getForm6();
+//        Form7 form7=applyInfo.getForm7();
+//        if(form1!=null){
+//            stringMap.put(FormTypeEnum.特种设备使用登记表一,form2pdf(form1,1,apply_id));
+//        }
+//        if(form2!=null){
+//            stringMap.put(FormTypeEnum.特种设备使用登记表二,form2pdf(form2,2,apply_id));
+//        }
+//        if(form3!=null){
+//            stringMap.put(FormTypeEnum.特种设备使用登记表三,form2pdf(form3,3,apply_id));
+//
+//        }
+//        if(form4!=null){
+//            stringMap.put(FormTypeEnum.特种设备使用登记证变更证明,form2pdf(form4,4,apply_id));
+//
+//        }
+//        if(form5!=null){
+//            stringMap.put(FormTypeEnum.特种设备停用报废注销登记表,form2pdf(form5,5,apply_id));
+//
+//        }
+//        if(form6!=null){
+//            stringMap.put(FormTypeEnum.压力管道基本信息汇总表,form2pdf(form6,6,apply_id));
+//
+//        }
+//        if(form7!=null){
+//            stringMap.put(FormTypeEnum.气瓶基本信息汇总表,form2pdf(form7,7,apply_id));
+//
+//        }
+//
+//        return stringMap;
+//    }
     @Override
-    public long form2pdf(Object form, int form_type,long apply_id) {
+    public long form2pdf(Object form, int formType,long applyId) {
         JSONObject jsonObject=new JSONObject(form);
-        long file_id=apply_id*100+form_type;
+        long file_id=applyId*100+formType;
         String path= FilePathUtil.getPathById(file_id);
         CloseableHttpClient client= HttpClients.createDefault();
         try {
             String url=env.getProperty("custome.fileConverter.serverUrl");
             System.out.println(url);
-            HttpPost request = new HttpPost("http://127.0.0.1:8090/getpdf/"+form_type);
+            HttpPost request = new HttpPost("http://127.0.0.1:8090/getpdf/"+formType);
 
             StringEntity params = new StringEntity(jsonObject.toString(),Charset.forName("UTF-8"));
 

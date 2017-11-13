@@ -21,6 +21,11 @@ public abstract class MultiSearch<T> {
         return new CustomePage<T>(listObject.subList(start,end),pageable,listObject.size());
 
     }
+    public CustomePage<T> result(List<T> listObject)throws Exception{
+
+        return new CustomePage<T>(listObject,null,listObject.size());
+
+    }
 
     public abstract List<T> searchByConditions(EntityManager em) throws Exception;
 }

@@ -1,9 +1,14 @@
 package com.example.demo;
 
 
+import com.example.demo.dao.map.DistrictDao;
+import com.example.demo.enums.DeviceTypeEnum;
+import com.example.demo.service.MapService;
+import com.example.demo.service.utils.RegistCodeGenerater;
 import org.apache.poi.xwpf.usermodel.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -79,13 +84,42 @@ public class DemoApplicationTests {
 //			e.printStackTrace();
 //		}
 //	}
+	@Autowired
+	private MapService districtDao;
+	@Autowired
+	private DistrictDao mapDao;
 	@Test
-	public void testEnums(){
+	public void testEnums()throws  Exception{
 
-		String str="djfakjdflkasj\n dasdfs";
-		System.out.println(str);
-		System.out.println(str.trim().replaceAll("\n",""));
-
+//		for(int i=1100;i<=7200;i++){
+//			List<District> districts=districtDao.findAllArea(i+"00");
+//			int j=0;
+//		for(District district:districts){
+////			System.out.println(district.getCode().substring(2,4));
+////			int j=Integer.parseInt(district.getCode().substring(2,4));
+//			if(districts.size()>26){
+//				district.setCitySeqCode(mapDao.findFirstByCode(i+"00").getCitySeqCode());
+//				district.setProvinceCode(mapDao.findFirstByCode(i/100+"0000").getProvinceCode());
+//				district.setAreaSeqCode(UtilServiceImpl.CODE[j/26]+UtilServiceImpl.CODE[j%26]);
+//			}
+//			else {
+//				if(mapDao.findFirstByCode(i+"00")!=null){
+//					District districtcity=mapDao.findFirstByCode(i+"00");
+//					districtcity.setProvinceCode(mapDao.findFirstByCode(i/100+"0000").getProvinceCode());
+//					district.setCitySeqCode(districtcity.getCitySeqCode());
+//					mapDao.save(districtcity);}
+//				district.setProvinceCode(mapDao.findFirstByCode(i/100+"0000").getProvinceCode());
+//				district.setAreaSeqCode(UtilServiceImpl.CODE[j]);
+//			}
+//			j++;
+//		}
+//		if(!districts.isEmpty())
+//			mapDao.save(districts);
+//	}
+		char[] chars={'0','0','0','0','1'};
+		System.out.println(String.valueOf(chars));
+		RegistCodeGenerater codeGenerater=new RegistCodeGenerater();
+		System.out.println(codeGenerater.generate(districtDao.findDistrictByCode("110105"),"11021", DeviceTypeEnum.客运索道.getShortName(),0,142888));
 	}
 
 

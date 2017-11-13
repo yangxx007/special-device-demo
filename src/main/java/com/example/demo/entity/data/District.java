@@ -11,9 +11,11 @@ public class District implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
+    private String provinceCode;
     private String name;
     private String code;
+    private String citySeqCode;
+    private String areaSeqCode;
 
     public Integer getLevel() {
         return level;
@@ -47,5 +49,31 @@ public class District implements Serializable{
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+
+
+    public String getProvinceCode() {
+        return provinceCode;
+    }
+
+    public void setProvinceCode(String provinceCode) {
+        this.provinceCode = provinceCode;
+    }
+
+    public String getCitySeqCode() {
+        return citySeqCode;
+    }
+
+    public void setCitySeqCode(String citySeqCode) {
+        this.citySeqCode = citySeqCode;
+    }
+
+    public String getAreaSeqCode() {
+        return areaSeqCode;
+    }
+
+    public void setAreaSeqCode(String areaSeqCode) {
+        this.areaSeqCode = areaSeqCode;
     }
 }

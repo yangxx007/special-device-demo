@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "sdProofofChange")
-public class Form4 extends Form  {
+public class Form4    {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 
