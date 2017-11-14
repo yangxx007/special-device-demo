@@ -3,6 +3,8 @@ package com.example.demo.entity.device;
 import com.example.demo.enums.ApplyTypeEnum;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
@@ -11,10 +13,11 @@ import javax.persistence.Id;
  **/
 @Entity
 public class DeviceLogs {
-    @Id
+    @Id@GeneratedValue(strategy = GenerationType.AUTO)
+    private long Id;
     private long applyId;
     private ApplyTypeEnum applyType;
-    private String updateTime;
+    private long updateTime;
 
     public long getApplyId() {
         return applyId;
@@ -32,11 +35,19 @@ public class DeviceLogs {
         this.applyType = applyType;
     }
 
-    public String getUpdateTime() {
+    public long getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(String updateTime) {
+    public void setUpdateTime(long updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public long getId() {
+        return Id;
+    }
+
+    public void setId(long id) {
+        Id = id;
     }
 }

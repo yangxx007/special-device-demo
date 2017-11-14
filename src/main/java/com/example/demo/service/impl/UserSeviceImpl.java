@@ -63,9 +63,6 @@ public class UserSeviceImpl implements UserService {
 
     @Override
     public UserInfo updateUser(UserInfo userInfo) {
-        if(!VerifyUtil.verify(userInfo.getPassword(),VerifyUtil.PASSWORD)){
-            throw new VerifyFailException("密码格式不正确");}
-        userInfo.setPassword(UtilServiceImpl.encryptPWD(userInfo.getPassword(), userInfo.getSalt()));
         return userDao.save(userInfo);
     }
 

@@ -7,7 +7,6 @@ import com.example.demo.dao.apply.ApplySearchCondition;
 import com.example.demo.dao.user.UserDao;
 import com.example.demo.entity.data.ApplyInfo;
 import com.example.demo.entity.form.Form;
-import com.example.demo.entity.form.Form1;
 import com.example.demo.entity.form.SubForm;
 import com.example.demo.entity.user.UserInfo;
 import com.example.demo.enums.*;
@@ -385,15 +384,5 @@ private UserStatusService statusService;
         applyInfo.getStatus().setApproverName(statusService.getCurrUsername(getSession()));
         applyService.saveApply(applyInfo,getSession());
         return new JsonResponse();
-    }
-    @Autowired
-    private FileService fileService;
-    @RequestMapping("/test")
-    public void test()throws Exception{
-        Form1 form1=new Form1();
-        form1.setCheckCategory("daffff");
-        form1.setComCode("ddddd");
-        form1.setComPhone("11111222");
-        fileService.form2pdf(form1,1,20);
     }
 }

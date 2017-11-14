@@ -14,6 +14,7 @@ public class PipesInfo implements Serializable {
     @Id
     private long id;
     private long iid;
+    private long ownerId;
     private String pipeName;
     private String eqCode;
     private String eqLevel;
@@ -183,5 +184,13 @@ public class PipesInfo implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(long ownerId) {
+        this.ownerId = ownerId;
     }
 }

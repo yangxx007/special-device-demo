@@ -23,6 +23,7 @@ public class DeviceInfo implements Serializable,Validatable {
     private String eqCode;
     private String comCode;
     private DeviceTypeEnum deviceType;
+    private String deviceCode;
     private int     deviceTypeId;
     private String deviceCategory;
     private String deviceClass;
@@ -148,7 +149,7 @@ public class DeviceInfo implements Serializable,Validatable {
     }
     public void addLogs(ApplyInfo applyInfo){
         DeviceLogs logs=new DeviceLogs();
-        logs.setUpdateTime(applyInfo.getCreateTime()+"");
+        logs.setUpdateTime(applyInfo.getCreateTime());
         logs.setApplyId(applyInfo.getId());
         logs.setApplyType(applyInfo.getApplyType());
         if(this.logs==null){
@@ -322,5 +323,13 @@ public class DeviceInfo implements Serializable,Validatable {
 
     public void setProductCode(String productCode) {
         this.productCode = productCode;
+    }
+
+    public String getDeviceCode() {
+        return deviceCode;
+    }
+
+    public void setDeviceCode(String deviceCode) {
+        this.deviceCode = deviceCode;
     }
 }

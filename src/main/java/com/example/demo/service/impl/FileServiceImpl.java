@@ -117,7 +117,7 @@ public class FileServiceImpl implements FileService {
         try {
             String url=env.getProperty("custome.fileConverter.serverUrl");
             System.out.println(url);
-            HttpPost request = new HttpPost("http://127.0.0.1:8090/getpdf/"+formType);
+            HttpPost request = new HttpPost(url+formType);
 
             StringEntity params = new StringEntity(jsonObject.toString(),Charset.forName("UTF-8"));
 

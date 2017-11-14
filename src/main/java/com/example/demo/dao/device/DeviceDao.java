@@ -19,4 +19,5 @@ Page<DeviceInfo> findByAgencyId(long agencyId,Pageable page);
 DeviceInfo findById(long id);
 long countAllByDeviceType(DeviceTypeEnum deviceTypeEnum);
 List<DeviceInfo> findAllByOwnerId(long id);
+long countAllByDeviceCode(String deviceCode);
 }

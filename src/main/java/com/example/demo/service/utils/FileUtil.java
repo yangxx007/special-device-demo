@@ -55,7 +55,7 @@ public class FileUtil {
             form7v1.setEqCode(row.getCell(2).getStringCellValue());
             form7v1.setFillMedia(row.getCell(3).getStringCellValue());
             form7v1.setManufactureComName(row.getCell(4).getStringCellValue());
-            form7v1.setEqCreateDate(row.getCell(5).getStringCellValue());
+            form7v1.setEqCreateDateStr(row.getCell(5).getStringCellValue());
             form7v1.setWorkPressure(row.getCell(6).getStringCellValue());
             form7v1.setVolume(row.getCell(7).getStringCellValue());
             form7v1.setTestDate(row.getCell(8).getStringCellValue());
@@ -95,7 +95,7 @@ public class FileUtil {
             form6v1.setEqLevel(row.getCell(3).getStringCellValue());
             form6v1.setDesignComName(row.getCell(4).getStringCellValue());
             form6v1.setConstructComName(row.getCell(5).getStringCellValue());
-            form6v1.setEqCreateDate(row.getCell(6).getStringCellValue());
+            form6v1.setEqCreateDateStr(row.getCell(6).getStringCellValue());
             form6v1.setEqUseDate(row.getCell(7).getStringCellValue());
             form6v1.setDiameter(row.getCell(8).getStringCellValue());
             form6v1.setThickness(row.getCell(9).getStringCellValue());

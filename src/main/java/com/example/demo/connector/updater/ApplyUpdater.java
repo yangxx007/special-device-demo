@@ -4,6 +4,7 @@ package com.example.demo.connector.updater;
 import com.example.demo.entity.data.ApplyInfo;
 import com.example.demo.entity.form.*;
 import com.example.demo.service.utils.UtilServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.Date;

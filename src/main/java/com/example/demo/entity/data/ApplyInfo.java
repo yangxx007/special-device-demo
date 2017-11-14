@@ -10,6 +10,7 @@ import com.example.demo.enums.FormTypeEnum;
 import com.example.demo.service.Validatable;
 
 import com.example.demo.service.utils.UtilServiceImpl;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 import javax.persistence.*;
@@ -170,7 +171,15 @@ public class ApplyInfo  implements Serializable,Validatable {
         this.deviceType = deviceType;
     }
 
-    public Map<FormTypeEnum, Long> getForms() {
+    public Map<String, Long> getObjForms() {
+        Map<String,Long> stringform=new HashMap<>();
+        for(Map.Entry<FormTypeEnum,Long> entry:forms.entrySet()){
+            stringform.put(entry.getKey().toString(),entry.getValue());
+        }
+        return stringform;
+    }
+
+    public Map<FormTypeEnum,Long>getForms(){
         return forms;
     }
 
@@ -249,6 +258,7 @@ public class ApplyInfo  implements Serializable,Validatable {
         Form form=formList.get(0);
         this.acceptorAgencyId=form.getAcceptorAgencyId();
         this.acceptorAgencyName=form.getAcceptorAgencyName();
+        this.deviceCode=form.getDeviceClassCode();
         this.useComName=form.getUseComName();
         this.registKind=form.getRegistKind();
         this.comTablePerson=form.getComTablePerson();

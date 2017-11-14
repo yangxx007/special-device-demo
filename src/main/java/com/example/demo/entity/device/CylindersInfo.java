@@ -14,6 +14,7 @@ public class CylindersInfo implements Serializable{
     @Id@GeneratedValue
     private long id;
     private long iid;
+    private long ownerId;
     private String deviceKind;
     private String eqCode;
     private String fillMedia;
@@ -26,7 +27,13 @@ public class CylindersInfo implements Serializable{
     private String eqComCode;
     private String eqStatus;
     private String infoMessage;
+    public long getOwnerId() {
+        return ownerId;
+    }
 
+    public void setOwnerId(long ownerId) {
+        this.ownerId = ownerId;
+    }
 
     public long getId() {
         return id;

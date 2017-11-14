@@ -11,6 +11,7 @@ import com.example.demo.enums.CustomePage;
 import com.example.demo.enums.JsonResponse;
 import com.example.demo.service.DeviceService;
 import com.example.demo.service.UserStatusService;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class DeviceController extends BaseController{
     @Autowired
     private UserStatusService statusService;
 
+
     @RequestMapping(value = "/get",method = RequestMethod.POST)
     public @ResponseBody
     JsonResponse getDeviceLists(@RequestBody DeviceConditions conditions)throws Exception{
@@ -55,8 +57,20 @@ public class DeviceController extends BaseController{
     }
     @RequestMapping(value = "/get",method = RequestMethod.GET)
     public @ResponseBody
-    JsonResponse getDeviceLists(@RequestParam(name = "deviceId")long deviceId){
+    JsonResponse getDevice(@RequestParam(name = "deviceId")long deviceId){
 
         return new JsonResponse(200,null,deviceService.getDeviceById(deviceId,getSession()));
+    }
+    @Autowired
+
+    @RequestMapping(value = "/getPipes",method = RequestMethod.GET)
+    public @ResponseBody
+    JsonResponse getPipe(){
+        return new JsonResponse();
+    }
+    @RequestMapping(value = "/getCylinder",method = RequestMethod.GET)
+    public @ResponseBody
+    JsonResponse getCylinder(@RequestParam(name="eqCode")long pipeCode){
+        return new JsonResponse();
     }
 }

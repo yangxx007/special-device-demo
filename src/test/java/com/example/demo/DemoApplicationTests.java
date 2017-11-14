@@ -116,10 +116,11 @@ public class DemoApplicationTests {
 //		if(!districts.isEmpty())
 //			mapDao.save(districts);
 //	}
-		char[] chars={'0','0','0','0','1'};
-		System.out.println(String.valueOf(chars));
-		RegistCodeGenerater codeGenerater=new RegistCodeGenerater();
-		System.out.println(codeGenerater.generate(districtDao.findDistrictByCode("110105"),"11021", DeviceTypeEnum.客运索道.getShortName(),0,142888));
+//		char[] chars={'0','0','0','0','1'};
+//		System.out.println(String.valueOf(chars));
+//		RegistCodeGenerater codeGenerater=new RegistCodeGenerater();
+//		System.out.println(codeGenerater.generate(districtDao.findDistrictByCode("110105"),"11021", DeviceTypeEnum.客运索道.getShortName(),0,142888));
+		System.out.println(new Date());
 	}
 
 

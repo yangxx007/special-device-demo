@@ -1,26 +1,21 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dao.device.DeviceDao;
-import com.example.demo.dao.device.UseRegistCertificateDao;
-import com.example.demo.dao.map.DistrictDao;
+import com.example.demo.dao.device.PipeOrCylinderDao;
 import com.example.demo.dao.map.OrganizationDao;
 import com.example.demo.entity.data.ApplyInfo;
-import com.example.demo.entity.data.District;
-import com.example.demo.entity.data.Organization;
+import com.example.demo.entity.device.CylindersInfo;
 import com.example.demo.entity.device.DeviceInfo;
+import com.example.demo.entity.device.PipesInfo;
 import com.example.demo.entity.form.Form;
 import com.example.demo.entity.form.SubForm;
-import com.example.demo.enums.ApplyTypeEnum;
+import com.example.demo.entity.user.UserInfo;
 import com.example.demo.enums.DeviceTypeEnum;
-import com.example.demo.enums.FormTypeEnum;
 import com.example.demo.service.*;
-import com.example.demo.service.exception.CustomException;
-import com.example.demo.service.utils.RegistCodeGenerater;
 import com.example.demo.service.utils.UtilServiceImpl;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,6 +40,8 @@ public class DeviceServiceImpl  implements DeviceService,Apply2DeviceService {
     private RegisterCertificateService certificateService;
     @Autowired
     private UserStatusService userStatusService;
+    @Autowired
+    private PipeOrCylinderDao pipeOrCylinderDao;
 
     @Override
     public DeviceInfo getDeviceById(long id,Session session) {
@@ -75,6 +72,7 @@ public class DeviceServiceImpl  implements DeviceService,Apply2DeviceService {
         apply.setDeviceCategory(deviceInfo.getDeviceCategory());
         apply.setDeviceClass(deviceInfo.getDeviceClass());
         apply.setDeviceKind(deviceInfo.getDeviceKind());
+        apply.setDeviceCode(deviceInfo.getDeviceCode());
         apply.setAcceptorAgencyId(deviceInfo.getAcceptorAgencyId());
         apply.setAcceptorAgencyName(deviceInfo.getAcceptorAgencyName());
         apply.setUseComName(deviceInfo.getUseComName());
@@ -164,6 +162,30 @@ public class DeviceServiceImpl  implements DeviceService,Apply2DeviceService {
         }
 
     }
+
+    @Override
+    public PipesInfo getPipeByEqCode(String pipeCode) {
+         pipeOrCylinderDao.findByEqCode(pipeCode);
+        return null;
+    }
+
+    @Override
+    public List<PipesInfo> getPipeListByOwner(UserInfo userInfo) {
+        // form.getSubList();
+        return null;
+    }
+
+    @Override
+    public CylindersInfo getCylinderByEqCode(String code) {
+        return null;
+    }
+
+    @Override
+    public List<CylindersInfo> getCylinderByEqCode(UserInfo userInfo) {
+        return null;
+    }
+
+
     private void createDevice() throws Exception{
         DeviceInfo device=new DeviceInfo();
         device.setAgencyId(applyInfo.getAcceptorAgencyId());

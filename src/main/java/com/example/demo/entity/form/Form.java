@@ -1,10 +1,13 @@
 package com.example.demo.entity.form;
 
 import com.example.demo.enums.FormTypeEnum;
+import com.example.demo.service.utils.UtilServiceImpl;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
+import javax.rmi.CORBA.Util;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -97,7 +100,7 @@ public class Form implements Serializable {
     }
 
     public void setDeviceClass(String deviceClass) {
-        this.deviceClass = deviceClass.trim().replaceAll("\n","");
+        this.deviceClass = deviceClass.replaceAll("\n","").trim();
     }
 
     public String getEqCode() {
@@ -184,9 +187,14 @@ public class Form implements Serializable {
         return testDate;
     }
 
-    public void setTestDate(String testDate) {
-        this.testDate = testDate;
+    public void setTestDate(Date testDate){
+
+        this.testDate = date2String(testDate);
     }
+//    public void setTestDate(String testDate){
+//
+//        this.testDate = testDate;
+//    }
 
     public String getTestResult() {
         return testResult;
@@ -200,9 +208,12 @@ public class Form implements Serializable {
         return nextTestDate;
     }
 
-    public void setNextTestDate(String nextTestDate) {
-        this.nextTestDate = nextTestDate;
+    public void setNextTestDate(Date nextTestDate) {
+        this.nextTestDate = date2String(nextTestDate);
     }
+//    public void setNextTestDate(String  nextTestDate) {
+//        this.nextTestDate = nextTestDate;
+//    }
 
 
     public String getDeviceKind() {
@@ -210,7 +221,7 @@ public class Form implements Serializable {
     }
 
     public void setDeviceKind(String deviceKind) {
-        this.deviceKind = deviceKind.trim().replaceAll("\n","");
+        this.deviceKind = deviceKind.replaceAll("\n","").trim();
     }
 
     public String getDeviceNum() {
@@ -313,10 +324,12 @@ public class Form implements Serializable {
         return eqUseDate;
     }
 
-    public void setEqUseDate(String eqUseDate) {
-        this.eqUseDate = eqUseDate;
+    public void setEqUseDate(Date eqUseDate) {
+        this.eqUseDate = date2String(eqUseDate);
     }
-
+//    public void setEqUseDate(String eqUseDate) {
+//        this.eqUseDate = eqUseDate;
+//    }
 
     public String getEqUseAddr() {
         return eqUseAddr;
@@ -370,9 +383,12 @@ public class Form implements Serializable {
         return formCreateDate;
     }
 
-    public void setFormCreateDate(String formCreateDate) {
-        this.formCreateDate = formCreateDate;
+    public void setFormCreateDate(Date formCreateDate) {
+        this.formCreateDate =date2String(formCreateDate);
     }
+//    public void setFormCreateDate(String formCreateDate){
+//        this.formCreateDate=formCreateDate;
+//    }
 
     public String getComTablePerson() {
         return comTablePerson;
@@ -426,9 +442,12 @@ public class Form implements Serializable {
         return eqCreateDate;
     }
 
-    public void setEqCreateDate(String eqCreateDate) {
-        this.eqCreateDate = eqCreateDate;
+    public void setEqCreateDate(Date eqCreateDate) {
+        this.eqCreateDate = date2String(eqCreateDate);
     }
+//    public void setEqCreateDate(String eqCreateDate) {
+//        this.eqCreateDate =eqCreateDate;
+//    }
 
     public String getOrigUseComName() {
         return origUseComName;
@@ -442,9 +461,12 @@ public class Form implements Serializable {
         return registDate;
     }
 
-    public void setRegistDate(String registDate) {
-        this.registDate = registDate;
+    public void setRegistDate(Date registDate) {
+        this.registDate = date2String(registDate);
     }
+//    public void setRegistDate(String registDate) {
+//        this.registDate = registDate;
+//    }
 
     public String getChangedType() {
         return changedType;
@@ -536,5 +558,16 @@ public class Form implements Serializable {
         this.acceptorAgencyId = acceptorAgencyId;
     }
 
+    public void addSubList(List<SubForm> forms){
+        subList.addAll(forms);
+    }
+    private String date2String(Date date){
+        try{
+            return UtilServiceImpl.date2String(date,"yyyy年MM月dd日");
+        }
+        catch (Exception e){
+            return null;
+        }
+    }
 
 }

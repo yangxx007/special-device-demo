@@ -190,7 +190,7 @@ public class ApplyServiceImpl implements ApplyService{
 
     private Form createForm(Form form) throws Exception{
         Form form1=new Form();
-        form1.setFormCreateDate(UtilServiceImpl.date2String(new Date(),"yyyy年MM月dd日"));
+        form1.setFormCreateDate(new Date());
         form1.setComTablePerson(form.getComTablePerson());
         form1.setSuperviseComName(form.getSuperviseComName());
         form1.setEmail(form.getEmail());

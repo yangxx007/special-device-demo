@@ -1,5 +1,6 @@
 package com.example.demo.entity.form;
 
+import com.example.demo.service.utils.UtilServiceImpl;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.Entity;
@@ -7,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author yang
@@ -234,10 +236,12 @@ public class SubForm implements Serializable{
         return eqCreateDate;
     }
 
-    public void setEqCreateDate(String eqCreateDate) {
-        this.eqCreateDate = eqCreateDate;
+    public void setEqCreateDate(Date eqCreateDate) {
+        this.eqCreateDate = UtilServiceImpl.date2String(eqCreateDate,"yyyy年MM月dd日");
     }
-
+    public void setEqCreateDateStr(String eqCreateDate) {
+        this.eqCreateDate =eqCreateDate;
+    }
     public String getProductCode() {
         return productCode;
     }

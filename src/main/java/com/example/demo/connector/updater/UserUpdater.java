@@ -2,7 +2,9 @@ package com.example.demo.connector.updater;
 
 import com.example.demo.entity.user.UserData;
 import com.example.demo.entity.user.UserInfo;
+import com.example.demo.service.exception.VerifyFailException;
 import com.example.demo.service.utils.UtilServiceImpl;
+import com.example.demo.service.utils.VerifyUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
@@ -15,10 +17,10 @@ public class UserUpdater {
     public  void update(UserInfo userInfo)
     {
         if(password!=null){
-     userInfo.setPassword(password);
-    }
+            userInfo.setPassword(UtilServiceImpl.encryptPWD(password, userInfo.getSalt()));
+        }
         if(userData!=null){
-     userInfo.setUserData(userData);
+            userInfo.setUserData(userData);
         }
 
     }
@@ -35,6 +37,8 @@ public class UserUpdater {
     }
 
     public void setPassword(String password) {
+        if(!VerifyUtil.verify(password,VerifyUtil.PASSWORD)){
+            throw new VerifyFailException("密码格式不正确");}
         this.password = password;
     }
 }

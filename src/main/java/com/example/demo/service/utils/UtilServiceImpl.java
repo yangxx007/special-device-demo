@@ -1,6 +1,7 @@
 package com.example.demo.service.utils;
 
 import com.example.demo.entity.device.DeviceInfo;
+import com.example.demo.service.exception.CustomException;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfStamper;
 import com.lowagie.text.pdf.PdfWriter;
@@ -76,8 +77,12 @@ public class UtilServiceImpl  {
         Date date = string2Date(sDateTime, formatType);
         return date;
     }
-    public static String date2String(Date time, String formatType) throws ParseException{
-        return new SimpleDateFormat(formatType).format(time);
+    public static String date2String(Date time, String formatType) {
+        try{
+            return new SimpleDateFormat(formatType).format(time);}
+        catch (Exception e){
+            throw new CustomException("date format error");
+        }
     }
     public static JSONObject string2JSON(String str){
         JSONObject jsonObject=null;

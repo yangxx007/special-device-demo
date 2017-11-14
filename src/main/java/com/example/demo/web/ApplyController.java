@@ -134,6 +134,7 @@ public class ApplyController extends BaseController {
         return new JsonResponse();
 
     }
+    @Transactional
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public @ResponseBody
     JsonResponse updateApply(@RequestBody ApplyUpdater updater) throws RuntimeException{
@@ -141,10 +142,10 @@ public class ApplyController extends BaseController {
         ApplyInfo applyInfo=applyService.findByApplyID(updater.getId(),session);
         updater.update(applyInfo);
         ApplyInfo applyInfo1=applyService.updateForm(applyInfo,session);
-        Map<String,String> map= new HashMap<>();
+        Map<String,Object> map= new HashMap<>();
         map.put("applyId",applyInfo1.getId()+"");
-        map.put("forms",applyInfo1.getForms().toString());
-        map.put("files",applyInfo1.getFiles().toString());
+        map.put("forms",applyInfo1.getForms());
+        map.put("files",applyInfo1.getFiles());
         return new JsonResponse(200,null,map);
 
     }
