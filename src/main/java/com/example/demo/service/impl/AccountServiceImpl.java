@@ -18,6 +18,7 @@ public class AccountServiceImpl implements AccountService {
     //1.普通用户。 2.受理人员  3.审批人员   4.监管人员   5.超级用户
     @Override
     public List<SysRole> createUserAccount(int level) {
+        assert(level!=0);
        switch(level){
            case 1:
                return sysRoleDao.findById(1);
