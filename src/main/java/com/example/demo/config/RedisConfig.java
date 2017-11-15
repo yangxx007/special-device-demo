@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -13,13 +14,14 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 public class RedisConfig extends CachingConfigurerSupport {
-
+    @Autowired
+    private org.springframework.core.env.Environment env;
 
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
         JedisConnectionFactory connectionFactory= new JedisConnectionFactory();
-        connectionFactory.setHostName("10.210.59.79");
-        connectionFactory.setPort(6379);
+        connectionFactory.setHostName(env.getProperty("spring.redis.host"));
+        connectionFactory.setPort(env.getRequiredProperty("spring.redis.port",Integer.class));
         return connectionFactory;
     }
     //如果在applicationContext中配置redisConnectionFactory那么加@autowired 和传入redisConnectionFactory类型参数如果如上直接配置就不用了。

@@ -142,6 +142,7 @@ public class FileServiceImpl implements FileService {
            }
 
         } catch (Exception ex) {
+            ex.printStackTrace();
             System.out.println("can not connect to file converter service");
             file_id=0;
             //throw ex;

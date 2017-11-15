@@ -5,10 +5,12 @@ import com.example.demo.dao.user.UserPageDao;
 import com.example.demo.entity.user.UserInfo;
 import com.example.demo.service.AccountService;
 import com.example.demo.service.UserService;
+import com.example.demo.service.exception.CustomException;
 import com.example.demo.service.exception.VerifyFailException;
 import com.example.demo.service.utils.UtilServiceImpl;
 import com.example.demo.service.utils.VerifyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -46,7 +48,11 @@ public class UserSeviceImpl implements UserService {
         userInfo.setPassword(UtilServiceImpl.encryptPWD(userInfo.getPassword(), userInfo.getSalt()));
         userInfo.setCreatetime(UtilServiceImpl.date2Long(new Date()));
         userInfo.setRoleList(accountService.createUserAccount(level));
-        userDao.save(userInfo);
+        try{
+        userDao.save(userInfo);}
+        catch (DataIntegrityViolationException e){
+            throw new VerifyFailException("用户名已存在，请重新设置");
+        }
     }
 
     @Override

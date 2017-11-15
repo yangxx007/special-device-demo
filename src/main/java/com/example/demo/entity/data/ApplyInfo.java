@@ -262,7 +262,7 @@ public class ApplyInfo  implements Serializable,Validatable {
         this.useComName=form.getUseComName();
         this.registKind=form.getRegistKind();
         this.comTablePerson=form.getComTablePerson();
-        this.deviceCode=form.getDeviceKindCode();
+        this.deviceCode=form.getDeviceClassCode();
         if(form.getEqCode()!=null){
             this.eqCode=form.getEqCode();
         }
