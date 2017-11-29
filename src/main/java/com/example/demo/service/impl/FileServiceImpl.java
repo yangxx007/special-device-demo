@@ -116,7 +116,7 @@ public class FileServiceImpl implements FileService {
         CloseableHttpClient client= HttpClients.createDefault();
         try {
             String url=env.getProperty("custome.fileConverter.serverUrl");
-            System.out.println(url);
+            System.out.println(url+formType);
             HttpPost request = new HttpPost(url+formType);
 
             StringEntity params = new StringEntity(jsonObject.toString(),Charset.forName("UTF-8"));

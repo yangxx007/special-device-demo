@@ -1,5 +1,6 @@
 package com.example.demo.connector.conditions;
 
+import com.example.demo.enums.RoleTypeEnum;
 import org.springframework.data.domain.Sort;
 
 /**
@@ -8,9 +9,10 @@ import org.springframework.data.domain.Sort;
  **/
 public class ApplyConditions extends SearchConditions {
 
-
+    private RoleTypeEnum role=RoleTypeEnum.普通用户;
     private Sort sort;
     private int applyTypeId;
+    private String eqCode;
     public Sort getSort() {
         return sort;
     }
@@ -43,5 +45,22 @@ public class ApplyConditions extends SearchConditions {
     @Override
     public void setApplyTypeId(int applyTypeId) {
         this.applyTypeId = applyTypeId;
+    }
+
+
+    public String getEqCode() {
+        return eqCode;
+    }
+
+    public void setEqCode(String eqCode) {
+        this.eqCode = eqCode;
+    }
+
+    public RoleTypeEnum getRole() {
+        return role;
+    }
+
+    public void setRole(RoleTypeEnum role) {
+        this.role = role;
     }
 }

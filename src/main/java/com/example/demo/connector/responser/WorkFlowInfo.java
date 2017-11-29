@@ -4,6 +4,7 @@ package com.example.demo.connector.responser;
 import com.example.demo.entity.data.ApplyInfo;
 import com.example.demo.entity.data.ApplyStatus;
 import com.example.demo.enums.ApplyStatesEnum;
+import com.example.demo.enums.ApplyTypeEnum;
 import com.example.demo.service.utils.UtilServiceImpl;
 
 import java.io.Serializable;
@@ -19,10 +20,14 @@ public class WorkFlowInfo implements Serializable{
         this.applyInfo=applyInfo;
         status=applyInfo.getStatus();
     }
+
     public long getId(){return applyInfo.getId();}
 
-    public long getApplyDate() {
-        return status.getApplyDate();
+    public String getApplyDate()throws Exception {
+        if(status.getApplyDate()!=0){
+            return UtilServiceImpl.long2String(status.getApplyDate(),"yyyy年MM月dd日");
+        }
+        return null;
     }
 
 
@@ -47,22 +52,34 @@ public class WorkFlowInfo implements Serializable{
 
 
     public String getAcceptTellDate()throws Exception {
-        return UtilServiceImpl.long2String(status.getAcceptTellDate(),"yyyy年MM月dd日");
+        if(status.getAcceptTellDate()!=0){
+            return UtilServiceImpl.long2String(status.getAcceptTellDate(),"yyyy年MM月dd日");
+        }
+        return null;
     }
 
 
     public String getUnAcceptTellDate()throws Exception {
-        return UtilServiceImpl.long2String(status.getUnAcceptTellDate(),"yyyy年MM月dd日") ;
+        if(status.getUnAcceptTellDate()!=0){
+            return UtilServiceImpl.long2String(status.getUnAcceptTellDate(),"yyyy年MM月dd日") ;
+        }
+        return null;
     }
 
 
     public String getApprovalDate() throws Exception{
-        return UtilServiceImpl.long2String(status.getApprovalDate(),"yyyy年MM月dd日");
+        if(status.getApprovalDate()!=0){
+            return UtilServiceImpl.long2String(status.getApprovalDate(),"yyyy年MM月dd日");
+        }
+        return null;
     }
 
 
     public String getUnApprovalDate()throws Exception {
-        return UtilServiceImpl.long2String(status.getUnApprovalDate(),"yyyy年MM月dd日");
+        if(status.getUnApprovalDate()!=0){
+            return UtilServiceImpl.long2String(status.getUnApprovalDate(),"yyyy年MM月dd日");
+        }
+        return null;
     }
 
 
@@ -77,7 +94,10 @@ public class WorkFlowInfo implements Serializable{
 
 
     public String getApplyAcceptDate() throws Exception{
-        return UtilServiceImpl.long2String(status.getApplyAcceptDate(),"yyyy年MM月dd日");
+        if(status.getApplyAcceptDate()!=0){
+            return UtilServiceImpl.long2String(status.getApplyAcceptDate(),"yyyy年MM月dd日");
+        }
+        return null;
     }
 
 
@@ -94,5 +114,10 @@ public class WorkFlowInfo implements Serializable{
     public String getEqCode(){return applyInfo.getEqCode();}
     public String getComCode(){return  applyInfo.getComCode();}
     public String getAcceptorAgencyName(){return applyInfo.getAcceptorAgencyName();}
-    public String getRegistCode(){return applyInfo.getRegistCode();}
+    public String getRegistCode(){return applyInfo.getRegistCode(); }
+    public int getDeviceTypeId() {
+        return applyInfo.getApplyType().ordinal();
+    }
+    public String getRegistKind(){return applyInfo.getRegistKind();}
+    public ApplyTypeEnum getApplyType(){return applyInfo.getApplyType();}
 }

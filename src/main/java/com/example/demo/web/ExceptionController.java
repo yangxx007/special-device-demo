@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @author yang
  * @create_at 2017/10/17
@@ -20,8 +23,9 @@ public class ExceptionController
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public
-    JsonResponse handleException(Exception e){
+    JsonResponse handleException(Exception e, HttpServletResponse response){
         e.printStackTrace();
+        response.setStatus(500);
         return new JsonResponse(500,e.getClass().getSimpleName(),null);
     }
     @ExceptionHandler(value =CustomException.class)
@@ -42,14 +46,14 @@ public class ExceptionController
     public
     JsonResponse handleUnknownAccountException(Exception e){
         e.printStackTrace();
-        return new JsonResponse(500,"用户名不存在",null);
+        return new JsonResponse(400,"用户名不存在",null);
     }
     @ExceptionHandler(value = IncorrectCredentialsException.class)
     @ResponseBody
     public
     JsonResponse handleIncorrectCredentialsException(Exception e){
         e.printStackTrace();
-        return new JsonResponse(500,"密码输入错误",null);
+        return new JsonResponse(400,"密码输入错误",null);
     }
 
 

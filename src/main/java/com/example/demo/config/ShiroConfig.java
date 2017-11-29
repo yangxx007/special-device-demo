@@ -24,7 +24,7 @@ public class ShiroConfig {
 
     @Bean
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
-        System.out.println("ShiroConfiguration.shirFilter()");
+       // System.out.println("ShiroConfiguration.shirFilter()");
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         //拦截器.
@@ -81,8 +81,8 @@ public class ShiroConfig {
 
     @Bean
     public SessionManager sessionManager() {
-        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-        sessionManager.setSessionDAO(sessionDAO());
+        ServletContainerSessionManager sessionManager = new ServletContainerSessionManager();
+       // sessionManager.setSessionDAO(sessionDAO());
         return sessionManager;
     }
 

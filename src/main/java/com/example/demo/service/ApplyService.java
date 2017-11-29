@@ -32,5 +32,7 @@ public interface ApplyService {
     ApplyInfo cancelApply(long applyId,Session session);
     ApplyInfo updateForm(ApplyInfo applyInfo,Session session);
     ApplyInfo updateApply(MultipartFile file,long applyId,Session session)throws Exception;
-    ApplyInfo findApplyByEqCode(String code);
+    ApplyInfo findApplyByEqCode(String code,Session session);
+
+    ApplyInfo addDevices(MultipartFile file, long applyId, Session session);
 }

@@ -25,6 +25,7 @@ public interface ApplyInfoDao extends PagingAndSortingRepository<ApplyInfo,Integ
      ApplyStatus findApplyStatusByapplyInfoId(long id);
      @Query(value = "select u from ApplyInfo u left join fetch u.formList uu where u.eqCode=?1")
      ApplyInfo findapplybyeqcode(String eqCode);
+     ApplyInfo findFirstByEqCode(String eqCode);
     //@Query(value = "select u from ApplyInfo u")
     //public Stream<ApplyInfo> findAllBy(Stream<ApplyInfo> applyInfoStream);
 

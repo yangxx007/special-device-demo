@@ -30,7 +30,7 @@ public class UserController extends BaseController{
     public @ResponseBody
     JsonResponse getUserInform(){
         UserData userData=userStatusService.getCurrUser(SecurityUtils.getSubject().getSession()).getUserData();
-        System.out.println(new JSONObject(userData).toString());
+        //System.out.println(new JSONObject(userData).toString());
         return new JsonResponse(200,null,userData);
     }
     @RequestMapping(value = "/update",method = RequestMethod.POST)

@@ -1,15 +1,14 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.config.annotation.InfoMsg;
 import com.example.demo.dao.apply.ApplyInfoDao;
 import com.example.demo.dao.apply.ApplyInfoSpecification;
 import com.example.demo.entity.data.ApplyInfo;
 
 import com.example.demo.entity.device.DeviceInfo;
 import com.example.demo.entity.form.Form;
-import com.example.demo.enums.ApplyStatesEnum;
-import com.example.demo.enums.ApplyTypeEnum;
-import com.example.demo.enums.DeviceTypeEnum;
-import com.example.demo.enums.FormTypeEnum;
+import com.example.demo.entity.form.SubForm;
+import com.example.demo.enums.*;
 import com.example.demo.service.*;
 import com.example.demo.service.exception.NotFoundException;
 
@@ -47,6 +46,8 @@ public class ApplyServiceImpl implements ApplyService{
     private FileService fileService;
     @Autowired
     private DeviceService deviceService;
+    @Autowired
+    private UserStatusService statusService;
 
     @Override
     //@Cacheable(value = "apply",key = "#applyId.toString()+#session.getId()")
@@ -177,11 +178,20 @@ public class ApplyServiceImpl implements ApplyService{
         }
         for(Form subform:forms){
             if(subform.getFormType()== FormTypeEnum.气瓶基本信息汇总表)
-            {
-                subform.setSubList(fileUtil.excel2lists());
+            {   List<SubForm> subForms=subform.getSubList();
+            if(subForms!=null) {
+                subForms.addAll(fileUtil.excel2lists(statusService.getCurrUserId(session)));
+            }else{
+                subform.setSubList(fileUtil.excel2lists(statusService.getCurrUserId(session)));
+            }
             }
             if(subform.getFormType()==FormTypeEnum.压力管道基本信息汇总表){
-                subform.setSubList(fileUtil.excel2list2());
+                List<SubForm> subForms=subform.getSubList();
+                if(subForms!=null) {
+                    subForms.addAll(fileUtil.excel2lists(statusService.getCurrUserId(session)));
+                }else{
+                    subform.setSubList(fileUtil.excel2lists(statusService.getCurrUserId(session)));
+                }
             }
 
         }
@@ -202,10 +212,15 @@ public class ApplyServiceImpl implements ApplyService{
     }
     @Transactional
     @Override
-    public ApplyInfo findApplyByEqCode(String code) {
-        ApplyInfo applyInfo= applyDao.findapplybyeqcode(code);
-        List<Form> forms=applyInfo.getFormList();
+    public ApplyInfo findApplyByEqCode(String code,Session session) {
+        ApplyInfo applyInfo= applyDao.findFirstByEqCode(code);
+        validateService.isPermission(session,applyInfo);
         return applyInfo;
+    }
+
+    @Override
+    public ApplyInfo addDevices(MultipartFile file, long applyId, Session session) {
+        return null;
     }
 
     @Override

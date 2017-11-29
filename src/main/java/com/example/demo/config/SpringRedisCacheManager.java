@@ -179,7 +179,7 @@ public class SpringRedisCacheManager extends RedisCacheManager implements Applic
                 }
                 catch (Exception e){
                     duration=defaultExpireTime;
-                    System.out.println("it doesn't matter without CacheDuration");
+                  //  System.out.println("it doesn't matter without CacheDuration");
                 }
                 Cacheable cacheable = findAnnotation(method, Cacheable.class);
                 CacheConfig cacheConfig = findAnnotation(clazz, CacheConfig.class);

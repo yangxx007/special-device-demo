@@ -14,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import java.io.File;
 
@@ -127,5 +128,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/css/static/**").addResourceLocations("classpath:/public/static/");
         registry.addResourceHandler("/static/file/**").addResourceLocations("classpath:/templates/");
+    }
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter (){
+        return new ServerEndpointExporter();
     }
 }

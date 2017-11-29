@@ -23,7 +23,7 @@ import java.util.HashMap;
 
 @PropertySource({"classpath:application.properties"})
 @EnableJpaRepositories(
-        basePackages = {"com.example.demo.dao.apply", "com.example.demo.dao.file", "com.example.demo.dao.map", "com.example.demo.dao.device", "com.example.demo.dao.agency"},
+        basePackages = {"com.example.demo.dao.apply", "com.example.demo.dao.file", "com.example.demo.dao.map", "com.example.demo.dao.device", "com.example.demo.dao.msg"},
         entityManagerFactoryRef ="productEntityManager",
         transactionManagerRef = "productTransactionManager"
 

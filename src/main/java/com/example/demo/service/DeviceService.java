@@ -6,6 +6,7 @@ import com.example.demo.entity.device.CylindersInfo;
 import com.example.demo.entity.device.DeviceInfo;
 import com.example.demo.entity.device.PipesInfo;
 import com.example.demo.entity.form.Form;
+import com.example.demo.entity.form.SubForm;
 import com.example.demo.entity.user.UserInfo;
 import com.example.demo.enums.CustomePage;
 import com.example.demo.enums.DeviceTypeEnum;
@@ -24,9 +25,9 @@ public interface DeviceService {
     long deviceTotalNum(DeviceTypeEnum deviceTypeEnum);
     void device2Apply(long deviceId, ApplyInfo apply);
     void createDevice(ApplyInfo applyInfo)throws Exception;
-     PipesInfo getPipeByEqCode(String pipeCode);
-    List<PipesInfo> getPipeListByOwner(UserInfo userInfo);
-    CylindersInfo getCylinderByEqCode(String code);
-    List<CylindersInfo> getCylinderByEqCode(UserInfo userInfo);
-
+     SubForm getPipeByEqCode(Session session,String pipeCode);
+    List<SubForm> getPipeListByOwner(Session session);
+    SubForm getCylinderByEqCode(Session session,String code);
+    List<SubForm> getCylinderByEqCode(Session session);
+    Object updateSubForm(SubForm cylinder);
 }

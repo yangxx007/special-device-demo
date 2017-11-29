@@ -1,10 +1,12 @@
 package com.example.demo.dao.apply;
 
+import com.example.demo.connector.conditions.ApplyConditions;
 import com.example.demo.connector.responser.ApplyResponse;
 import com.example.demo.connector.conditions.SearchConditions;
 import com.example.demo.entity.data.ApplyInfo;
 import com.example.demo.entity.data.ApplyStatus;
 import com.example.demo.connector.responser.WorkFlowInfo;
+import com.example.demo.enums.RoleTypeEnum;
 import com.example.demo.service.multiSearch.MultiSearch;
 
 import javax.persistence.EntityManager;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ApplySearchCondition extends MultiSearch {
-   private SearchConditions conditions;
+   private ApplyConditions conditions;
     @Override
     public List<ApplyInfo> searchByConditions(EntityManager em) throws Exception{
 
@@ -29,6 +31,9 @@ public class ApplySearchCondition extends MultiSearch {
         List<Predicate> predicates = new ArrayList<Predicate>();
         predicates.add(qb.between(customer.get("createTime"),long_time[0],long_time[1]));
         //Adding predicates in case of parameter not being null
+        if(conditions.getEqCode()!=null){
+            predicates.add(qb.equal(customer.get("eqCode"), conditions.getEqCode()));
+        }
         if (conditions.getApplyTypeId() != 0) {
             predicates.add(
                     qb.equal(customer.get("applyType"), conditions.getApplyTypeId()));
@@ -44,6 +49,9 @@ public class ApplySearchCondition extends MultiSearch {
                 predicate=qb.or(predicate,qb.equal(appender.get("states"), i));
             }
             predicates.add(predicate);
+        }
+        if(conditions.getRole()== RoleTypeEnum.受理人员||conditions.getRole()==RoleTypeEnum.审批人员){
+            predicates.add(qb.equal(customer.get("processing"),false));
         }
         if(conditions.getAgencyId()!=0){
             predicates.add(qb.equal(customer.get("acceptorAgencyId"),conditions.getAgencyId()));
@@ -87,7 +95,7 @@ public class ApplySearchCondition extends MultiSearch {
     }
     public ApplySearchCondition(Object conditions) {
         super(conditions);
-        this.conditions=(SearchConditions) conditions;
+        this.conditions=(ApplyConditions) conditions;
     }
 
 }

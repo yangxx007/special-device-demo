@@ -23,6 +23,7 @@ public class DeviceInfo implements Serializable,Validatable {
     private String eqCode;
     private String comCode;
     private DeviceTypeEnum deviceType;
+    private long deviceSerialNum;
     private String deviceCode;
     private int     deviceTypeId;
     private String deviceCategory;
@@ -31,6 +32,7 @@ public class DeviceInfo implements Serializable,Validatable {
     private String noUseDate;
     private String noUseEndDate;
     private String disableDate;
+    private String issueDate;
     private String comTablePerson;
     private String acceptorAgencyName;
     private String registPerson;
@@ -108,6 +110,7 @@ public class DeviceInfo implements Serializable,Validatable {
 
     public void scrapped(){
         if(deviceStates==DeviceStatesEnum.在用||deviceStates==DeviceStatesEnum.停用) {
+            disableDate=UtilServiceImpl.date2String(new Date(),"yyyy年MM月dd日");
             this.deviceStates = DeviceStatesEnum.报废;
         }else{
             throw new CustomException("can not change device states or already changed");
@@ -115,6 +118,8 @@ public class DeviceInfo implements Serializable,Validatable {
     }
     public void disabled(){
         if (deviceStates==DeviceStatesEnum.在用){
+            noUseEndDate=null;
+            noUseDate=UtilServiceImpl.date2String(new Date(),"yyyy年MM月dd日");
             this.deviceStates=DeviceStatesEnum.停用;
         }
 //        else{
@@ -123,11 +128,22 @@ public class DeviceInfo implements Serializable,Validatable {
     }
     public void enabled(){
         if(this.deviceStates==DeviceStatesEnum.停用){
+            noUseEndDate=UtilServiceImpl.date2String(new Date(),"yyyy年MM月dd日");
             this.deviceStates=DeviceStatesEnum.在用;
         }
 //        else{
 //            throw new CustomException("can not change device states or already changed");
 //        }
+    }
+    public void updating(){
+        if(this.deviceStates==DeviceStatesEnum.在用){
+            this.deviceStates=DeviceStatesEnum.变更中;
+        }
+    }
+    public void endUpdated(){
+        if(this.deviceStates==DeviceStatesEnum.变更中){
+            this.deviceStates=DeviceStatesEnum.在用;
+        }
     }
     public void endprocessing(){
         if(processing==true) {
@@ -331,5 +347,21 @@ public class DeviceInfo implements Serializable,Validatable {
 
     public void setDeviceCode(String deviceCode) {
         this.deviceCode = deviceCode;
+    }
+
+    public long getDeviceSerialNum() {
+        return deviceSerialNum;
+    }
+
+    public void setDeviceSerialNum(long deviceSerialNum) {
+        this.deviceSerialNum = deviceSerialNum;
+    }
+
+    public String getIssueDate() {
+        return issueDate;
+    }
+
+    public void setIssueDate(String issueDate) {
+        this.issueDate = issueDate;
     }
 }

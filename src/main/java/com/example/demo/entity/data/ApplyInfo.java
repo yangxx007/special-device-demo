@@ -6,13 +6,8 @@ import com.example.demo.entity.form.*;
 import com.example.demo.enums.ApplyTypeEnum;
 import com.example.demo.enums.DeviceTypeEnum;
 import com.example.demo.enums.FormTypeEnum;
-
 import com.example.demo.service.Validatable;
-
 import com.example.demo.service.utils.UtilServiceImpl;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -37,14 +32,16 @@ public class ApplyInfo  implements Serializable,Validatable {
     private String deviceKind;
     private String deviceCode;
     @Column(nullable = false)
-    private DeviceTypeEnum deviceType;
+    private DeviceTypeEnum deviceType=DeviceTypeEnum.NULL;
     private String eqCode;
+    private String eqUseAddr;
     private long ownerId;
     private String ownerName;
     private String registKind;
     private String safeAdministrator;
     private String registCode;
     private String comCode;
+    private boolean processing=false;
     private String comTablePerson;
     private boolean hasFile=true;
     private long createTime;
@@ -57,7 +54,6 @@ public class ApplyInfo  implements Serializable,Validatable {
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinTable(name = "ApplyFormList",joinColumns = {@JoinColumn(name = "applyId")},inverseJoinColumns = {@JoinColumn(name ="formId")})
     private List<Form> formList;
-
     public ApplyInfo(){
         createTime= UtilServiceImpl.getLongCurrTime();
         status=new ApplyStatus();
@@ -259,6 +255,12 @@ public class ApplyInfo  implements Serializable,Validatable {
         this.acceptorAgencyId=form.getAcceptorAgencyId();
         this.acceptorAgencyName=form.getAcceptorAgencyName();
         this.deviceCode=form.getDeviceClassCode();
+        this.comCode=form.getEqComCode();
+        if(form.getEqUseAddr()!=null){
+        this.eqUseAddr=form.getEqUseAddr();}
+        else{
+            this.eqUseAddr=form.getUseComAddr();
+        }
         this.useComName=form.getUseComName();
         this.registKind=form.getRegistKind();
         this.comTablePerson=form.getComTablePerson();
@@ -330,5 +332,21 @@ public class ApplyInfo  implements Serializable,Validatable {
     public void setDeviceList(long[] deviceList) {
         deviceId=deviceList[0];
         this.deviceList = deviceList;
+    }
+
+    public String getEqUseAddr() {
+        return eqUseAddr;
+    }
+
+    public void setEqUseAddr(String eqUseAddr) {
+        this.eqUseAddr = eqUseAddr;
+    }
+
+    public boolean isProcessing() {
+        return processing;
+    }
+
+    public void setProcessing(boolean processing) {
+        this.processing = processing;
     }
 }

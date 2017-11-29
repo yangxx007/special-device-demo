@@ -1,5 +1,6 @@
 package com.example.demo.entity.form;
 
+import com.example.demo.enums.DeviceTypeEnum;
 import com.example.demo.service.utils.UtilServiceImpl;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -21,6 +22,8 @@ public class SubForm implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private long iid;
+    private long ownerId;
+    private DeviceTypeEnum deviceType;
     private String registCode;
     private String eqUseAddr;
     private String reasons;
@@ -292,5 +295,21 @@ public class SubForm implements Serializable{
 
     public void setNextTestDate(String nextTestDate) {
         this.nextTestDate = nextTestDate;
+    }
+
+    public DeviceTypeEnum getDeviceType() {
+        return deviceType;
+    }
+
+    public void setDeviceType(DeviceTypeEnum deviceType) {
+        this.deviceType = deviceType;
+    }
+
+    public long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(long ownerId) {
+        this.ownerId = ownerId;
     }
 }

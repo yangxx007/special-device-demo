@@ -52,7 +52,7 @@ public class UserStatusServiceImpl implements UserStatusService {
             String username=session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY).toString();
             //System.out.println(username);
             //String sessionId=currSubject.getSession().getId().toString();
-            System.out.println("用了本地保存的登录用户信息");
+          //  System.out.println("用了本地保存的登录用户信息");
             UserInfo userInfo = userDao.findByUsername(username);
             return userInfo;
 

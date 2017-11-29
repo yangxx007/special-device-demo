@@ -25,16 +25,13 @@ public class CertificateServiceImpl implements RegisterCertificateService {
     @Autowired
     private UseRegistCertificateDao certificateDao;
     @Autowired
-    private DeviceDao deviceDao;
-    @Autowired
-    private OrganizationDao organizationDao;
-    @Autowired
     private DistrictDao districtDao;
     @Override
     public void createCertificate(DeviceInfo deviceInfo,Organization organization, String deviceCode, DeviceTypeEnum deviceTypeEnum)throws Exception{
         RegistCodeGenerater codeGenerater=new RegistCodeGenerater();
-        String registCode=codeGenerater.generate(districtDao.findFirstByCode(organization.getDistrictCode()),deviceCode,deviceTypeEnum.getShortName(), UtilServiceImpl.date2Long(new Date()),deviceDao.countAllByDeviceType(deviceTypeEnum));
+        String registCode=codeGenerater.generate(districtDao.findFirstByCode(organization.getDistrictCode()),deviceCode,deviceTypeEnum.getShortName(), UtilServiceImpl.date2Long(new Date()),deviceInfo.getDeviceSerialNum());
         deviceInfo.setRegistCode(registCode);
+        deviceInfo.setIssueDate(UtilServiceImpl.date2String(new Date(),"yyyy年MM月dd日"));
         UseRegistCertificate registCertificate=new UseRegistCertificate(deviceInfo);
         certificateDao.save(registCertificate);
     }

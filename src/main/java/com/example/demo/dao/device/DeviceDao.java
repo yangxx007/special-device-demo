@@ -15,6 +15,7 @@ import java.util.List;
  **/
 public interface DeviceDao extends PagingAndSortingRepository<DeviceInfo,Integer> {
 DeviceInfo findByOwnerId(long id);
+DeviceInfo findByEqCode(String eqcode);
 Page<DeviceInfo> findByAgencyId(long agencyId,Pageable page);
 DeviceInfo findById(long id);
 long countAllByDeviceType(DeviceTypeEnum deviceTypeEnum);

@@ -9,9 +9,7 @@ import java.io.Serializable;
  * @author yang
  * @create_at 17-11-10
  **/
-@Entity
 public class PipesInfo implements Serializable {
-    @Id
     private long id;
     private long iid;
     private long ownerId;
