@@ -9,6 +9,7 @@ import com.example.demo.service.exception.ValidateFailException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class UserStatusServiceImpl implements UserStatusService {
     private UserDao userDao;
 
     @Override
-    //@Cacheable(value = "userInfo",key ="'userstatusId'+#session.getId()")
+    @Cacheable(value = "userInfo",key ="'userstatusId'+#session.getId()")
     public long getCurrUserId(Session session) {
         UserInfo userInfo=getCurrUser(session);
         return userInfo.getUid();
@@ -45,14 +46,14 @@ public class UserStatusServiceImpl implements UserStatusService {
     }
 
     @Override
-    //@Cacheable(value = "userInfo",key ="'userstatus'+#session.getId()")
+    @Cacheable(value = "userInfo",key ="'userstatus'+#session.getId()")
     public UserInfo getCurrUser(Session session) {
         try{
             //System.out.println(currSubject.getSession().getId().toString());
             String username=session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY).toString();
             //System.out.println(username);
             //String sessionId=currSubject.getSession().getId().toString();
-          //  System.out.println("用了本地保存的登录用户信息");
+            System.out.println("用了本地保存的登录用户信息");
             UserInfo userInfo = userDao.findByUsername(username);
             return userInfo;
 

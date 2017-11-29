@@ -16,6 +16,8 @@ import com.example.demo.service.*;
 import com.example.demo.service.exception.CustomException;
 import com.example.demo.service.utils.UtilServiceImpl;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.aop.framework.AopContext;
@@ -39,11 +41,11 @@ import java.util.concurrent.Callable;
  * @create_at 2017/10/17
  **/
 //controller标识这个程序是controller
-@Controller
 //requestMapping 标识url路径如http://***.com/admin
+// requirespermissions 标识当前用户需要怎样的权限才能访问这个url
+@Controller
 @RequestMapping("/admin")
-//requirespermissions 标识当前用户需要怎样的权限才能访问这个url
-//@RequiresPermissions(value ={"admin:view","admin:edit","admin:del"},logical = Logical.AND)
+@RequiresPermissions(value = {"user:acceptor","user:approver"},logical = Logical.OR)
 public class AdminController extends BaseController {
     //autowired 标识这个变量是一个接口变量，并且会自动在标识有service的实现类中自动继承
     @Autowired
@@ -229,7 +231,7 @@ public class AdminController extends BaseController {
         }
         return new JsonResponse(200, null, applyInfo);
     }
-
+    @RequiresPermissions("user:acceptor")
     @RequestMapping("/apply/accept")
     @Transactional
     @InfoMsg(msgType = ReminderTypeEnum.申请通过受理)
@@ -265,7 +267,7 @@ public class AdminController extends BaseController {
 
     @Autowired
     private Apply2DeviceService apply2DeviceService;
-
+    @RequiresPermissions("user:approver")
     @RequestMapping("/apply/approve")
     @Transactional
     public @ResponseBody

@@ -16,6 +16,7 @@ import com.example.demo.service.UserStatusService;
 import com.example.demo.service.exception.CustomException;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.session.Session;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ import java.util.List;
  **/
 @Controller
 @RequestMapping("/device")
+@RequiresPermissions("user:normal")
 public class DeviceController extends BaseController{
     @Autowired
     @Qualifier(value = "productEntityManager")

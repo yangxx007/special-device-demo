@@ -9,7 +9,7 @@ import org.springframework.cache.interceptor.CacheErrorHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.RedisConnectionFailureException;
 import redis.clients.jedis.exceptions.JedisConnectionException;
-
+//
 //@Configuration
 //@EnableCaching
 public class AppCacheConfigurer extends CachingConfigurerSupport {

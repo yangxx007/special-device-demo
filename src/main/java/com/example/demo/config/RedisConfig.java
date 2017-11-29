@@ -13,6 +13,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
+@EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
     @Autowired
     private org.springframework.core.env.Environment env;
@@ -41,7 +42,7 @@ public class RedisConfig extends CachingConfigurerSupport {
     public CacheManager  cacheManager(RedisTemplate redisTemplate) {
         SpringRedisCacheManager cacheManager = new SpringRedisCacheManager(redisTemplate);
         // Number of seconds before expiration. Defaults to unlimited (0)
-        cacheManager.setDefaultExpiration(20L);// Sets the default expire time (in seconds)
+        cacheManager.setDefaultExpiration(1800L);// Sets the default expire time (in seconds)
         return cacheManager;
     }
     /**
@@ -62,8 +63,6 @@ public class RedisConfig extends CachingConfigurerSupport {
             return sb.toString();
         };
     }
-
-
     @Override
     public KeyGenerator keyGenerator() {
         return customKeyGenerator();

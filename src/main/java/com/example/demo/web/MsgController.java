@@ -6,6 +6,7 @@ import com.example.demo.enums.JsonResponse;
 import com.example.demo.enums.MsgType;
 import com.example.demo.service.UserStatusService;
 import com.example.demo.service.exception.CustomException;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ import java.util.List;
  **/
 @Controller
 @RequestMapping("/notice")
+@RequiresPermissions("user:normal")
 public class MsgController extends BaseController{
     @Autowired
     private MessageDao messageDao;

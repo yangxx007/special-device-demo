@@ -4,6 +4,7 @@ import com.example.demo.enums.JsonResponse;
 import com.example.demo.service.exception.*;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,7 +36,7 @@ public class ExceptionController
         e.printStackTrace();
         return new JsonResponse(500,e.getMessage(),null);
     }
-    @ExceptionHandler(value =ValidateFailException.class)
+    @ExceptionHandler(value ={ValidateFailException.class, UnauthorizedException.class})
     @ResponseBody
     public JsonResponse UnauthorizedException(Exception e){
         e.printStackTrace();

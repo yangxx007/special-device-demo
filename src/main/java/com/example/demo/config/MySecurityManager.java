@@ -8,8 +8,10 @@ import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.hibernate.annotations.Source;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 
 /**

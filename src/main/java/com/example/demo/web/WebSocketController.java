@@ -4,6 +4,7 @@ import com.example.demo.entity.data.ApplyInfo;
 import com.example.demo.entity.messager.BaseMessager;
 import com.example.demo.service.ApplyService;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -22,6 +23,7 @@ import java.util.Date;
  * @create_at 17-11-20
  **/
 @Controller
+@RequiresPermissions("user:normal")
 public class WebSocketController extends BaseController{
     @Autowired
    private SimpMessagingTemplate template;

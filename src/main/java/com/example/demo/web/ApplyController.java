@@ -20,6 +20,7 @@ import com.example.demo.service.utils.UtilServiceImpl;
 
 import org.apache.shiro.SecurityUtils;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.session.Session;
 import org.hibernate.Hibernate;
 import org.json.JSONObject;
@@ -49,7 +50,7 @@ import java.util.concurrent.Callable;
  **/
 @Controller
 @RequestMapping("/apply")
-
+@RequiresPermissions("user:normal")
 public class ApplyController extends BaseController {
     @Autowired
     @Qualifier(value = "productEntityManager")
