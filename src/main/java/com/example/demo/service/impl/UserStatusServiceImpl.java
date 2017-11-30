@@ -46,7 +46,7 @@ public class UserStatusServiceImpl implements UserStatusService {
     }
 
     @Override
-    @Cacheable(value = "userInfo",key ="'userstatus'+#session.getId()")
+    //@Cacheable(value = "userInfo",key ="'userstatus'+#session.getId()")
     public UserInfo getCurrUser(Session session) {
         try{
             //System.out.println(currSubject.getSession().getId().toString());

@@ -77,7 +77,8 @@ public class UserSeviceImpl implements UserService {
     }
 
     @Override
-    @CachePut(value = "userInfo",key ="'userstatusId'+#session.getId()")
+    //@CacheEvict(value = "userInfo",key ="'userstatus'+#session.getId()")
+    //@CacheEvict(value = "userInfo",key ="'userstatus'+#session.getId()")
     public UserInfo updateUser(UserInfo userInfo,Session session) {
         return userDao.save(userInfo);
     }
