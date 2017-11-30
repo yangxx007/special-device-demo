@@ -40,6 +40,6 @@ public class UserController extends BaseController{
     JsonResponse updateUser(@RequestBody UserUpdater userUpdater){
         UserInfo userInfo=userStatusService.getCurrUser(getSession());
         userUpdater.update(userInfo);
-        return new JsonResponse(200,null,userService.updateUser(userInfo).getUserData());
+        return new JsonResponse(200,null,userService.updateUser(userInfo,getSession()).getUserData());
     }
 }

@@ -9,8 +9,11 @@ import com.example.demo.service.exception.CustomException;
 import com.example.demo.service.exception.VerifyFailException;
 import com.example.demo.service.utils.UtilServiceImpl;
 import com.example.demo.service.utils.VerifyUtil;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -73,6 +76,11 @@ public class UserSeviceImpl implements UserService {
         return userDao.save(userInfo);
     }
 
+    @Override
+    @CachePut(value = "userInfo",key ="'userstatusId'+#session.getId()")
+    public UserInfo updateUser(UserInfo userInfo,Session session) {
+        return userDao.save(userInfo);
+    }
     @Override
     public List<UserInfo> findAll() {
         return userDao.findAll();
