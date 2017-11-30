@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class RedisServiceImpl implements RedisService,SessionDAO{
+public class RedisServiceImpl implements RedisService{
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
     @Override
@@ -60,35 +60,4 @@ public class RedisServiceImpl implements RedisService,SessionDAO{
     public void incr(String key) {
     }
 
-    @Override
-    public Serializable create(Session session) {
-        save(Constants.HTTP_SESSION,session.getId().toString(),session,72000);
-        return session.getId();
-    }
-
-    @Override
-    public Session readSession(Serializable serializable) throws UnknownSessionException {
-        return (Session) find(Constants.HTTP_SESSION,serializable.toString());
-    }
-
-    @Override
-    public void update(Session session) throws UnknownSessionException {
-        save(Constants.HTTP_SESSION,session.getId().toString(),session);
-    }
-
-    @Override
-    public void delete(Session session) {
-        delete(Constants.HTTP_SESSION,session.getId().toString());
-    }
-
-    @Override
-    public Collection<Session> getActiveSessions() {
-        List<Session> sessions=new ArrayList<>();
-        for(Object object:redisTemplate.opsForHash().values(Constants.HTTP_SESSION))
-        {
-            sessions.add((Session)object);
-        }
-        return  sessions;
-         //return (List<Session>) redisTemplate.opsForHash().values(Constants.HTTP_SESSION);
-    }
 }

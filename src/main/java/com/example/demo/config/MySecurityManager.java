@@ -29,15 +29,16 @@ public class MySecurityManager  extends DefaultWebSecurityManager{
         //System.out.println("onsucessfullogin");
         Session currSession=subject.getSession();
 
-        for(Session session:sessions){
+            for(Session session:sessions){
 //清除该用户以前登录时保存的session
             if((username.equals(String.valueOf(session.getAttribute(DefaultSubjectContext
-                    .PRINCIPALS_SESSION_KEY))))&&(currSession.getId()!=session.getId())
+                    .PRINCIPALS_SESSION_KEY))))&&(!currSession.getId().equals(session.getId()))
                     ) {
+                System.out.println(currSession.getId());
+                System.out.println(session.getId());
                 System.out.println("deleteSessionId: "+session.getId());
                 sessionDAO.delete(session);
                 break;
-
             }
         }
         super.onSuccessfulLogin(token, info, subject);

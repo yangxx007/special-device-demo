@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.service.impl.RedisServiceImpl;
+import com.example.demo.service.impl.RedisSessionDao;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
@@ -91,8 +92,8 @@ public class ShiroConfig {
 
     @Bean
     public SessionDAO sessionDAO() {
-        MemorySessionDAO sessionDAO = new MemorySessionDAO();
-        //RedisServiceImpl sessionDAO=new RedisServiceImpl();
+        //MemorySessionDAO sessionDAO = new MemorySessionDAO();
+        RedisSessionDao sessionDAO=new RedisSessionDao();
         return sessionDAO;
 
     }
