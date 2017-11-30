@@ -249,12 +249,14 @@ public class AdminController extends BaseController {
             }
         }
         if (applyInfo.isProcessing()) {
+
             if (handler.getPass()) {
                 applyInfo = ((AdminController) AopContext.currentProxy()).acceptApply(applyInfo);
             } else {
                 applyInfo = ((AdminController) AopContext.currentProxy()).rejectAcceptApply(applyInfo, handler);
             }
-        } else {
+        }
+        if(!applyInfo.isProcessing()){
             throw new CustomException("please refresh your browser");
         }
         applyInfo.getStatus().setAcceptorName(statusService.getCurrUsername(getSession()));

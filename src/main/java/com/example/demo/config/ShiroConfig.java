@@ -95,7 +95,6 @@ public class ShiroConfig {
         //MemorySessionDAO sessionDAO = new MemorySessionDAO();
         RedisSessionDao sessionDAO=new RedisSessionDao();
         return sessionDAO;
-
     }
 
     /**
