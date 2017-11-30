@@ -38,7 +38,7 @@ public class RedisSessionDao extends AbstractSessionDAO {
 
     @Override // 更新session
     public void update(Session session) throws UnknownSessionException {
-        System.out.println("===============update================");
+//        System.out.println("===============update================");
         if (session == null || session.getId() == null) {
             return;
         }
@@ -48,7 +48,7 @@ public class RedisSessionDao extends AbstractSessionDAO {
 
     @Override // 删除session
     public void delete(Session session) {
-        System.out.println("===============delete================");
+//        System.out.println("===============delete================");
         if (null == session) {
             return;
         }
@@ -57,13 +57,11 @@ public class RedisSessionDao extends AbstractSessionDAO {
 
     @Override// 获取活跃的session，可以用来统计在线人数，如果要实现这个功能，可以在将session加入redis时指定一个session前缀，统计的时候则使用keys("session-prefix*")的方式来模糊查找redis中所有的session集合
     public Collection<Session> getActiveSessions() {
-        System.out.println("==============getActiveSessions=================");
+//        System.out.println("==============getActiveSessions=================");
         List<Session> sessions=new ArrayList<>();
         for(Object object:redisTemplate.keys(Constants.HTTP_SESSION+"*")){
-            System.out.println(object);
-            Session session=(Session) redisTemplate.opsForValue().get(object);
+            //Session session=(Session) redisTemplate.opsForValue().get(object);
             sessions.add((Session) redisTemplate.opsForValue().get(object));
-            System.out.println(new JSONObject(session));
         }
         return sessions;
         //return redisTemplate.keys(Constants.HTTP_SESSION+"*");
@@ -71,7 +69,7 @@ public class RedisSessionDao extends AbstractSessionDAO {
 
     @Override// 加入session
     protected Serializable doCreate(Session session) {
-        System.out.println("===============doCreate================");
+//        System.out.println("===============doCreate================");
         Serializable sessionId = this.generateSessionId(session);
         this.assignSessionId(session, sessionId);
 
@@ -81,7 +79,7 @@ public class RedisSessionDao extends AbstractSessionDAO {
 
     @Override// 读取session
     protected Session doReadSession(Serializable sessionId) {
-        System.out.println("==============doReadSession=================");
+//        System.out.println("==============doReadSession=================");
         if (sessionId == null) {
             return null;
         }

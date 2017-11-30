@@ -34,9 +34,6 @@ public class MySecurityManager  extends DefaultWebSecurityManager{
             if((username.equals(String.valueOf(session.getAttribute(DefaultSubjectContext
                     .PRINCIPALS_SESSION_KEY))))&&(!currSession.getId().equals(session.getId()))
                     ) {
-                System.out.println(currSession.getId());
-                System.out.println(session.getId());
-                System.out.println("deleteSessionId: "+session.getId());
                 sessionDAO.delete(session);
                 break;
             }

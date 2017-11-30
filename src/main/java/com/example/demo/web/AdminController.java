@@ -27,7 +27,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -65,8 +64,7 @@ public class AdminController extends BaseController {
         };
     }
 
-    @Autowired
-    private SimpMessagingTemplate template;
+
 
     // @InfoMsg(msgType = MsgType.申请通过通知)
     @RequestMapping("/test")

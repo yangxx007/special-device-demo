@@ -19,8 +19,6 @@ import org.springframework.web.socket.config.annotation.*;
 import org.springframework.web.socket.handler.WebSocketHandlerDecorator;
 import org.springframework.web.socket.handler.WebSocketHandlerDecoratorFactory;
 
-import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 /**
  * @author yang
