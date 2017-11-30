@@ -239,11 +239,13 @@ public class SubForm implements Serializable{
         return eqCreateDate;
     }
 
-    public void setEqCreateDate(Date eqCreateDate) {
-        this.eqCreateDate = UtilServiceImpl.date2String(eqCreateDate,"yyyy年MM月dd日");
-    }
-    public void setEqCreateDateStr(String eqCreateDate) {
-        this.eqCreateDate =eqCreateDate;
+    public void setEqCreateDate(Object eqCreateDate) {
+        try {
+            this.eqCreateDate = UtilServiceImpl.date2String((Date) eqCreateDate,"yyyy年MM月dd日");
+
+        }catch (Exception e){
+            this.eqCreateDate= eqCreateDate.toString();
+        }
     }
     public String getProductCode() {
         return productCode;
