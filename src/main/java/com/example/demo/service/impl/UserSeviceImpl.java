@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -78,7 +79,7 @@ public class UserSeviceImpl implements UserService {
 
     @Override
     //@CacheEvict(value = "userInfo",key ="'userstatus'+#session.getId()")
-    //@CacheEvict(value = "userInfo",key ="'userstatus'+#session.getId()")
+    @Caching(put = {@CachePut( value = "userInfo",key ="'userstatus'+#session.getId()")})
     public UserInfo updateUser(UserInfo userInfo,Session session) {
         return userDao.save(userInfo);
     }
