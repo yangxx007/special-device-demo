@@ -29,21 +29,22 @@ public class ApplyUpdater implements Serializable {
     private List<Form> formList;
 
     public void update(ApplyInfo applyInfo) {
-        List<Form> newFormList = applyInfo.getFormList();
-        List<Form> lastFormList=new ArrayList<>();
-        //find form type if form exist in the new form list,if not save original form
-        for (int i=0;i< formList.size();i++) {
-            for (int j=0;j<newFormList.size();j++) {
-                if (formList.get(i).getFormType() == newFormList.get(j).getFormType()) {
+        List<Form> lastFormList = applyInfo.getFormList();
+        List<Form> newFormList=new ArrayList<>();
+        //if the form list do not have the specify form from the last form list then add it into new form list
+        for (int i=0;i< lastFormList.size();i++) {
+            for (int j=0;j<=formList.size();j++) {
+                if(j==formList.size()){
+                    newFormList.add(lastFormList.get(i));
                     break;
                 }
-                if(j==newFormList.size()){
-                    lastFormList.add(formList.get(i));
+                if (formList.get(j).getFormType() == lastFormList.get(i).getFormType()) {
+                    break;
                 }
             }
         }
-        lastFormList.addAll(newFormList);
-        applyInfo.setFormList(lastFormList);
+        newFormList.addAll(formList);
+        applyInfo.setFormList(newFormList);
         applyInfo.setCreateTime(UtilServiceImpl.date2Long(new Date()));
     }
 
