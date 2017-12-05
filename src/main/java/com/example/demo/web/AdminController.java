@@ -332,11 +332,10 @@ public class AdminController extends BaseController {
         applyInfo.getStatus().setUnAcceptedDetailReason(handler.getDetailReason());
         return applyInfo;
     }
-    @InfoMsg(msgType = ReminderTypeEnum.已发证)
+    @InfoMsg(msgType = ReminderTypeEnum.发证)
     @RequestMapping("/apply/sendRegistration")
-    public @ResponseBody JsonResponse sendRegistration(@RequestParam("applyId")long applyId){
-        applyService.sendRegist(applyId,getSession());
-        return new JsonResponse();
+    public @ResponseBody ApplyInfo sendRegistration(@RequestParam("applyId")long applyId){
+       return applyService.sendRegist(applyId,getSession());
     }
     @RequestMapping("/RegistedApplies/get")
     public @ResponseBody JsonResponse getRegistedApplies(@RequestBody ApplyConditions conditions)throws Exception{
