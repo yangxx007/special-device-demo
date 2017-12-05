@@ -3,11 +3,13 @@ package com.example.demo.entity.data;
 
 
 import com.example.demo.enums.ApplyStatesEnum;
+import com.example.demo.service.utils.UtilServiceImpl;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -27,6 +29,8 @@ public class ApplyStatus implements Serializable{
     /**submit apply time* */
     private long applyDate;
     private long applyAcceptDate;
+    private long sendRegistDate;
+    private boolean sendRegist=false;
     private String acceptorName;
     private String approverName;
     private String rejectReasons;
@@ -148,5 +152,25 @@ public class ApplyStatus implements Serializable{
 
     public void setUnApprovalDetailReason(String unApprovalDetailReason) {
         this.unApprovalDetailReason = unApprovalDetailReason;
+    }
+
+    public long getSendRegistDate() {
+        return sendRegistDate;
+    }
+
+    public void setSendRegistDate(long sendRegistDate) {
+        this.sendRegistDate = sendRegistDate;
+    }
+
+    public boolean isSendRegist() {
+        return sendRegist;
+    }
+
+    public void setSendRegist(boolean sendRegist) {
+        this.sendRegist = sendRegist;
+    }
+    public void sendRegist(){
+        setSendRegist(true);
+        setSendRegistDate(UtilServiceImpl.date2Long(new Date()));
     }
 }

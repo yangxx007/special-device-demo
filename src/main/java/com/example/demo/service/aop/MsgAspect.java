@@ -58,6 +58,8 @@ public class MsgAspect {
                 return MsgConstants.APPLY_REFUSE_MSG;
             case 申请受理驳回:
                 return MsgConstants.APPLY_REFUSE_MSG;
+            case 已发证:
+                return MsgConstants.APPLY_REGIST_MSG;
             default:
                 break;
         }

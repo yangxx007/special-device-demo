@@ -7,4 +7,5 @@ package com.example.demo.enums;
 public class MsgConstants {
     public final  static String APPLY_PASS_MSG="你有一个申请被相应的登记部门审批通过了。";
     public final  static  String APPLY_REFUSE_MSG="你有一个申请被相应的登记部门驳回了，请根据驳回原因进行修改并重新提交申请。";
+    public final static String APPLY_REGIST_MSG="你的申请已完成审批并且已发证";
 }

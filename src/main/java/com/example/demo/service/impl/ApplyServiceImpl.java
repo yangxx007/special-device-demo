@@ -222,7 +222,12 @@ public class ApplyServiceImpl implements ApplyService{
     public ApplyInfo addDevices(MultipartFile file, long applyId, Session session) {
         return null;
     }
-
+    @Override
+    public ApplyInfo sendRegist(long applyId,Session session){
+        ApplyInfo applyInfo=findByApplyID(applyId,session);
+        applyInfo.getStatus().sendRegist();
+        return applyDao.save(applyInfo);
+    }
     @Override
     public void confirmApply(long applyId, Session session)throws Exception  {
         ApplyInfo applyInfo=findByApplyID(applyId,session);

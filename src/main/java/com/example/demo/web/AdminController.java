@@ -153,12 +153,12 @@ public class AdminController extends BaseController {
     }
 
 
-    @RequestMapping("/usertest")
-    public @ResponseBody
-    List<UserInfo> getUsers(@RequestParam(name = "name") String name, @RequestParam(name = "start")
-            JSONArray json) {
-        return userSevice.finduserfortest(name, json.getLong(0), json.getLong(1));
-    }
+//    @RequestMapping("/usertest")
+//    public @ResponseBody
+//    List<UserInfo> getUsers(@RequestParam(name = "name") String name, @RequestParam(name = "start")
+//            JSONArray json)throws Exception {
+//        return userSevice.finduserfortest(name, json.getLong(0), json.getLong(1));
+//    }
 
     @Autowired
     private UserStatusService statusService;
@@ -332,5 +332,17 @@ public class AdminController extends BaseController {
         applyInfo.getStatus().setUnAcceptedDetailReason(handler.getDetailReason());
         return applyInfo;
     }
+    @InfoMsg(msgType = ReminderTypeEnum.已发证)
+    @RequestMapping("/apply/sendRegistration")
+    public @ResponseBody JsonResponse sendRegistration(@RequestParam("applyId")long applyId){
+        applyService.sendRegist(applyId,getSession());
+        return new JsonResponse();
+    }
+    @RequestMapping("/RegistedApplies/get")
+    public @ResponseBody JsonResponse getRegistedApplies(@RequestBody ApplyConditions conditions)throws Exception{
+        conditions.setSendRegist(true);
+        return getapprovedApplies(conditions);
+    }
+
 
 }

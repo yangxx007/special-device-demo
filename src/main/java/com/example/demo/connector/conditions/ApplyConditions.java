@@ -13,6 +13,7 @@ public class ApplyConditions extends SearchConditions {
     private Sort sort;
     private int applyTypeId;
     private String eqCode;
+    private boolean sendRegist=false;
     public Sort getSort() {
         return sort;
     }
@@ -62,5 +63,13 @@ public class ApplyConditions extends SearchConditions {
 
     public void setRole(RoleTypeEnum role) {
         this.role = role;
+    }
+
+    public boolean isSendRegist() {
+        return sendRegist;
+    }
+
+    public void setSendRegist(boolean sendRegist) {
+        this.sendRegist = sendRegist;
     }
 }

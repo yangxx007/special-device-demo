@@ -43,6 +43,7 @@ public class ApplySearchCondition extends MultiSearch {
                     qb.equal(customer.get("deviceType"), conditions.getDeviceTypeId()));
         }
         predicates.add(qb.equal(customer.get("status"),appender.get("id")));
+
         if (conditions.getStates()!=null){
             Predicate predicate=qb.equal(appender.get("states"),conditions.getStates()[0]);
             for(int i:conditions.getStates()){
@@ -52,6 +53,7 @@ public class ApplySearchCondition extends MultiSearch {
         }
         if(conditions.getRole()== RoleTypeEnum.受理人员||conditions.getRole()==RoleTypeEnum.审批人员){
             predicates.add(qb.equal(customer.get("processing"),false));
+            predicates.add(qb.equal(appender.get("sendRegist"),conditions.isSendRegist()));
         }
         if(conditions.getAgencyId()!=0){
             predicates.add(qb.equal(customer.get("acceptorAgencyId"),conditions.getAgencyId()));

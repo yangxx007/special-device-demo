@@ -99,6 +99,15 @@ public class WorkFlowInfo implements Serializable{
         }
         return null;
     }
+    public String getSendRegistDate() throws Exception{
+        if(status.getSendRegistDate()!=0){
+            return UtilServiceImpl.long2String(status.getSendRegistDate(),"yyyy年MM月dd日");
+        }
+        return null;
+    }
+    public boolean isSendRegist(){
+        return status.isSendRegist();
+    }
 
 
     public String getUnAcceptedDetailReason() {
