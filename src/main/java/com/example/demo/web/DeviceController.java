@@ -51,6 +51,9 @@ public class DeviceController extends BaseController{
     JsonResponse getDeviceLists(@RequestBody DeviceConditions conditions)throws Exception{
         long id=statusService.getCurrUserId(getSession());
         conditions.setUserId(id);
+        if(!conditions.isProcessing()){
+            conditions.setViewAll(false);
+        }
         DeviceSearchCondition searchCondition=new DeviceSearchCondition(conditions);
         CustomePage<DeviceResponse> devices=null;
         if(conditions.getSize()==0){

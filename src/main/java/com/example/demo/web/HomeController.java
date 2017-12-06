@@ -92,7 +92,7 @@ public class HomeController {
             return jsonResponse;
         } else {
             UsernamePasswordToken uptoken = new UsernamePasswordToken(username, password);
-            // kaptchaService.KaptchaValidate(currentuser, vertifycode);
+            kaptchaService.KaptchaValidate(currentuser, vertifycode);
             currentuser.login(uptoken);
             return adminlogin(username,password,vertifycode,request);
         }

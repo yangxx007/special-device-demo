@@ -15,6 +15,9 @@ public class SearchConditions implements Serializable {
     private int applyTypeId;
     private int[] states;
     private int OrderBy;
+    private boolean viewAll=true;
+
+
 
 
     public long getAgencyId() {
@@ -115,5 +118,13 @@ public class SearchConditions implements Serializable {
 
     public void setStates(int[] states) {
         this.states = states;
+    }
+
+    public boolean isViewAll() {
+        return viewAll;
+    }
+
+    public void setViewAll(boolean viewAll) {
+        this.viewAll = viewAll;
     }
 }

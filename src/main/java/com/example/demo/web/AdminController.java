@@ -44,7 +44,7 @@ import java.util.concurrent.Callable;
 // requirespermissions 标识当前用户需要怎样的权限才能访问这个url
 @Controller
 @RequestMapping("/admin")
-@RequiresPermissions(value = {"user:acceptor","user:approver"},logical = Logical.OR)
+//@RequiresPermissions(value = {"user:acceptor","user:approver"},logical = Logical.OR)
 public class AdminController extends BaseController {
     //autowired 标识这个变量是一个接口变量，并且会自动在标识有service的实现类中自动继承
     @Autowired
@@ -243,11 +243,11 @@ public class AdminController extends BaseController {
         }
         System.out.println(handler.getPass());
         ApplyInfo applyInfo = applyService.findByApplyID(handler.getApplyId(), SecurityUtils.getSubject().getSession());
-        for (Form form : applyInfo.getFormList()) {
-            for (SubForm subForm : form.getSubList()) {
-                new JSONObject(subForm).toString();
-            }
-        }
+//        for (Form form : applyInfo.getFormList()) {
+//            for (SubForm subForm : form.getSubList()) {
+//                new JSONObject(subForm).toString();
+//            }
+//        }
         if (applyInfo.isProcessing()) {
 
             if (handler.getPass()) {
@@ -279,11 +279,11 @@ public class AdminController extends BaseController {
         }
         System.out.println(new JSONObject(handler).toString());
         ApplyInfo applyInfo = applyService.findByApplyID(handler.getApplyId(), getSession());
-        for (Form form : applyInfo.getFormList()) {
-            for (SubForm subForm : form.getSubList()) {
-                new JSONObject(subForm).toString();
-            }
-        }
+//        for (Form form : applyInfo.getFormList()) {
+//            for (SubForm subForm : form.getSubList()) {
+//                new JSONObject(subForm).toString();
+//            }
+//        }
         if (applyInfo.isProcessing()) {
             if (handler.getPass()) {
                 applyInfo = ((AdminController) AopContext.currentProxy()).approveApply(applyInfo);
@@ -333,14 +333,22 @@ public class AdminController extends BaseController {
         return applyInfo;
     }
     @InfoMsg(msgType = ReminderTypeEnum.发证)
-    @RequestMapping("/apply/sendRegistration")
-    public @ResponseBody ApplyInfo sendRegistration(@RequestParam("applyId")long applyId){
+    public ApplyInfo sendRegist(long applyId){
        return applyService.sendRegist(applyId,getSession());
     }
-    @RequestMapping("/RegistedApplies/get")
-    public @ResponseBody JsonResponse getRegistedApplies(@RequestBody ApplyConditions conditions)throws Exception{
-        conditions.setSendRegist(true);
-        return getapprovedApplies(conditions);
+    @RequestMapping("/apply/sendRegistration")
+    public @ResponseBody JsonResponse sendRegistration(@RequestParam("applyId")long applyId){
+        sendRegist(applyId);
+        return new JsonResponse();
+    }
+    @RequestMapping("/unRegistedApplies/get")
+    public @ResponseBody JsonResponse getUnregistedApplies(@RequestBody ApplyConditions conditions)throws Exception{
+        conditions.setSendRegist(false);
+        conditions.setViewAll(false);
+        int[] a = {3};
+        conditions.setStates(a);
+        conditions.setRole(RoleTypeEnum.审批人员);
+        return getApplies(conditions);
     }
 
 

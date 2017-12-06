@@ -30,7 +30,7 @@ public class DeviceSearchCondition extends MultiSearch {
             predicates.add(
                     qb.equal(customer.get("deviceName"), conditions.getDeviceName()));
         }
-        if(!conditions.isProcessing()){
+        if(!conditions.isViewAll()){
             predicates.add(qb.equal(customer.get("processing"),conditions.isProcessing()));
         }
         if (conditions.getDeviceCategory() != null) {

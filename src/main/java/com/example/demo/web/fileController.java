@@ -126,7 +126,7 @@ public class fileController extends BaseController {
     }
 
     @RequestMapping(value = "/preview", method = RequestMethod.GET)
-    void preview(HttpServletRequest request, HttpServletResponse response, @RequestParam("fileId") long
+    public void preview(HttpServletRequest request, HttpServletResponse response, @RequestParam("fileId") long
             file_id)
             throws Exception {
         File file = new File(FilePathUtil.getPathById(file_id));

@@ -53,7 +53,9 @@ public class ApplySearchCondition extends MultiSearch {
         }
         if(conditions.getRole()== RoleTypeEnum.受理人员||conditions.getRole()==RoleTypeEnum.审批人员){
             predicates.add(qb.equal(customer.get("processing"),false));
+            if(!conditions.isViewAll()){
             predicates.add(qb.equal(appender.get("sendRegist"),conditions.isSendRegist()));
+            }
         }
         if(conditions.getAgencyId()!=0){
             predicates.add(qb.equal(customer.get("acceptorAgencyId"),conditions.getAgencyId()));

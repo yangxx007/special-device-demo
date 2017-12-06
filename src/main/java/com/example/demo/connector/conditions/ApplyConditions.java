@@ -72,4 +72,5 @@ public class ApplyConditions extends SearchConditions {
     public void setSendRegist(boolean sendRegist) {
         this.sendRegist = sendRegist;
     }
+
 }
