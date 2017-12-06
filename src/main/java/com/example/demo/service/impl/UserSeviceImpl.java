@@ -79,7 +79,7 @@ public class UserSeviceImpl implements UserService {
 
     @Override
     //@CacheEvict(value = "userInfo",key ="'userstatus'+#session.getId()")
-    @Caching(put = {@CachePut( value = "userInfo",key ="'userstatus'+#session.getId()")})
+    //@Caching(put = {@CachePut( value = "userInfo",key ="'userstatus'+#session.getId()")},evict = {@CacheEvict( value = "userInfo",key ="'userstatus'+#session.getId()")})
     public UserInfo updateUser(UserInfo userInfo,Session session) {
         return userDao.save(userInfo);
     }
