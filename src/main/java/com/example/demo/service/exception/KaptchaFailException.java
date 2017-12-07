@@ -17,6 +17,7 @@ public class KaptchaFailException extends CustomException {
         this.msgDes=message;
         this.retCd=retCd;
     }
+    @Override
     public String getCd() {
         return retCd;
     }
