@@ -4,6 +4,7 @@ import com.example.demo.dao.user.UserDao;
 import com.example.demo.dao.user.UserPageDao;
 import com.example.demo.entity.user.UserInfo;
 import com.example.demo.service.AccountService;
+import com.example.demo.service.RedisService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.exception.CustomException;
 import com.example.demo.service.exception.VerifyFailException;
@@ -18,6 +19,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -36,6 +38,8 @@ public class UserSeviceImpl implements UserService {
     private UserPageDao userPageDao;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private RedisService redisService;
 
     @Override
     public UserInfo findByUsername(String username) {
@@ -79,9 +83,11 @@ public class UserSeviceImpl implements UserService {
 
     @Override
     //@CacheEvict(value = "userInfo",key ="'userstatus'+#session.getId()")
-    //@Caching(put = {@CachePut( value = "userInfo",key ="'userstatus'+#session.getId()")},evict = {@CacheEvict( value = "userInfo",key ="'userstatus'+#session.getId()")})
+    //@Caching(put = {@CachePut( value = "userInfo",key ="'userstatus'+#session.getId()")})
     public UserInfo updateUser(UserInfo userInfo,Session session) {
-        return userDao.save(userInfo);
+        UserInfo userInfo1= userDao.save(userInfo);
+        redisService.deleteByKey("userstatus"+session.getId());
+        return  userInfo1;
     }
     @Override
     public List<UserInfo> findAll() {

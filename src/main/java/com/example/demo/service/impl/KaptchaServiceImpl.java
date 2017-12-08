@@ -27,9 +27,9 @@ public class KaptchaServiceImpl implements KaptchaService {
                     throw new KaptchaFailException("100001", "验证码错误");
 
             } else
-                throw new KaptchaFailException("100002", "验证码超时");
+                throw new KaptchaFailException("100002", "验证码超时请点击刷新验证码");
         } catch (NullPointerException e) {
-            throw new KaptchaFailException("100000", "please refresh kaptcha image");
+            throw new KaptchaFailException("100000", "请点击刷新验证码");
         }
     }
 }

@@ -53,7 +53,7 @@ public class RedisServiceImpl implements RedisService{
 
     @Override
     public void deleteByKey(String key) {
-
+        redisTemplate.delete(key);
     }
 
     @Override
