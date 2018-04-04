@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>My WebSocket</title>
+</head>
+
+<body>
+Welcome<br/>
+<input id="text" type="text" /><button onclick="send()">Send</button>    <button onclick="closeWebSocket()">Close</button>
+<div id="message">
+</div>
+</body>
+<script src="/static/js/stomp.min.js"></script>
+<script src="/static/js/sockjs.min.js"></script>
+<script type="text/javascript">
+
+    var websocket = null;
+
+//    if('WebSocket' in window){
+//        websocket = new WebSocket("ws://127.0.0.1:8080/websocket");
+//    }
+//    else{
+//        alert('Not support websocket')
+//    }
+    //websocket=new WebSocket("ws://127.0.0.1:8080/websocket")
+    websocket=new SockJS("/websocket");
+//    websocket.connect({}, function(frame) {
+//        setConnected(true);
+//        console.log('Connected: ' + frame);
+//        stompClient.subscribe('/topic/messages', function(messageOutput) {
+//                                    alert(messageOutput.body);
+            //showMessageOutput(JSON.parse(messageOutput.body));
+       // });});
+   // websocket.send("/app/chat", {}, "Hello, STOMP");
+    //???????????
+
+    websocket.onerror = function(){
+        setMessageInnerHTML("error");
+    };
+
+    //???????????
+    websocket.onopen = function(event){
+        setMessageInnerHTML("open");
+    }
+
+    //??????????
+    websocket.onmessage = function(event){
+        setMessageInnerHTML(event.data);
+    }
+
+    //?????????
+    websocket.onclose = function(){
+        setMessageInnerHTML("close");
+    }
+
+    //?????????????????????websocket?????????????????server??????
+    window.onbeforeunload = function(){
+        websocket.close();
+    }
+
+    //?????????
+    function setMessageInnerHTML(innerHTML){
+        document.getElementById('message').innerHTML += innerHTML + '<br/>';
+    }
+
+    //????
+    function closeWebSocket(){
+        websocket.close();
+    }
+
+    //????
+    function send(){
+        var message = document.getElementById('text').value;
+        websocket.send(message);
+    }
+</script>
+</html>

@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd ">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.example</groupId>
+	<artifactId>demo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>demo</name>
+	<description>Demo project for Spring Boot</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<!--<version>1.5.4.RELEASE</version>-->
+		<version>1.5.7.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<repositories>
+		<repository>
+			<id>pdf</id>
+			<name>pdf_for_maven</name>
+			<url>https://mvnrepository.com/artifact/fr.opensagres.xdocreport/org.apache.poi.xwpf.converter.pdf</url>
+		</repository>
+		<repository>
+			<id>3rd-party</id>
+			<name>3rd Party maven repo</name>
+			<url>http://maven.jahia.org/maven2/</url>
+		</repository>
+		<repository>
+			<id>poi</id>
+			<name>poi repo</name>
+			<url>https://mvnrepository.com/artifact/org.apache.poi/poi</url>
+		</repository>
+		<repository>
+			<id>redis</id>
+			<name>redis repo</name>
+			<url>https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis </url>
+		</repository>
+
+
+	</repositories>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.websocket</groupId>
+			<artifactId>javax.websocket-api</artifactId>
+			<version>1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.opensagres.xdocreport</groupId>
+			<artifactId>org.apache.poi.xwpf.converter.pdf</artifactId>
+			<version>1.0.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.15</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-redis -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>1.8.7.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.9.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.16</version>
+		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-starter-redis</artifactId>-->
+		<!--</dependency>-->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-scratchpad</artifactId>
+			<version>3.15</version>
+		</dependency>
+		<dependency>
+			<groupId>org.docx4j</groupId>
+			<artifactId>docx4j</artifactId>
+			<version>3.3.5</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+		<groupId>org.swinglabs</groupId>
+		<artifactId>pdf-renderer</artifactId>
+		<version>1.0.5</version>
+		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.documents4j</groupId>-->
+			<!--<artifactId>documents4j-api</artifactId>-->
+			<!--<version>1.0.3</version>-->
+		<!--</dependency>-->
+
+
+		<!--<dependency>-->
+			<!--<groupId>com.documents4j</groupId>-->
+			<!--<artifactId>documents4j-util-conversion</artifactId>-->
+			<!--<version>1.0.3</version>-->
+		<!--</dependency>-->
+
+		<!--<dependency>-->
+			<!--<groupId>com.documents4j</groupId>-->
+			<!--<artifactId>documents4j-transformer</artifactId>-->
+			<!--<version>1.0.3</version>-->
+		<!--</dependency>-->
+
+		<!--<dependency>-->
+			<!--<groupId>com.documents4j</groupId>-->
+			<!--<artifactId>documents4j-util-all</artifactId>-->
+			<!--<version>1.0.3</version>-->
+		<!--</dependency>-->
+
+		<!--<dependency>-->
+			<!--<groupId>com.documents4j</groupId>-->
+			<!--<artifactId>documents4j-local</artifactId>-->
+			<!--<version>1.0.3</version>-->
+		<!--</dependency>-->
+
+		<!--<dependency>-->
+			<!--<groupId>com.documents4j</groupId>-->
+			<!--<artifactId>documents4j-local-demo</artifactId>-->
+			<!--<version>1.0.3</version>-->
+		<!--<exclusions>-->
+			<!--<exclusion>-->
+				<!--<groupId>org.slf4j</groupId>-->
+				<!--<artifactId>slf4j-simple</artifactId>-->
+			<!--</exclusion>-->
+			<!--<exclusion>-->
+				<!--<groupId>log4j</groupId>-->
+				<!--<artifactId>log4j</artifactId>-->
+			<!--</exclusion>-->
+		<!--</exclusions>-->
+		<!--</dependency>-->
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.2.10.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-schemas</artifactId>
+			<version>3.15</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.15</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.kaptcha</groupId>
+			<artifactId>kaptcha</artifactId>
+			<version>2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
+			<version>1.5.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20160810</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<!--<plugins>-->
+			<!--<plugin>-->
+				<!--<groupId>org.springframework.boot</groupId>-->
+				<!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+				<!--<configuration>-->
+					<!--<fork>true</fork>-->
+				<!--</configuration>-->
+			<!--</plugin>-->
+		<!--</plugins>-->
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<!--<plugin>-->
+				<!--<artifactId>maven-resources-plugin</artifactId>-->
+				<!--<executions>-->
+					<!--<execution>-->
+						<!--<id>Copy App Content</id>-->
+						<!--<phase>generate-resources</phase>-->
+						<!--<goals>-->
+							<!--<goal>copy-resources</goal>-->
+						<!--</goals>-->
+						<!--<configuration>-->
+							<!--<outputDirectory>src/main/resources/public</outputDirectory>-->
+							<!--<overwrite>true</overwrite>-->
+							<!--<resources>-->
+								<!--<resource>-->
+									<!--<includes>-->
+										<!--<include>/static/</include>-->
+										<!--<include>index.html</include>-->
+									<!--</includes>-->
+								<!--</resource>-->
+							<!--</resources>-->
+						<!--</configuration>-->
+					<!--</execution>-->
+				<!--</executions>-->
+			<!--</plugin>-->
+			<!--<plugin>-->
+				<!--<groupId>org.apache.maven.plugins</groupId>-->
+				<!--<artifactId>maven-compiler-plugin</artifactId>-->
+				<!--<configuration>-->
+					<!--<source>1.8</source>-->
+					<!--<target>1.8</target>-->
+				<!--</configuration>-->
+			<!--</plugin>-->
+		</plugins>
+	</build>
+
+</project>
