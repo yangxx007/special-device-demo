@@ -23,6 +23,25 @@ public class UseRegistCertificate implements Serializable{
     private String productCode;
     private String acceptorAgencyName;
     private String registDate;
+
+    public String getNextTestDate() {
+        return nextTestDate;
+    }
+
+    public void setNextTestDate(String nextTestDate) {
+        this.nextTestDate = nextTestDate;
+    }
+
+    public int getCertificateType() {
+        return certificateType;
+    }
+
+    public void setCertificateType(int certificateType) {
+        this.certificateType = certificateType;
+    }
+
+    private String nextTestDate;
+    private int    certificateType;
     public UseRegistCertificate(){
         super();
     }
@@ -34,6 +53,18 @@ public class UseRegistCertificate implements Serializable{
         deviceClass=deviceInfo.getDeviceClass();
         useComName=deviceInfo.getUseComName();
         eqCode=deviceInfo.getEqCode();
+        nextTestDate=deviceInfo.getNextTestDate();
+        switch (deviceInfo.getDeviceType()){
+            case 电梯:
+                certificateType=2;
+                break;
+            case 车用气瓶:
+                certificateType=3;
+                break;
+                default:
+                    certificateType=1;
+                    break;
+        }
         //不知道代表的意思
         productCode=deviceInfo.getProductCode();
         acceptorAgencyName=deviceInfo.getAcceptorAgencyName();

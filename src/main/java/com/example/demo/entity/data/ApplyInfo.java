@@ -45,6 +45,16 @@ public class ApplyInfo  implements Serializable,Validatable {
     private String comTablePerson;
     private boolean hasFile=true;
     private long createTime;
+
+    public String getNextTestDate() {
+        return nextTestDate;
+    }
+
+    public void setNextTestDate(String nextTestDate) {
+        this.nextTestDate = nextTestDate;
+    }
+
+    private String nextTestDate;
     @ElementCollection(fetch = FetchType.EAGER)
     private Map<FormTypeEnum,Long> forms=new HashMap<>();
     @ElementCollection(fetch = FetchType.EAGER)
@@ -261,6 +271,7 @@ public class ApplyInfo  implements Serializable,Validatable {
         else{
             this.eqUseAddr=form.getUseComAddr();
         }
+        this.nextTestDate=form.getNextTestDate();
         this.useComName=form.getUseComName();
         this.registKind=form.getRegistKind();
         this.comTablePerson=form.getComTablePerson();

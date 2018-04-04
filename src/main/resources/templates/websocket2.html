@@ -3,8 +3,8 @@
 
 <head>
     <title>Chat WebSocket</title>
-    <script src="/static/js/sockjs.min.js"></script>
-    <script src="/static/js/stomp.js"></script>
+    <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+    <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
     <script type="text/javascript">
         var apiUrlPre = "http://10.200.0.126:9041/discovery";
         var stompClient = null;
@@ -17,7 +17,7 @@
         }
 
         function connect() {
-            var socket = new SockJS('http://127.0.0.1:8080/processing');
+            var socket = new SockJS('/processing');
             var from = document.getElementById('from').value;
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function(frame) {
@@ -34,6 +34,7 @@
 //                });
 
             });
+
         }
 //        stompClient.onmessage=function (event) {
 //            showMessageOutput2(event.data);
@@ -43,6 +44,7 @@
 //        }
         function disconnect() {
             if(stompClient != null) {
+                stompClient.disconnect();
                 stompClient.disconnect();
             }
             setConnected(false);

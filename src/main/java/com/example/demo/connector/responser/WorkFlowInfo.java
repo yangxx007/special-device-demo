@@ -113,12 +113,12 @@ public class WorkFlowInfo implements Serializable{
     public String getUnAcceptedDetailReason() {
         return status.getUnAcceptedDetailReason();
     }
-
-
+    public String getDeviceKind(){return applyInfo.getDeviceKind();}
+    public String getDeviceClass(){return applyInfo.getDeviceClass();}
     public String getUnApprovalDetailReason() {
         return status.getUnApprovalDetailReason();
     }
-
+    public String getUseComName(){return applyInfo.getUseComName();}
     public String getDeviceCategory(){return applyInfo.getDeviceCategory();}
     public String getEqCode(){return applyInfo.getEqCode();}
     public String getComCode(){return  applyInfo.getComCode();}

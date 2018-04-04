@@ -266,6 +266,7 @@ public class DeviceServiceImpl  implements DeviceService,Apply2DeviceService {
         device.setDeviceKind(applyInfo.getDeviceKind());
         device.setRegistPerson(applyInfo.getStatus().getApproverName());
         device.addLogs(applyInfo);
+        device.setNextTestDate(applyInfo.getNextTestDate());
         device.setDeviceSerialNum(deviceDao.countAllByDeviceType(applyInfo.getDeviceType())+1);
         return device;
     }

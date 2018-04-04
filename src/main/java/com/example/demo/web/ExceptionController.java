@@ -48,7 +48,7 @@ public class ExceptionController
     @ResponseBody
     public
     JsonResponse handleUnknownAccountException(Exception e,HttpServletResponse response){
-        response.setStatus(400);
+        response.setStatus(200);
         e.printStackTrace();
         return new JsonResponse(400,"用户名不存在",null);
     }
@@ -56,7 +56,7 @@ public class ExceptionController
     @ResponseBody
     public
     JsonResponse handleIncorrectCredentialsException(Exception e,HttpServletResponse response){
-        response.setStatus(400);
+        response.setStatus(200);
         e.printStackTrace();
         return new JsonResponse(400,"密码输入错误",null);
     }

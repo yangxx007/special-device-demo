@@ -39,6 +39,7 @@ public class DeviceInfo implements Serializable,Validatable {
     private String productCode;
     private String useComName;
     private String eqUseAddr;
+    private String nextTestDate;
     @Column(unique = true)
     private String registCode;
     private DeviceStatesEnum deviceStates=DeviceStatesEnum.在用;
@@ -363,5 +364,13 @@ public class DeviceInfo implements Serializable,Validatable {
 
     public void setIssueDate(String issueDate) {
         this.issueDate = issueDate;
+    }
+
+    public String getNextTestDate() {
+        return nextTestDate;
+    }
+
+    public void setNextTestDate(String nextTestDate) {
+        this.nextTestDate = nextTestDate;
     }
 }

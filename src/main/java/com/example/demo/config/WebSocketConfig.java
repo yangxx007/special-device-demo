@@ -35,10 +35,11 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
         // 添加服务端点，可以理解为某一服务的唯一key值
-        stompEndpointRegistry.addEndpoint("/processing").addInterceptors(new WebSocketHandshakeInterceptor());
 
+        stompEndpointRegistry.addEndpoint("/processing").addInterceptors(new WebSocketHandshakeInterceptor());
+        stompEndpointRegistry.addEndpoint("/processing").setAllowedOrigins("*").withSockJS().setInterceptors(new WebSocketHandshakeInterceptor());
         //当浏览器支持sockjs时执行该配置
-        stompEndpointRegistry.addEndpoint("/processing").addInterceptors(new WebSocketHandshakeInterceptor()).setAllowedOrigins("*").withSockJS();
+       // stompEndpointRegistry.addEndpoint("/processing").addInterceptors(new WebSocketHandshakeInterceptor()).setAllowedOrigins("*").withSockJS();
     }
 
     @Override
