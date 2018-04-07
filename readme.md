@@ -8,7 +8,7 @@
 
 - 建立好mysql数据库
 
-- 然后再将根目录中的all.sql（通过mysqldump生成的）文件，如果是mysql shell在根目录登录进去source all.sql 就可以了，如果是其他的数据库软件请参照其他数据库软件的提示进行导入数据文件进行恢复
+- 然后再使用根目录中的all.sql（通过mysqldump生成的）文件进行数据库初始化，如果是mysql shell在根目录登录进去source all.sql 就可以了，如果是其他的数据库软件请参照其他数据库软件的提示进行导入数据文件进行恢复
 
 - 在applicantion.properties中填好数据库的账号密码，
 
