@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="commons-cli-1.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../jodconverter-core-3.0-beta-4/lib/commons-cli-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../jodconverter-core-3.0-beta-4/lib/commons-io-1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../jodconverter-core-3.0-beta-4/lib/jodconverter-core-3.0-beta-4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../jodconverter-core-3.0-beta-4/lib/json-20090211.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../jodconverter-core-3.0-beta-4/lib/juh-3.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../jodconverter-core-3.0-beta-4/lib/jurt-3.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../jodconverter-core-3.0-beta-4/lib/ridl-3.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../jodconverter-core-3.0-beta-4/lib/unoil-3.2.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
