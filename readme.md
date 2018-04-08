@@ -1,6 +1,7 @@
 # ReadMe
 
 >安装intellij idea，用校园邮箱注册可以有一年免费试用。
+>如果需要表单预览功能还要下载另一个项目提供word转pdf的服务，然后运行。该项目地址：https://github.com/hao-projects/word2pdf-converter
 
 ### 1. 运行的步骤：
 
